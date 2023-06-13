@@ -1,0 +1,175 @@
+{
+  "main": {
+    "id": "2d45d3440736d951",
+    "type": "split",
+    "children": [
+      {
+        "id": "5f9d150a2db0201c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e85cdd844bd50186",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f3cf6be45eba14fc",
+    "type": "split",
+    "children": [
+      {
+        "id": "1b363afab9b42004",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d0ab3dab911aa722",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "6e12c8ce34031018",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "8a8cc434edeac233",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          },
+          {
+            "id": "449c873660853284",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "ce526b94f63ee9de",
+    "type": "split",
+    "children": [
+      {
+        "id": "bd1a40883c8d664f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7b8de29f60da3254",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c61168b4285f555f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "4582430597d74dc6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "bccbc8cae2b4bb43",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "e85cdd844bd50186",
+  "lastOpenFiles": [
+    "Implementation/Code/Trying Something/PIC_httpreverse_shell.exe",
+    "Implementation/Code/Trying Something/shellcode_extractor.py",
+    "Implementation/Code/Trying Something/PELoader.exe",
+    "Implementation/Code/Trying Something/PELoader.cpp",
+    "Implementation/Code/Trying Something/automate.sh",
+    "Implementation/Code/Trying Something/PIC_httpreverse_shell.o",
+    "Implementation/Code/Trying Something/adjuststack.o",
+    "Implementation/Code/Trying Something/PIC_httpreverse_shell.c",
+    "Implementation/Code/Trying Something/Makefile",
+    "Implementation/Code/Trying Something/adjuststack.asm",
+    "Implementation/Code/Trying Something/stack_alignment.asm",
+    "Implementation/sRDI-master/README.md",
+    "Learning/Rust/Basics/1. Compile and run.md",
+    "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md"
+  ]
+}

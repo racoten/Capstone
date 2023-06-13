@@ -1,0 +1,8 @@
+E:\All Notes\Security\Capstone\Research\EtwPatch\bin\x64\Release\EtwPatch.exe.config
+E:\All Notes\Security\Capstone\Research\EtwPatch\bin\x64\Release\EtwPatch.exe
+E:\All Notes\Security\Capstone\Research\EtwPatch\bin\x64\Release\EtwPatch.pdb
+E:\All Notes\Security\Capstone\Research\EtwPatch\obj\x64\Release\EtwPatch.csproj.AssemblyReference.cache
+E:\All Notes\Security\Capstone\Research\EtwPatch\obj\x64\Release\EtwPatch.csproj.SuggestedBindingRedirects.cache
+E:\All Notes\Security\Capstone\Research\EtwPatch\obj\x64\Release\EtwPatch.csproj.CoreCompileInputs.cache
+E:\All Notes\Security\Capstone\Research\EtwPatch\obj\x64\Release\EtwPatch.exe
+E:\All Notes\Security\Capstone\Research\EtwPatch\obj\x64\Release\EtwPatch.pdb

@@ -1,0 +1,238 @@
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.exe
+D:\CapstoneInterface\bin\Release\CapstoneInterface.exe.config
+D:\CapstoneInterface\bin\Release\CapstoneInterface.exe
+D:\CapstoneInterface\bin\Release\CapstoneInterface.pdb
+D:\CapstoneInterface\bin\Release\BouncyCastle.Crypto.dll
+D:\CapstoneInterface\bin\Release\Google.Protobuf.dll
+D:\CapstoneInterface\bin\Release\K4os.Compression.LZ4.dll
+D:\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.dll
+D:\CapstoneInterface\bin\Release\K4os.Hash.xxHash.dll
+D:\CapstoneInterface\bin\Release\MySql.Data.dll
+D:\CapstoneInterface\bin\Release\System.Buffers.dll
+D:\CapstoneInterface\bin\Release\System.IO.Pipelines.dll
+D:\CapstoneInterface\bin\Release\System.Memory.dll
+D:\CapstoneInterface\bin\Release\System.Numerics.Vectors.dll
+D:\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+D:\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.dll
+D:\CapstoneInterface\bin\Release\BouncyCastle.Crypto.xml
+D:\CapstoneInterface\bin\Release\Google.Protobuf.pdb
+D:\CapstoneInterface\bin\Release\Google.Protobuf.xml
+D:\CapstoneInterface\bin\Release\K4os.Compression.LZ4.xml
+D:\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.xml
+D:\CapstoneInterface\bin\Release\K4os.Hash.xxHash.xml
+D:\CapstoneInterface\bin\Release\MySql.Data.xml
+D:\CapstoneInterface\bin\Release\System.Buffers.xml
+D:\CapstoneInterface\bin\Release\System.IO.Pipelines.xml
+D:\CapstoneInterface\bin\Release\System.Memory.xml
+D:\CapstoneInterface\bin\Release\System.Numerics.Vectors.xml
+D:\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+D:\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.xml
+D:\CapstoneInterface\obj\Release\CapstoneInterface.csproj.AssemblyReference.cache
+D:\CapstoneInterface\obj\Release\CapstoneInterface.Dashboard.resources
+D:\CapstoneInterface\obj\Release\CapstoneInterface.formLogin.resources
+D:\CapstoneInterface\obj\Release\CapstoneInterface.Properties.Resources.resources
+D:\CapstoneInterface\obj\Release\CapstoneInterface.csproj.GenerateResource.cache
+D:\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CoreCompileInputs.cache
+D:\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CopyComplete
+D:\CapstoneInterface\obj\Release\CapstoneInterface.exe
+D:\CapstoneInterface\obj\Release\CapstoneInterface.pdb
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Newtonsoft.Json.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.formLogin.resources
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.exe.config
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.pdb
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\BouncyCastle.Crypto.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Hash.xxHash.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\MySql.Data.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Buffers.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.IO.Pipelines.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Memory.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Numerics.Vectors.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.dll
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\BouncyCastle.Crypto.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.pdb
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Hash.xxHash.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\MySql.Data.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Newtonsoft.Json.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Buffers.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.IO.Pipelines.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Memory.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Numerics.Vectors.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.xml
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.AssemblyReference.cache
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.SuggestedBindingRedirects.cache
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Dashboard.resources
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Properties.Resources.resources
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.GenerateResource.cache
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CoreCompileInputs.cache
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CopyComplete
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.exe
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.pdb
+E:\Uni\Enero 2023\Capstone\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Server.resources
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.exe.config
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.exe
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.pdb
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\BouncyCastle.Crypto.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Hash.xxHash.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\MySql.Data.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Newtonsoft.Json.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Buffers.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.IO.Pipelines.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Memory.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Numerics.Vectors.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\BouncyCastle.Crypto.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.pdb
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Hash.xxHash.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\MySql.Data.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Newtonsoft.Json.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Buffers.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.IO.Pipelines.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Memory.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Numerics.Vectors.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.AssemblyReference.cache
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.SuggestedBindingRedirects.cache
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Dashboard.resources
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.formLogin.resources
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Properties.Resources.resources
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Server.resources
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.GenerateResource.cache
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CoreCompileInputs.cache
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CopyComplete
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.exe
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.pdb
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.CSharp.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Collections.Immutable.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Reflection.Metadata.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Text.Encoding.CodePages.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.pdb
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.CSharp.pdb
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.CSharp.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Collections.Immutable.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Reflection.Metadata.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Text.Encoding.CodePages.xml
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ja\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\fr\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\es\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\it\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ru\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pt-BR\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\de\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\tr\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pl\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\cs\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ko\Microsoft.CodeAnalysis.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+Z:\Desktop\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Cradle.resources
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.exe
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Buffers.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Reflection.Metadata.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Text.Encoding.CodePages.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.exe.config
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\BouncyCastle.Crypto.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Hash.xxHash.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.CSharp.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\MySql.Data.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Newtonsoft.Json.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Collections.Immutable.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.IO.Pipelines.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Memory.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Numerics.Vectors.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\BouncyCastle.Crypto.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.pdb
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Google.Protobuf.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Compression.LZ4.Streams.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\K4os.Hash.xxHash.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.pdb
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.CSharp.pdb
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Microsoft.CodeAnalysis.CSharp.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\MySql.Data.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\Newtonsoft.Json.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Buffers.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Collections.Immutable.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.IO.Pipelines.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Memory.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Numerics.Vectors.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Reflection.Metadata.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Text.Encoding.CodePages.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\System.Threading.Tasks.Extensions.xml
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\cs\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\de\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\es\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\fr\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\it\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ja\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ko\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pl\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pt-BR\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ru\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\tr\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.AssemblyReference.cache
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.SuggestedBindingRedirects.cache
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Cradle.resources
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Dashboard.resources
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.formLogin.resources
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Properties.Resources.resources
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Server.resources
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.GenerateResource.cache
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CoreCompileInputs.cache
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CopyComplete
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.exe
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.pdb
+F:\capstone-adversary-emulation-tool\Implementation\CapstoneInterface\bin\Release\CapstoneInterface.pdb
