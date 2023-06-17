@@ -470,6 +470,7 @@ type Command struct {
 	TimeToExec  string `json:"timeToExec"`
 	Delay       string `json:"delay"`
 	File        string `json:"File"`
+	Command     string `json:"Command"`
 }
 
 // Because we have to wait for the implant to receive the command and actually run it, we need to store inside a Mutex so that it stays in memory

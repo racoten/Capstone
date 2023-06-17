@@ -1,8 +1,8 @@
-F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\ReflectiveLoader.exe.config
-F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\ReflectiveLoader.exe
-F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\ReflectiveLoader.pdb
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\Loader.csproj.AssemblyReference.cache
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\Loader.csproj.SuggestedBindingRedirects.cache
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\Loader.csproj.CoreCompileInputs.cache
-F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\ReflectiveLoader.exe
-F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\ReflectiveLoader.pdb
+F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\Loader.exe.config
+F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\Loader.exe
+F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\Loader.pdb
+F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\Loader.exe
+F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\Loader.pdb
