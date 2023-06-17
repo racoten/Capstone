@@ -1,1 +1,0 @@
-D:\All Notes\Security\Capstone\Shellcode\ShellcodeLoader\x64\Release\ShellcodeLoader.exe

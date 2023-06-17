@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "5f9d150a2db0201c",
+        "id": "e66f3ee4812a2886",
         "type": "tabs",
         "children": [
           {
-            "id": "e85cdd844bd50186",
+            "id": "4061b9c3e316c416",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
+                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
+                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
+                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md"
+                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md"
               }
             }
           }
@@ -155,8 +154,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e85cdd844bd50186",
+  "active": "4061b9c3e316c416",
   "lastOpenFiles": [
+    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution Office/In-Memory Powershell.md",
+    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host",
+    "Pasted image 20230614215601.png",
+    "Pasted image 20230614215101.png",
+    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution Office/Droppers.md",
+    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
+    "Research/Shellcode/knock.cpp.md",
+    "Implementation/Code/Trying Something/PIC_httpreverse_shell.cpp",
+    "Research/Shellcode/Research Paper.md",
+    "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
     "Implementation/Code/Trying Something/PIC_httpreverse_shell.exe",
     "Implementation/Code/Trying Something/shellcode_extractor.py",
     "Implementation/Code/Trying Something/PELoader.exe",
@@ -165,11 +174,7 @@
     "Implementation/Code/Trying Something/PIC_httpreverse_shell.o",
     "Implementation/Code/Trying Something/adjuststack.o",
     "Implementation/Code/Trying Something/PIC_httpreverse_shell.c",
-    "Implementation/Code/Trying Something/Makefile",
-    "Implementation/Code/Trying Something/adjuststack.asm",
-    "Implementation/Code/Trying Something/stack_alignment.asm",
     "Implementation/sRDI-master/README.md",
-    "Learning/Rust/Basics/1. Compile and run.md",
-    "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md"
+    "Learning/Rust/Basics/1. Compile and run.md"
   ]
 }
