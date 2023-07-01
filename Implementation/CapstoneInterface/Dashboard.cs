@@ -29,7 +29,8 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public string userToControl { get; set; }
 
-        public String templatePayload = File.ReadAllText("F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs");
+        public string templatePayload = File.ReadAllText("F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs");
+        public string menu = File.ReadAllText("F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command
         {
@@ -89,6 +90,29 @@ namespace CapstoneInterface
         {
         }
 
+        public static string SetupAssembly(string name)
+        {
+            string toolsDirectory = "F:\\capstone-adversary-emulation-tool\\Implementation\\Tools";
+            string fullPath = Path.Combine(toolsDirectory, name);
+
+            // Read the file as bytes
+            byte[] assemblyBytes;
+
+            try
+            {
+                assemblyBytes = File.ReadAllBytes(fullPath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Failed to read file: {e.Message}");
+                return "0";
+            }
+
+            // Convert the bytes to Base64 string
+            string assembly = Convert.ToBase64String(assemblyBytes);
+
+            return assembly;
+        }
 
         private async void btnRunCommand_Click(object sender, EventArgs e)
         {         
@@ -140,7 +164,9 @@ namespace CapstoneInterface
                     string[] result = input.Split('#');
 
                     string instruction = result[0];
-                    string file = result[1];
+                    string name = result[1];
+
+                    string file = SetupAssembly(name);
 
                     String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 
@@ -168,8 +194,8 @@ namespace CapstoneInterface
             var content = new StringContent(jsonCommand, Encoding.UTF8, "application/json");
             var response = await client.PostAsync("http://" + host + ":" + port + "/fetchCommand", content);
 
-            // Wait for 5 seconds
-            await Task.Delay(5000);
+            // Wait for 10 seconds
+            await Task.Delay(10000);
 
             // Fetch output from the /fetchOutput endpoint
             HttpResponseMessage outputResponse = await client.GetAsync("http://" + host + ":" + port + "/getStoredOutput");
@@ -378,8 +404,8 @@ Invoke-Run
         }
         private void Dashboard_Load(object sender, EventArgs e)
         {
+            txtConsoleOutput.Text = menu;
             lblServer.Text = host + ":" + port;
-            txtConsoleOutput.ScrollBars = ScrollBars.Vertical;
             txtPayloadGen.ScrollBars = ScrollBars.Vertical;
 
             // Parse the code into a SyntaxTree

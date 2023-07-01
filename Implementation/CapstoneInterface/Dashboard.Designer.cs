@@ -31,7 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.fileTab = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnEditImplant = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btnProcesses = new System.Windows.Forms.Button();
+            this.btnConsole = new System.Windows.Forms.Button();
+            this.btnRunCommand = new System.Windows.Forms.Button();
+            this.txtCommand = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnGetData = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -54,23 +62,15 @@
             this.btnSignOut = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.txtConsoleOutput = new System.Windows.Forms.TextBox();
-            this.btnProcesses = new System.Windows.Forms.Button();
-            this.btnConsole = new System.Windows.Forms.Button();
-            this.btnRunCommand = new System.Windows.Forms.Button();
-            this.txtCommand = new System.Windows.Forms.TextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.txtConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.fileTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.tabChat.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // fileTab
@@ -98,6 +98,14 @@
             this.tabPage1.Text = "File";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(6, 51);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(1099, 755);
+            this.richTextBox1.TabIndex = 2;
+            this.richTextBox1.Text = "";
+            // 
             // btnEditImplant
             // 
             this.btnEditImplant.Location = new System.Drawing.Point(6, 22);
@@ -107,6 +115,80 @@
             this.btnEditImplant.Text = "Edit";
             this.btnEditImplant.UseVisualStyleBackColor = true;
             this.btnEditImplant.Click += new System.EventHandler(this.btnEditImplant_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.txtConsoleOutput);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.btnProcesses);
+            this.tabPage2.Controls.Add(this.btnConsole);
+            this.tabPage2.Controls.Add(this.btnRunCommand);
+            this.tabPage2.Controls.Add(this.txtCommand);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1111, 810);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Server";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(7, 564);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Add Info";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(7, 593);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(1098, 168);
+            this.dataGridView1.TabIndex = 7;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // btnProcesses
+            // 
+            this.btnProcesses.Location = new System.Drawing.Point(86, 68);
+            this.btnProcesses.Name = "btnProcesses";
+            this.btnProcesses.Size = new System.Drawing.Size(75, 23);
+            this.btnProcesses.TabIndex = 5;
+            this.btnProcesses.Text = "Process";
+            this.btnProcesses.UseVisualStyleBackColor = true;
+            this.btnProcesses.Click += new System.EventHandler(this.btnProcesses_Click);
+            // 
+            // btnConsole
+            // 
+            this.btnConsole.Location = new System.Drawing.Point(5, 68);
+            this.btnConsole.Name = "btnConsole";
+            this.btnConsole.Size = new System.Drawing.Size(75, 23);
+            this.btnConsole.TabIndex = 4;
+            this.btnConsole.Text = "Console";
+            this.btnConsole.UseVisualStyleBackColor = true;
+            this.btnConsole.Click += new System.EventHandler(this.btnConsole_Click);
+            // 
+            // btnRunCommand
+            // 
+            this.btnRunCommand.Location = new System.Drawing.Point(394, 3);
+            this.btnRunCommand.Name = "btnRunCommand";
+            this.btnRunCommand.Size = new System.Drawing.Size(80, 37);
+            this.btnRunCommand.TabIndex = 3;
+            this.btnRunCommand.Text = "Run";
+            this.btnRunCommand.UseVisualStyleBackColor = true;
+            this.btnRunCommand.Click += new System.EventHandler(this.btnRunCommand_Click);
+            // 
+            // txtCommand
+            // 
+            this.txtCommand.Location = new System.Drawing.Point(5, 7);
+            this.txtCommand.Multiline = true;
+            this.txtCommand.Name = "txtCommand";
+            this.txtCommand.Size = new System.Drawing.Size(342, 33);
+            this.txtCommand.TabIndex = 2;
             // 
             // tabPage3
             // 
@@ -147,7 +229,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1111, 810);
+            this.tabPage4.Size = new System.Drawing.Size(1849, 900);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Payloads";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -202,7 +284,7 @@
             this.tabChat.Location = new System.Drawing.Point(4, 22);
             this.tabChat.Name = "tabChat";
             this.tabChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabChat.Size = new System.Drawing.Size(1111, 810);
+            this.tabChat.Size = new System.Drawing.Size(1487, 900);
             this.tabChat.TabIndex = 4;
             this.tabChat.Text = "Chat";
             this.tabChat.UseVisualStyleBackColor = true;
@@ -333,99 +415,16 @@
             this.lblServer.Size = new System.Drawing.Size(0, 13);
             this.lblServer.TabIndex = 5;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.dataGridView1);
-            this.tabPage2.Controls.Add(this.txtConsoleOutput);
-            this.tabPage2.Controls.Add(this.btnProcesses);
-            this.tabPage2.Controls.Add(this.btnConsole);
-            this.tabPage2.Controls.Add(this.btnRunCommand);
-            this.tabPage2.Controls.Add(this.txtCommand);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1111, 810);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Server";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 462);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Add Info";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(7, 491);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1098, 270);
-            this.dataGridView1.TabIndex = 7;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
             // txtConsoleOutput
             // 
-            this.txtConsoleOutput.BackColor = System.Drawing.SystemColors.InfoText;
-            this.txtConsoleOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConsoleOutput.ForeColor = System.Drawing.Color.MintCream;
-            this.txtConsoleOutput.Location = new System.Drawing.Point(4, 97);
-            this.txtConsoleOutput.Multiline = true;
+            this.txtConsoleOutput.BackColor = System.Drawing.Color.Black;
+            this.txtConsoleOutput.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtConsoleOutput.ForeColor = System.Drawing.Color.White;
+            this.txtConsoleOutput.Location = new System.Drawing.Point(7, 98);
             this.txtConsoleOutput.Name = "txtConsoleOutput";
-            this.txtConsoleOutput.Size = new System.Drawing.Size(1101, 351);
-            this.txtConsoleOutput.TabIndex = 6;
-            this.txtConsoleOutput.TextChanged += new System.EventHandler(this.txtConsoleOutput_TextChanged);
-            // 
-            // btnProcesses
-            // 
-            this.btnProcesses.Location = new System.Drawing.Point(86, 68);
-            this.btnProcesses.Name = "btnProcesses";
-            this.btnProcesses.Size = new System.Drawing.Size(75, 23);
-            this.btnProcesses.TabIndex = 5;
-            this.btnProcesses.Text = "Process";
-            this.btnProcesses.UseVisualStyleBackColor = true;
-            this.btnProcesses.Click += new System.EventHandler(this.btnProcesses_Click);
-            // 
-            // btnConsole
-            // 
-            this.btnConsole.Location = new System.Drawing.Point(5, 68);
-            this.btnConsole.Name = "btnConsole";
-            this.btnConsole.Size = new System.Drawing.Size(75, 23);
-            this.btnConsole.TabIndex = 4;
-            this.btnConsole.Text = "Console";
-            this.btnConsole.UseVisualStyleBackColor = true;
-            this.btnConsole.Click += new System.EventHandler(this.btnConsole_Click);
-            // 
-            // btnRunCommand
-            // 
-            this.btnRunCommand.Location = new System.Drawing.Point(394, 3);
-            this.btnRunCommand.Name = "btnRunCommand";
-            this.btnRunCommand.Size = new System.Drawing.Size(80, 37);
-            this.btnRunCommand.TabIndex = 3;
-            this.btnRunCommand.Text = "Run";
-            this.btnRunCommand.UseVisualStyleBackColor = true;
-            this.btnRunCommand.Click += new System.EventHandler(this.btnRunCommand_Click);
-            // 
-            // txtCommand
-            // 
-            this.txtCommand.Location = new System.Drawing.Point(5, 7);
-            this.txtCommand.Multiline = true;
-            this.txtCommand.Name = "txtCommand";
-            this.txtCommand.Size = new System.Drawing.Size(342, 33);
-            this.txtCommand.TabIndex = 2;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(6, 51);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1099, 755);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.txtConsoleOutput.Size = new System.Drawing.Size(1098, 460);
+            this.txtConsoleOutput.TabIndex = 9;
+            this.txtConsoleOutput.Text = "";
             // 
             // Dashboard
             // 
@@ -445,15 +444,15 @@
             this.Load += new System.EventHandler(this.Dashboard_Load);
             this.fileTab.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.tabChat.ResumeLayout(false);
             this.tabChat.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -489,11 +488,11 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox txtConsoleOutput;
         private System.Windows.Forms.Button btnProcesses;
         private System.Windows.Forms.Button btnConsole;
         private System.Windows.Forms.Button btnRunCommand;
         private System.Windows.Forms.TextBox txtCommand;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox txtConsoleOutput;
     }
 }

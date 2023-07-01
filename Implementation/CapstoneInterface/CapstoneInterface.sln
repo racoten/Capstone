@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implant", "..\Implant\Impla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplantDLL", "..\ImplantDLL\ImplantDLL.csproj", "{55C104A7-BA44-44C5-94A1-A6CA2629C4D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssembly", "..\TestAssembly\TestAssembly.csproj", "{2AA627A0-B87D-487D-BB62-3BDEB38CE396}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{55C104A7-BA44-44C5-94A1-A6CA2629C4D0}.Release|x64.Build.0 = Release|Any CPU
 		{55C104A7-BA44-44C5-94A1-A6CA2629C4D0}.Release|x86.ActiveCfg = Release|Any CPU
 		{55C104A7-BA44-44C5-94A1-A6CA2629C4D0}.Release|x86.Build.0 = Release|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Debug|x64.Build.0 = Debug|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Release|x64.ActiveCfg = Release|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Release|x64.Build.0 = Release|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Release|x86.ActiveCfg = Release|Any CPU
+		{2AA627A0-B87D-487D-BB62-3BDEB38CE396}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

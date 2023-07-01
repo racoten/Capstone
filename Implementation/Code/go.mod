@@ -1,4 +1,4 @@
-module webserver
+module aef-server
 
 go 1.20
 

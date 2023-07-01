@@ -1,0 +1,8 @@
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\bin\Release\TestAssembly.exe.config
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\bin\Release\TestAssembly.exe
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\bin\Release\TestAssembly.pdb
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.AssemblyReference.cache
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.SuggestedBindingRedirects.cache
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.exe
+F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.pdb

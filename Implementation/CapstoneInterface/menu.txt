@@ -1,0 +1,24 @@
+************************************************
+***         Adversary Emulation Tool         ***
+************************************************
+
+The available commands are as follows:
+
+    os                      Get information about the current operating system.
+                            Usage: os # ls
+
+    execute-assembly [name] Load and execute a .NET assembly from memory.
+                            Usage: execute-assembly # Seatbelt
+
+    help                    Show this help menu.
+
+    exit                    Exit the program.
+
+===========================
+
+Tools for execute-assembly:
+- Seatbelt
+- Rubeus
+- SharpCollector
+
+Please note, all tools should be located in 'F:\\capstone-adversary-emulation-tool\\Implementation\\Tools\\' directory.

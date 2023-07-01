@@ -1,0 +1,1 @@
+[convert]::ToBase64String((Get-Content -path "your_file_path" -Encoding byte))
