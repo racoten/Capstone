@@ -34,6 +34,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnEditImplant = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txtConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnProcesses = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.btnSignOut = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
-            this.txtConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.fileTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -133,9 +133,20 @@
             this.tabPage2.Text = "Server";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // txtConsoleOutput
+            // 
+            this.txtConsoleOutput.BackColor = System.Drawing.Color.Black;
+            this.txtConsoleOutput.Font = new System.Drawing.Font("Consolas", 10F);
+            this.txtConsoleOutput.ForeColor = System.Drawing.Color.White;
+            this.txtConsoleOutput.Location = new System.Drawing.Point(7, 98);
+            this.txtConsoleOutput.Name = "txtConsoleOutput";
+            this.txtConsoleOutput.Size = new System.Drawing.Size(1098, 472);
+            this.txtConsoleOutput.TabIndex = 9;
+            this.txtConsoleOutput.Text = "";
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(7, 564);
+            this.button1.Location = new System.Drawing.Point(7, 576);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -146,9 +157,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(7, 593);
+            this.dataGridView1.Location = new System.Drawing.Point(7, 605);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1098, 168);
+            this.dataGridView1.Size = new System.Drawing.Size(1098, 199);
             this.dataGridView1.TabIndex = 7;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -229,7 +240,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1849, 900);
+            this.tabPage4.Size = new System.Drawing.Size(1111, 810);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Payloads";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -284,7 +295,7 @@
             this.tabChat.Location = new System.Drawing.Point(4, 22);
             this.tabChat.Name = "tabChat";
             this.tabChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabChat.Size = new System.Drawing.Size(1487, 900);
+            this.tabChat.Size = new System.Drawing.Size(1111, 810);
             this.tabChat.TabIndex = 4;
             this.tabChat.Text = "Chat";
             this.tabChat.UseVisualStyleBackColor = true;
@@ -414,17 +425,6 @@
             this.lblServer.Name = "lblServer";
             this.lblServer.Size = new System.Drawing.Size(0, 13);
             this.lblServer.TabIndex = 5;
-            // 
-            // txtConsoleOutput
-            // 
-            this.txtConsoleOutput.BackColor = System.Drawing.Color.Black;
-            this.txtConsoleOutput.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConsoleOutput.ForeColor = System.Drawing.Color.White;
-            this.txtConsoleOutput.Location = new System.Drawing.Point(7, 98);
-            this.txtConsoleOutput.Name = "txtConsoleOutput";
-            this.txtConsoleOutput.Size = new System.Drawing.Size(1098, 460);
-            this.txtConsoleOutput.TabIndex = 9;
-            this.txtConsoleOutput.Text = "";
             // 
             // Dashboard
             // 

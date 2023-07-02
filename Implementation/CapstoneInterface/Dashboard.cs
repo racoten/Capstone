@@ -73,7 +73,10 @@ namespace CapstoneInterface
 
         private void txtConsoleOutput_TextChanged(object sender, EventArgs e)
         {
-
+            // set the current caret position to the end
+            txtConsoleOutput.SelectionStart = txtConsoleOutput.Text.Length;
+            // scroll it automatically
+            txtConsoleOutput.ScrollToCaret();
         }
 
         private void btnConsole_Click(object sender, EventArgs e)
@@ -90,29 +93,6 @@ namespace CapstoneInterface
         {
         }
 
-        public static string SetupAssembly(string name)
-        {
-            string toolsDirectory = "F:\\capstone-adversary-emulation-tool\\Implementation\\Tools";
-            string fullPath = Path.Combine(toolsDirectory, name);
-
-            // Read the file as bytes
-            byte[] assemblyBytes;
-
-            try
-            {
-                assemblyBytes = File.ReadAllBytes(fullPath);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Failed to read file: {e.Message}");
-                return "0";
-            }
-
-            // Convert the bytes to Base64 string
-            string assembly = Convert.ToBase64String(assemblyBytes);
-
-            return assembly;
-        }
 
         private async void btnRunCommand_Click(object sender, EventArgs e)
         {         
@@ -166,8 +146,6 @@ namespace CapstoneInterface
                     string instruction = result[0];
                     string name = result[1];
 
-                    string file = SetupAssembly(name);
-
                     String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
@@ -179,7 +157,7 @@ namespace CapstoneInterface
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
-                    commandForImplant.File = file;
+                    commandForImplant.File = name;
 
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 

