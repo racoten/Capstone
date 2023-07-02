@@ -1,4 +1,4 @@
-[convert]::ToBase64String((Get-Content -path "F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\bin\Release\TestAssembly.exe" -Encoding byte))
+[convert]::ToBase64String((Get-Content -path "F:\capstone-adversary-emulation-tool\Implementation\Tools\Test.exe"))
 
 [System.Convert]::ToBase64String([System.IO.File]::ReadAllBytes())
 
