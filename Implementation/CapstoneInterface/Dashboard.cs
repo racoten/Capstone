@@ -145,6 +145,8 @@ namespace CapstoneInterface
 
                     string instruction = result[0];
                     string name = result[1];
+                    instruction = instruction.TrimEnd();
+                    name = name.TrimStart();
 
                     String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 

