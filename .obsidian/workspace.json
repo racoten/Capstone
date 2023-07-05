@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
+                "file": "Research/MalDev Academy/1.4 Windows Memory Management.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
+                "file": "Research/MalDev Academy/1.4 Windows Memory Management.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
+                "file": "Research/MalDev Academy/1.4 Windows Memory Management.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md"
+                "file": "Research/MalDev Academy/1.4 Windows Memory Management.md"
               }
             }
           }
@@ -156,24 +157,30 @@
   },
   "active": "4061b9c3e316c416",
   "lastOpenFiles": [
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/Cl.items.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.exe.recipe",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link.command.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link.write.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link.read.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link.read.2.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link-cvtres.write.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link-cvtres.read.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link-rc.write.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/MemoryAllocation/x64/Debug/MemoryAllocation.tlog/link-rc.read.1.tlog",
+    "Research/MalDev Academy/MemoryAllocation/x64/Debug/MemoryAllocation.pdb",
+    "Research/MalDev Academy/1.3 Windows Architecture.md",
+    "Research/MalDev Academy/1.4 Windows Memory Management.md",
+    "Research/MalDev Academy/1.1 Introduction to Malware Development.md",
+    "Research/MalDev Academy/1.2 Coding Basics.md",
+    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
+    "Research/Untitled.md",
     "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution Office/In-Memory Powershell.md",
-    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png",
     "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution Office/Droppers.md",
-    "Research/Evasion Techniques and Breaching Defenses/Client Side Code Execution with Windows Script Host/DotnetToJScript.md",
     "Research/Shellcode/knock.cpp.md",
-    "Implementation/Code/Trying Something/PIC_httpreverse_shell.cpp",
     "Research/Shellcode/Research Paper.md",
     "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
-    "Implementation/Code/Trying Something/PIC_httpreverse_shell.exe",
-    "Implementation/Code/Trying Something/shellcode_extractor.py",
-    "Implementation/Code/Trying Something/PELoader.exe",
-    "Implementation/Code/Trying Something/PELoader.cpp",
-    "Implementation/Code/Trying Something/automate.sh",
-    "Implementation/Code/Trying Something/PIC_httpreverse_shell.o",
-    "Implementation/Code/Trying Something/adjuststack.o",
-    "Implementation/Code/Trying Something/PIC_httpreverse_shell.c",
     "Implementation/sRDI-master/README.md",
     "Learning/Rust/Basics/1. Compile and run.md"
   ]

