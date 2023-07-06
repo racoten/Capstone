@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
+                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
+                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
+                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md"
+                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md"
               }
             }
           }
@@ -156,24 +156,28 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Research/MalDev Academy/MalDevBook.md",
-    "Research/MalDev Academy/MalDevBook.pdf",
-    "Research/MalDev Academy/MalDev Book.md",
+    "Research/MalDev Academy/4.4 Thread Hijacking - Remote Thread Creation.md",
+    "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
+    "Research/MalDev Academy/4.3 Thread Hijacking - Local Thread Creation.md",
+    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/main.c",
+    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/LocalThreadHijacking.vcxproj.user",
+    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/LocalThreadHijacking.vcxproj.filters",
+    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/LocalThreadHijacking.vcxproj",
+    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking",
+    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking.sln",
+    "Research/MalDev Academy/LocalThreadHijacking",
+    "Research/MalDev Academy/4.2 Process Enumeration - NtQuerySystemInformation.md",
+    "Research/MalDev Academy/NtQuerySystemInformation/NtQuerySystemInformation/x64/Debug/NtQueryS.fb4db292.tlog/Cl.items.tlog",
+    "Research/MalDev Academy/NtQuerySystemInformation/NtQuerySystemInformation/x64/Debug/NtQuerySystemInformation.exe.recipe",
+    "Research/MalDev Academy/NtQuerySystemInformation/NtQuerySystemInformation/x64/Debug/NtQueryS.fb4db292.tlog/link.command.1.tlog",
     "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
-    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.vcxproj.user",
-    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.vcxproj.filters",
-    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.vcxproj",
-    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.c",
-    "Research/MalDev Academy/EnumProcesses/EnumProcesses",
-    "Research/MalDev Academy/EnumProcesses/EnumProcesses.sln",
-    "Research/MalDev Academy/EnumProcesses",
+    "Research/MalDev Academy/MalDevBook.md",
+    "Research/MalDev Academy/MalDev Book.md",
     "Research/MalDev Academy/New Modules - Custom WinAPI Functions.md",
     "Research/MalDev Academy/New Modules - Evasion With File Bloating.md",
     "Research/MalDev Academy/4.0 Malware Binary Signing.md",
     "Research/MalDev Academy/3.9 Payload Staging - Windows Registry.md",
     "Research/MalDev Academy/3.8 Payload Staging - Web Server.md",
-    "Research/MalDev Academy/Staging/Staging/Staging.vcxproj.user",
-    "Research/MalDev Academy/Staging/Staging/Staging.vcxproj.filters",
     "Research/MalDev Academy/3.7 Process Injection - Shellcode Injection.md",
     "Research/MalDev Academy/3.6 Process Injection - DLL Injection.md",
     "Research/MalDev Academy/3.5 Local Payload Execution - Shellcode.md",
@@ -188,9 +192,6 @@
     "Research/MalDev Academy/2.6 Payload Encryption - RC4.md",
     "Research/MalDev Academy/2.5 Payload Encryption - XOR.md",
     "Research/MalDev Academy/2.4 Introduction to Payload Encryption.md",
-    "Research/MalDev Academy/2.3 Payload Placement - .rsrc Section.md",
-    "Research/MalDev Academy/2.2 Payload Placement - .text Section.md",
-    "Research/MalDev Academy/2.1 Payload Placement - .data & .rdata Sections.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]

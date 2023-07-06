@@ -1,0 +1,11 @@
+﻿  NtQuerySystemInformation.c
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(39,64): warning C4047: 'function': 'ULONG' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(39,60): warning C4024: 'pNtQuerySystemInformation': different types for formal and actual parameter 3
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(67,53): warning C4311: 'type cast': pointer truncation from 'HANDLE' to 'DWORD'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(68,94): warning C4311: 'type cast': pointer truncation from 'HANDLE' to 'DWORD'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(84,22): warning C4047: '==': 'DWORD' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(23,14): warning C4047: 'initializing': 'ULONG' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(24,10): warning C4047: 'initializing': 'ULONG' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(27,16): warning C4047: 'initializing': 'NTSTATUS' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\NtQuerySystemInformation\NtQuerySystemInformation.c(96,9): warning C4047: 'initializing': 'DWORD' differs in levels of indirection from 'void *'
+  NtQuerySystemInformation.vcxproj -> F:\capstone-adversary-emulation-tool\Research\MalDev Academy\NtQuerySystemInformation\x64\Debug\NtQuerySystemInformation.exe
