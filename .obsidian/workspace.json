@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "e66f3ee4812a2886",
+        "id": "104167ade3ae36e9",
         "type": "tabs",
         "children": [
           {
-            "id": "4061b9c3e316c416",
+            "id": "1faddd07e7f11b54",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/New Modules - Evasion With File Bloating.md",
+                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/New Modules - Evasion With File Bloating.md",
+                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/New Modules - Evasion With File Bloating.md",
+                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/New Modules - Evasion With File Bloating.md"
+                "file": "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md"
               }
             }
           }
@@ -154,26 +154,30 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4061b9c3e316c416",
+  "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Research/MalDev Academy/4.0 Malware Binary Signing.md",
+    "Research/MalDev Academy/MalDevBook.md",
+    "Research/MalDev Academy/MalDevBook.pdf",
+    "Research/MalDev Academy/MalDev Book.md",
+    "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
+    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.vcxproj.user",
+    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.vcxproj.filters",
+    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.vcxproj",
+    "Research/MalDev Academy/EnumProcesses/EnumProcesses/EnumProcesses.c",
+    "Research/MalDev Academy/EnumProcesses/EnumProcesses",
+    "Research/MalDev Academy/EnumProcesses/EnumProcesses.sln",
+    "Research/MalDev Academy/EnumProcesses",
+    "Research/MalDev Academy/New Modules - Custom WinAPI Functions.md",
     "Research/MalDev Academy/New Modules - Evasion With File Bloating.md",
+    "Research/MalDev Academy/4.0 Malware Binary Signing.md",
     "Research/MalDev Academy/3.9 Payload Staging - Windows Registry.md",
     "Research/MalDev Academy/3.8 Payload Staging - Web Server.md",
     "Research/MalDev Academy/Staging/Staging/Staging.vcxproj.user",
     "Research/MalDev Academy/Staging/Staging/Staging.vcxproj.filters",
-    "Research/MalDev Academy/Staging/Staging/Staging.vcxproj",
-    "Research/MalDev Academy/Staging/Staging/Staging.c",
-    "Research/MalDev Academy/Staging/Staging",
-    "Research/MalDev Academy/Staging/Staging.sln",
-    "Research/MalDev Academy/Staging",
     "Research/MalDev Academy/3.7 Process Injection - Shellcode Injection.md",
     "Research/MalDev Academy/3.6 Process Injection - DLL Injection.md",
     "Research/MalDev Academy/3.5 Local Payload Execution - Shellcode.md",
     "Research/MalDev Academy/3.4 Local Payload Execution - DLL.md",
-    "Research/MalDev Academy/LocalDllExecution/DLLLoader/x64/Debug/DLLLoader.tlog/Cl.items.tlog",
-    "Research/MalDev Academy/LocalDllExecution/DLLLoader/x64/Debug/DLLLoader.exe.recipe",
-    "Research/MalDev Academy/LocalDllExecution/DLLLoader/x64/Debug/DLLLoader.tlog/link.command.1.tlog",
     "Research/MalDev Academy/3.3 Maldev Academy Tool - MiniShell.md",
     "Research/MalDev Academy/3.2 Maldev Academy Tool - HellShell.md",
     "Research/MalDev Academy/3.1 Payload Obfuscation - UUIDFuscation.md",
@@ -187,11 +191,6 @@
     "Research/MalDev Academy/2.3 Payload Placement - .rsrc Section.md",
     "Research/MalDev Academy/2.2 Payload Placement - .text Section.md",
     "Research/MalDev Academy/2.1 Payload Placement - .data & .rdata Sections.md",
-    "Research/MalDev Academy/2.0 Undocumented Structures.md",
-    "Research/MalDev Academy/1.9 Windows Processes.md",
-    "Research/MalDev Academy/1.8 Detection Mechanisms.md",
-    "Research/MalDev Academy/1.7 Dynamic-Link Library (DLL).md",
-    "Research/MalDev Academy/1.6 Portable Executable Format.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]
