@@ -205,6 +205,29 @@ namespace CapstoneInterface
 
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
+                else if (input.Contains("internal")) 
+                {
+                    string[] result = input.Split('#');
+                    string instruction = result[1];
+                    string command = result[2];
+
+                    String userCommand = @" (04/25)> " + operatorName + " sent " + command + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    // Append the user command to the console output
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    commandForImplant.Input = instruction;
+                    commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Operator = operatorName;
+                    commandForImplant.timeToExec = "0";
+                    commandForImplant.delay = "0";
+                    commandForImplant.command = command;
+
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
             }
         }
 

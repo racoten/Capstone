@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace NewImplant.Modules
+namespace HTTPImplant.Modules
 {
     public static class CompileAndRunNET
     {
