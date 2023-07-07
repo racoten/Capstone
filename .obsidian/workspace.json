@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
+                "file": "Research/MalDev Academy/4.7 APC Injection.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 228.5,
+    "collapsed": true
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
+                "file": "Research/MalDev Academy/4.7 APC Injection.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
+                "file": "Research/MalDev Academy/4.7 APC Injection.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md"
+                "file": "Research/MalDev Academy/4.7 APC Injection.md"
               }
             }
           }
@@ -156,20 +157,23 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Research/MalDev Academy/4.4 Thread Hijacking - Remote Thread Creation.md",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link.read.18.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-cvtres.write.1.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-cvtres.read.1.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-rc.write.1.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-rc.read.1.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/ReflectiveDLLLoader.obj",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/unsuccessfulbuild",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/Cl.items.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link.command.1.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/executer/x64/Release/executer.tlog/Cl.items.tlog",
+    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link.write.1.tlog",
+    "Research/MalDev Academy/4.6 Thread Hijacking - Remote Thread Enumeration.md",
+    "Research/MalDev Academy/4.7 APC Injection.md",
     "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
+    "Research/MalDev Academy/4.4 Thread Hijacking - Remote Thread Creation.md",
     "Research/MalDev Academy/4.3 Thread Hijacking - Local Thread Creation.md",
-    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/main.c",
-    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/LocalThreadHijacking.vcxproj.user",
-    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/LocalThreadHijacking.vcxproj.filters",
-    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking/LocalThreadHijacking.vcxproj",
-    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking",
-    "Research/MalDev Academy/LocalThreadHijacking/LocalThreadHijacking.sln",
-    "Research/MalDev Academy/LocalThreadHijacking",
     "Research/MalDev Academy/4.2 Process Enumeration - NtQuerySystemInformation.md",
-    "Research/MalDev Academy/NtQuerySystemInformation/NtQuerySystemInformation/x64/Debug/NtQueryS.fb4db292.tlog/Cl.items.tlog",
-    "Research/MalDev Academy/NtQuerySystemInformation/NtQuerySystemInformation/x64/Debug/NtQuerySystemInformation.exe.recipe",
-    "Research/MalDev Academy/NtQuerySystemInformation/NtQuerySystemInformation/x64/Debug/NtQueryS.fb4db292.tlog/link.command.1.tlog",
     "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
     "Research/MalDev Academy/MalDevBook.md",
     "Research/MalDev Academy/MalDev Book.md",
@@ -189,9 +193,6 @@
     "Research/MalDev Academy/2.9 Payload Obfuscation - IPv4-IPv6Fuscation.md",
     "Research/MalDev Academy/2.8 Evading Microsoft Defender Static Analysis.md",
     "Research/MalDev Academy/2.7 Payload Encryption - AES Encryption.md",
-    "Research/MalDev Academy/2.6 Payload Encryption - RC4.md",
-    "Research/MalDev Academy/2.5 Payload Encryption - XOR.md",
-    "Research/MalDev Academy/2.4 Introduction to Payload Encryption.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]

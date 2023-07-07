@@ -1,0 +1,9 @@
+﻿  pch.c
+  dllmain.c
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ReflectiveDLLLoader\executer\dllmain.c(21,5): warning C4013: 'system' undefined; assuming extern returning int
+     Creating library F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ReflectiveDLLLoader\x64\Release\executer.lib and object F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ReflectiveDLLLoader\x64\Release\executer.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  executer.vcxproj -> F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ReflectiveDLLLoader\x64\Release\executer.dll
