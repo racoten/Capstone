@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md",
+                "file": "Research/MalDev Academy/Alternate Modules - COFF injection and in-memory execution.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,7 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 228.5
+    "width": 432.5
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md",
+                "file": "Research/MalDev Academy/Alternate Modules - COFF injection and in-memory execution.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md",
+                "file": "Research/MalDev Academy/Alternate Modules - COFF injection and in-memory execution.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md"
+                "file": "Research/MalDev Academy/Alternate Modules - COFF injection and in-memory execution.md"
               }
             }
           }
@@ -156,19 +156,28 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Research/MalDev Academy/PeParser/PeParser/PeParser.vcxproj.user",
-    "Research/MalDev Academy/PeParser/PeParser/PeParser.vcxproj.filters",
-    "Research/MalDev Academy/PeParser/PeParser/PeParser.vcxproj",
-    "Research/MalDev Academy/PeParser/PeParser/main.c",
-    "Research/MalDev Academy/PeParser/PeParser",
-    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.vcxproj.filters",
-    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.vcxproj.user",
-    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.vcxproj",
-    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.c",
-    "Research/MalDev Academy/PeParser/MsgBoxPe",
-    "Research/MalDev Academy/PeParser/PeParser.sln",
-    "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
+    "Research/MalDev Academy/6.7 API Hooking - Detours Library.md",
+    "Research/MalDev Academy/Alternate Modules - COFF injection and in-memory execution.md",
+    "Research/MalDev Academy/DetoursHooking/lib.X86/syelog.lib",
+    "Research/MalDev Academy/DetoursHooking/lib.X86/detours.lib",
+    "Research/MalDev Academy/DetoursHooking/lib.X86",
+    "Research/MalDev Academy/DetoursHooking/lib.X64/syelog.lib",
+    "Research/MalDev Academy/DetoursHooking/lib.X64/detours.lib",
+    "Research/MalDev Academy/DetoursHooking/lib.X64",
+    "Research/MalDev Academy/DetoursHooking/include/syelog.h",
+    "Research/MalDev Academy/DetoursHooking/include/detver.h",
+    "Research/MalDev Academy/DetoursHooking/include/detours.h",
+    "Research/MalDev Academy/DetoursHooking/include",
+    "Research/MalDev Academy/6.6 API Hooking - Introduction.md",
+    "Research/MalDev Academy/6.5 IAT Hiding & Obfuscation - Compile Time API Hashing.md",
+    "Research/MalDev Academy/6.4 IAT Hiding & Obfuscation - Custom Pseudo Handles.md",
+    "Research/MalDev Academy/6.3 IAT Hiding & Obfuscation - API Hashing.md",
+    "Research/MalDev Academy/6.2 IAT Hiding & Obfuscation - Custom GetModuleHandle.md",
+    "Research/MalDev Academy/6.1 IAT Hiding & Obfuscation - Custom GetProcAddress.md",
+    "Research/MalDev Academy/6.0 IAT Hiding & Obfuscation - Introduction.md",
+    "Research/MalDev Academy/5.9 String Hashing.md",
     "Research/MalDev Academy/5.8 Parsing PE Headers.md",
+    "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
     "Research/MalDev Academy/5.6 Process Argument Spoofing (1).md",
     "Research/MalDev Academy/5.5 Spoofing PPID.md",
     "Research/MalDev Academy/5.4 Payload Execution Control.md",
@@ -183,15 +192,6 @@
     "Research/MalDev Academy/4.6 Thread Hijacking - Remote Thread Enumeration.md",
     "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
     "Research/MalDev Academy/4.4 Thread Hijacking - Remote Thread Creation.md",
-    "Research/MalDev Academy/4.2 Process Enumeration - NtQuerySystemInformation.md",
-    "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
-    "Research/MalDev Academy/MalDevBook.md",
-    "Research/MalDev Academy/MalDev Book.md",
-    "Research/MalDev Academy/New Modules - Custom WinAPI Functions.md",
-    "Research/MalDev Academy/New Modules - Evasion With File Bloating.md",
-    "Research/MalDev Academy/4.0 Malware Binary Signing.md",
-    "Research/MalDev Academy/3.9 Payload Staging - Windows Registry.md",
-    "Research/MalDev Academy/3.8 Payload Staging - Web Server.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]
