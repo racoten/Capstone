@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
+                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
+                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
+                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md"
+                "file": "Research/MalDev Academy/5.8 Parsing PE Headers.md"
               }
             }
           }
@@ -156,19 +156,20 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.vcxproj.user",
-    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.vcxproj.filters",
-    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.vcxproj",
-    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.c",
-    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2.sln",
-    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2",
-    "Research/MalDev Academy/ArgSpoofing-2",
-    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.vcxproj.user",
-    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.vcxproj.filters",
-    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.vcxproj",
-    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.c",
-    "Research/MalDev Academy/5.6 Process Argument Spoofing (1).md",
+    "Research/MalDev Academy/PeParser/PeParser/PeParser.vcxproj.user",
+    "Research/MalDev Academy/PeParser/PeParser/PeParser.vcxproj.filters",
+    "Research/MalDev Academy/PeParser/PeParser/PeParser.vcxproj",
+    "Research/MalDev Academy/PeParser/PeParser/main.c",
+    "Research/MalDev Academy/PeParser/PeParser",
+    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.vcxproj.filters",
+    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.vcxproj.user",
+    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.vcxproj",
+    "Research/MalDev Academy/PeParser/MsgBoxPe/MsgBoxPe.c",
+    "Research/MalDev Academy/PeParser/MsgBoxPe",
+    "Research/MalDev Academy/PeParser/PeParser.sln",
     "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
+    "Research/MalDev Academy/5.8 Parsing PE Headers.md",
+    "Research/MalDev Academy/5.6 Process Argument Spoofing (1).md",
     "Research/MalDev Academy/5.5 Spoofing PPID.md",
     "Research/MalDev Academy/5.4 Payload Execution Control.md",
     "Research/MalDev Academy/5.3 Remote Function Stomping Injection.md",
@@ -191,7 +192,6 @@
     "Research/MalDev Academy/4.0 Malware Binary Signing.md",
     "Research/MalDev Academy/3.9 Payload Staging - Windows Registry.md",
     "Research/MalDev Academy/3.8 Payload Staging - Web Server.md",
-    "Research/MalDev Academy/3.7 Process Injection - Shellcode Injection.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]
