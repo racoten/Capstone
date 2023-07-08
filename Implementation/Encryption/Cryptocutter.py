@@ -35,12 +35,12 @@ def encrypt_file(input_file, output_file):
     print("XOR Key: ", base64.b64encode(xor_key).decode())
 
     # Replacing values in C# code
-    with open('F:\\capstone-adversary-emulation-tool\\Implementation\\Loader\\Loader.cs', 'r') as file:
+    with open('F:\\capstone-adversary-emulation-tool\\Implementation\\C_Loader\\C_Loader.c', 'r') as file:
         csharp_code = file.read()
     csharp_code = csharp_code.replace('#2', base64.b64encode(key).decode(), 1)
     csharp_code = csharp_code.replace('#3', base64.b64encode(iv).decode(), 1)
     csharp_code = csharp_code.replace('#1', base64.b64encode(xor_key).decode(), 1)
-    with open('F:\\capstone-adversary-emulation-tool\\Implementation\\Loader\\Loader.cs', 'w') as file:
+    with open('F:\\capstone-adversary-emulation-tool\\Implementation\\C_Loader\\C_Loader.c', 'w') as file:
         file.write(csharp_code)
 
 # Argument parsing

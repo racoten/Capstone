@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/4.7 APC Injection.md",
+                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 228.5,
-    "collapsed": true
+    "width": 228.5
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/4.7 APC Injection.md",
+                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/4.7 APC Injection.md",
+                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/4.7 APC Injection.md"
+                "file": "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md"
               }
             }
           }
@@ -157,22 +156,32 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Implementation/Implant/u0odaw0a.1cm~",
-    "Implementation/Implant/zin0nwvi.avt~",
-    "Implementation/Implant/Modules/Commands.cs",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link.read.18.tlog",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-cvtres.write.1.tlog",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-cvtres.read.1.tlog",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-rc.write.1.tlog",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/link-rc.read.1.tlog",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/ReflectiveDLLLoader.obj",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/unsuccessfulbuild",
-    "Research/MalDev Academy/ReflectiveDLLLoader/ReflectiveDLLLoader/x64/Release/Reflecti.c2130576.tlog/Cl.items.tlog",
-    "Research/MalDev Academy/4.6 Thread Hijacking - Remote Thread Enumeration.md",
+    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.vcxproj.user",
+    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.vcxproj.filters",
+    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.vcxproj",
+    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2/ArgSpoofing2.c",
+    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2.sln",
+    "Research/MalDev Academy/ArgSpoofing-2/ArgSpoofing2",
+    "Research/MalDev Academy/ArgSpoofing-2",
+    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.vcxproj.user",
+    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.vcxproj.filters",
+    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.vcxproj",
+    "Research/MalDev Academy/ArgSpoofing2/ArgSpoofing2/ArgSpoofing2.c",
+    "Research/MalDev Academy/5.6 Process Argument Spoofing (1).md",
+    "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
+    "Research/MalDev Academy/5.5 Spoofing PPID.md",
+    "Research/MalDev Academy/5.4 Payload Execution Control.md",
+    "Research/MalDev Academy/5.3 Remote Function Stomping Injection.md",
+    "Research/MalDev Academy/5.2 Local Function Stomping Injection.md",
+    "Research/MalDev Academy/5.1 Remote Mapping Injection.md",
+    "Research/MalDev Academy/5.0 Local Mapping Injection.md",
+    "Research/MalDev Academy/4.9 Callback Code Execution.md",
+    "Research/MalDev Academy/4.8 Early Bird APC Injection.md",
+    "Research/MalDev Academy/4.3 Thread Hijacking - Local Thread Creation.md",
     "Research/MalDev Academy/4.7 APC Injection.md",
+    "Research/MalDev Academy/4.6 Thread Hijacking - Remote Thread Enumeration.md",
     "Research/MalDev Academy/4.5 Thread Hijacking - Local Thread Enumeration.md",
     "Research/MalDev Academy/4.4 Thread Hijacking - Remote Thread Creation.md",
-    "Research/MalDev Academy/4.3 Thread Hijacking - Local Thread Creation.md",
     "Research/MalDev Academy/4.2 Process Enumeration - NtQuerySystemInformation.md",
     "Research/MalDev Academy/4.1 Process Enumeration - EnumProcesses.md",
     "Research/MalDev Academy/MalDevBook.md",
@@ -183,16 +192,6 @@
     "Research/MalDev Academy/3.9 Payload Staging - Windows Registry.md",
     "Research/MalDev Academy/3.8 Payload Staging - Web Server.md",
     "Research/MalDev Academy/3.7 Process Injection - Shellcode Injection.md",
-    "Research/MalDev Academy/3.6 Process Injection - DLL Injection.md",
-    "Research/MalDev Academy/3.5 Local Payload Execution - Shellcode.md",
-    "Research/MalDev Academy/3.4 Local Payload Execution - DLL.md",
-    "Research/MalDev Academy/3.3 Maldev Academy Tool - MiniShell.md",
-    "Research/MalDev Academy/3.2 Maldev Academy Tool - HellShell.md",
-    "Research/MalDev Academy/3.1 Payload Obfuscation - UUIDFuscation.md",
-    "Research/MalDev Academy/3.0 Payload Obfuscation - MACFucscation.md",
-    "Research/MalDev Academy/2.9 Payload Obfuscation - IPv4-IPv6Fuscation.md",
-    "Research/MalDev Academy/2.8 Evading Microsoft Defender Static Analysis.md",
-    "Research/MalDev Academy/2.7 Payload Encryption - AES Encryption.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]
