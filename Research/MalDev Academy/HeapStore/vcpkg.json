@@ -1,0 +1,11 @@
+{
+    "name": "my-project",
+    "version-string": "0.0.1",
+    "dependencies": [
+        {
+            "name": "curl",
+            "default-features": true,
+            "platform": "windows & x64"
+        }
+    ]
+}
