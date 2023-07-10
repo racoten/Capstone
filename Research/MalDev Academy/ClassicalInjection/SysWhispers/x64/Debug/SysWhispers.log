@@ -1,0 +1,32 @@
+﻿  Assembling SysWhispers-asm.x64.asm...
+  main.c
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(43,9): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'SIZE_T'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(43,9): message : consider using '%lld' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(43,9): message : consider using '%Id' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(43,9): message : consider using '%I64d' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(49,9): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'SIZE_T'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(49,9): message : consider using '%lld' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(49,9): message : consider using '%Id' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(49,9): message : consider using '%I64d' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'SIZE_T'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): message : consider using '%lld' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): message : consider using '%Id' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): message : consider using '%I64d' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'SIZE_T'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): message : consider using '%lld' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): message : consider using '%Id' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(52,10): message : consider using '%I64d' in the format string
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,98): warning C4047: 'function': 'ULONG' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,94): warning C4024: 'NtCreateThreadEx': different types for formal and actual parameter 7
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,104): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,100): warning C4024: 'NtCreateThreadEx': different types for formal and actual parameter 8
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,110): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,106): warning C4024: 'NtCreateThreadEx': different types for formal and actual parameter 9
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,116): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(69,112): warning C4024: 'NtCreateThreadEx': different types for formal and actual parameter 10
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(31,9): warning C4047: 'initializing': 'ULONG' differs in levels of indirection from 'void *'
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\main.c(34,5): warning C4047: 'initializing': 'SIZE_T' differs in levels of indirection from 'void *'
+  SysWhispers.c
+F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\SysWhispers\SysWhispers.c(5,1): warning C4010: single-line comment contains line-continuation character
+  Generating Code...
+  SysWhispers.vcxproj -> F:\capstone-adversary-emulation-tool\Research\MalDev Academy\ClassicalInjection\x64\Debug\SysWhispers.exe

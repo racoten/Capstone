@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/7.1 Syscalls - Introduction.md",
+                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/7.1 Syscalls - Introduction.md",
+                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/7.1 Syscalls - Introduction.md",
+                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/7.1 Syscalls - Introduction.md"
+                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md"
               }
             }
           }
@@ -156,19 +157,35 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/link.read.18.tlog",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/link-cvtres.write.1.tlog",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/link-cvtres.read.1.tlog",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/link-rc.write.1.tlog",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/link-rc.read.1.tlog",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/unsuccessfulbuild",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.obj",
-    "Research/MalDev Academy/HeapStore/x64/Release/HeapStore.exe",
-    "Research/MalDev Academy/HeapStore/HeapStore/rtlqridf.o4l~",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/link.read.10.tlog",
-    "Research/MalDev Academy/HeapStore/HeapStore/x64/Release/HeapStore.tlog/Cl.items.tlog",
-    "Research/MalDev Academy/7.0 API Hooking - Using Windows APIs.md",
+    "Research/MalDev Academy/8.5 MalDev Academy Tool - KeyGuard.md",
+    "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
+    "Research/MalDev Academy/8.4 Brute Force Decryption.md",
+    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.vcxproj.user",
+    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.vcxproj.filters",
+    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.vcxproj",
+    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.c",
+    "Research/MalDev Academy/KeyGuard/KeyGuard",
+    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.vcxproj.user",
+    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.vcxproj.filters",
+    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.vcxproj",
+    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.c",
+    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption",
+    "Research/MalDev Academy/8.3 Binary Entropy Reduction.md",
+    "Research/MalDev Academy/8.2 Anti-Virtual Environments - API Hammering.md",
+    "Research/MalDev Academy/8.1 Anti-Virtual Environments - Multiple Delay Execution Techniques.md",
+    "Research/MalDev Academy/8.0 Anti-Virtual Environments - Multiple Techniques.md",
+    "Research/MalDev Academy/7.9 Anti-Debugging - Self-Deletion.md",
+    "Research/MalDev Academy/7.8 Anti-Debugging - Multiple Techniques.md",
+    "Research/MalDev Academy/7.7 Anti-Analysis - Introduction.md",
+    "Research/MalDev Academy/7.6 Syscalls - Reimplementing APC Injection.md",
+    "Research/MalDev Academy/7.5 Syscalls - Reimplementing Mapping Injection.md",
+    "Research/MalDev Academy/7.4 Syscalls - Reimplementing Classic Injection.md",
+    "Research/MalDev Academy/7.3 Syscalls - SysWhispers.md",
+    "Research/MalDev Academy/7.2 Syscalls - Userland Hooking.md",
     "Research/MalDev Academy/7.1 Syscalls - Introduction.md",
+    "Research/MalDev Academy/WinApiHooking/Untitled.canvas",
+    "Research/MalDev Academy/MalDevBook.md",
+    "Research/MalDev Academy/7.0 API Hooking - Using Windows APIs.md",
     "Research/MalDev Academy/6.9 API Hooking - Custom Code.md",
     "Research/MalDev Academy/6.8 API Hooking - Minhook Library.md",
     "Research/MalDev Academy/6.7 API Hooking - Detours Library.md",
@@ -177,21 +194,6 @@
     "Research/MalDev Academy/6.5 IAT Hiding & Obfuscation - Compile Time API Hashing.md",
     "Research/MalDev Academy/6.4 IAT Hiding & Obfuscation - Custom Pseudo Handles.md",
     "Research/MalDev Academy/6.3 IAT Hiding & Obfuscation - API Hashing.md",
-    "Research/MalDev Academy/6.2 IAT Hiding & Obfuscation - Custom GetModuleHandle.md",
-    "Research/MalDev Academy/6.1 IAT Hiding & Obfuscation - Custom GetProcAddress.md",
-    "Research/MalDev Academy/6.0 IAT Hiding & Obfuscation - Introduction.md",
-    "Research/MalDev Academy/5.9 String Hashing.md",
-    "Research/MalDev Academy/5.8 Parsing PE Headers.md",
-    "Research/MalDev Academy/5.7 Process Argument Spoofing (2).md",
-    "Research/MalDev Academy/5.6 Process Argument Spoofing (1).md",
-    "Research/MalDev Academy/5.5 Spoofing PPID.md",
-    "Research/MalDev Academy/5.4 Payload Execution Control.md",
-    "Research/MalDev Academy/5.3 Remote Function Stomping Injection.md",
-    "Research/MalDev Academy/5.2 Local Function Stomping Injection.md",
-    "Research/MalDev Academy/5.1 Remote Mapping Injection.md",
-    "Research/MalDev Academy/5.0 Local Mapping Injection.md",
-    "Research/MalDev Academy/4.9 Callback Code Execution.md",
-    "Research/MalDev Academy/4.8 Early Bird APC Injection.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]
