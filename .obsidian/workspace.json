@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
+                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
+                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
+                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md"
+                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md"
               }
             }
           }
@@ -157,20 +156,31 @@
   },
   "active": "1faddd07e7f11b54",
   "lastOpenFiles": [
-    "New Text Document.txt",
-    "Research/MalDev Academy/8.5 MalDev Academy Tool - KeyGuard.md",
+    "Research/MalDev Academy/9.7 Block DLL Policy.md",
+    "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/Structs.h",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/NtCreateUserProcess.vcxproj.user",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/NtCreateUserProcess.vcxproj.filters",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/NtCreateUserProcess.vcxproj",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/main.c",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess",
+    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess.sln",
+    "Research/MalDev Academy/NtCreateUserProcess",
+    "Research/MalDev Academy/9.6 Indirect Syscalls - HellsHall.md",
+    "Research/MalDev Academy/BlockDllPolicy/BlockDllPolicy/main.c",
+    "Research/MalDev Academy/BlockDllPolicy/BlockDllPolicy/BlockDllPolicy.vcxproj.user",
+    "Research/MalDev Academy/9.5 Updating Hell's Gate.md",
+    "Research/MalDev Academy/9.4 NTDLL Unhooking - From a Web Server.md",
+    "Research/MalDev Academy/9.3 NTDLL Unhooking - From a Suspended Process.md",
+    "Research/MalDev Academy/9.2 NTDLL Unhooking - From KnownDlls Directory.md",
+    "Research/MalDev Academy/9.1 NTDLL Unhooking - From Disk.md",
+    "Research/MalDev Academy/9.0 NTDLL Unhooking - Introduction.md",
+    "Research/MalDev Academy/8.9 Introduction to EDRs.md",
+    "Research/MalDev Academy/8.8 Bypassing-AVs.md",
+    "Research/MalDev Academy/8.7 IAT Camouflage.md",
     "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
+    "Research/MalDev Academy/8.5 MalDev Academy Tool - KeyGuard.md",
     "Research/MalDev Academy/8.4 Brute Force Decryption.md",
-    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.vcxproj.user",
-    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.vcxproj.filters",
-    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.vcxproj",
-    "Research/MalDev Academy/KeyGuard/KeyGuard/KeyGuard.c",
-    "Research/MalDev Academy/KeyGuard/KeyGuard",
-    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.vcxproj.user",
-    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.vcxproj.filters",
-    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.vcxproj",
-    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption/ExampleRc4Encryption.c",
-    "Research/MalDev Academy/KeyGuard/ExampleRc4Encryption",
     "Research/MalDev Academy/8.3 Binary Entropy Reduction.md",
     "Research/MalDev Academy/8.2 Anti-Virtual Environments - API Hammering.md",
     "Research/MalDev Academy/8.1 Anti-Virtual Environments - Multiple Delay Execution Techniques.md",
@@ -182,18 +192,7 @@
     "Research/MalDev Academy/7.5 Syscalls - Reimplementing Mapping Injection.md",
     "Research/MalDev Academy/7.4 Syscalls - Reimplementing Classic Injection.md",
     "Research/MalDev Academy/7.3 Syscalls - SysWhispers.md",
-    "Research/MalDev Academy/7.2 Syscalls - Userland Hooking.md",
-    "Research/MalDev Academy/7.1 Syscalls - Introduction.md",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas",
-    "Research/MalDev Academy/MalDevBook.md",
-    "Research/MalDev Academy/7.0 API Hooking - Using Windows APIs.md",
-    "Research/MalDev Academy/6.9 API Hooking - Custom Code.md",
-    "Research/MalDev Academy/6.8 API Hooking - Minhook Library.md",
-    "Research/MalDev Academy/6.7 API Hooking - Detours Library.md",
-    "Research/MalDev Academy/Alternate Modules - COFF injection and in-memory execution.md",
-    "Research/MalDev Academy/6.6 API Hooking - Introduction.md",
-    "Research/MalDev Academy/6.5 IAT Hiding & Obfuscation - Compile Time API Hashing.md",
-    "Research/MalDev Academy/6.4 IAT Hiding & Obfuscation - Custom Pseudo Handles.md",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"
   ]
