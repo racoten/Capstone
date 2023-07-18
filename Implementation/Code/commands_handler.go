@@ -10,17 +10,6 @@ import (
 	"sync"
 )
 
-// Define a structure to handle the commands which the Operator will send to the implant
-type Command struct {
-	Input       string `json:"Input"`
-	ImplantUser string `json:"ImplantUser"`
-	Operator    string `json:"Operator"`
-	TimeToExec  string `json:"timeToExec"`
-	Delay       string `json:"delay"`
-	File        string `json:"File"`
-	Command     string `json:"Command"`
-}
-
 // Because we have to wait for the implant to receive the command and actually run it, we need to store inside a Mutex so that it stays in memory
 var (
 	mu            sync.RWMutex
@@ -52,7 +41,7 @@ func fetchCommand(w http.ResponseWriter, r *http.Request) {
 			// Run the Python script and capture the output
 			fmt.Println("Getting assembly...")
 			cmd := "cmd"
-			args := []string{"/c", "python", "F:\\capstone-adversary-emulation-tool\\Implementation\\Code\\Vagrant_SSH.py", "-df", "/home/superstar/" + command.File + ".exe"}
+			args := []string{"/c", "python", "Vagrant_SSH.py", "-df", "/home/superstar/" + command.File + ".exe"}
 			fmt.Println(cmd, args)
 			out, err := exec.Command(cmd, args...).Output()
 			if err != nil {
@@ -99,14 +88,6 @@ func fetchCommand(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-}
-
-// Define a structure to handle the output which the implant sends to the server
-type Output struct {
-	ImplantID    string `json:"ImplantId"`
-	Operator     string `json:"OperatorId"`
-	Output       string `json:"Output"`
-	DateFromLast string `json:"DateFromLast"`
 }
 
 // Define the buffer that will store the XOR encrypted output

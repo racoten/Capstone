@@ -23,24 +23,24 @@ def encrypt_file(input_file, output_file):
     with open(input_file, 'rb') as file:
         data = file.read()
 
-    encrypted_data = aes_encrypt(data, key, iv)
-    encrypted_data = xor_encrypt(encrypted_data, xor_key)
+    # encrypted_data = aes_encrypt(data, key, iv)
+    encrypted_data = xor_encrypt(data, xor_key)
     encrypted_data = base64.b64encode(encrypted_data)
     
     with open(output_file, 'wb') as enc_file:
         enc_file.write(encrypted_data)
 
-    print("AES Key: ", base64.b64encode(key).decode())
-    print("AES IV: ", base64.b64encode(iv).decode())
+    # print("AES Key: ", base64.b64encode(key).decode())
+    # print("AES IV: ", base64.b64encode(iv).decode())
     print("XOR Key: ", base64.b64encode(xor_key).decode())
 
     # Replacing values in C# code
-    with open('F:\\capstone-adversary-emulation-tool\\Implementation\\C_Loader\\C_Loader.c', 'r') as file:
+    with open('..\\CLoader\\Sheller\\Sheller\\Encrypters.h', 'r') as file:
         csharp_code = file.read()
-    csharp_code = csharp_code.replace('#2', base64.b64encode(key).decode(), 1)
-    csharp_code = csharp_code.replace('#3', base64.b64encode(iv).decode(), 1)
+    # csharp_code = csharp_code.replace('#2', base64.b64encode(key).decode(), 1)
+    # csharp_code = csharp_code.replace('#3', base64.b64encode(iv).decode(), 1)
     csharp_code = csharp_code.replace('#1', base64.b64encode(xor_key).decode(), 1)
-    with open('F:\\capstone-adversary-emulation-tool\\Implementation\\C_Loader\\C_Loader.c', 'w') as file:
+    with open('..\\CLoader\\Sheller\\Sheller\\Encrypters.h', 'w') as file:
         file.write(csharp_code)
 
 # Argument parsing

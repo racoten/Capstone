@@ -10,11 +10,6 @@ import (
 	"time"
 )
 
-type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 func loginOperatorHandler(w http.ResponseWriter, r *http.Request) {
 	// Decode JSON request body into LoginRequest struct
 	decoder := json.NewDecoder(r.Body)
@@ -68,15 +63,6 @@ func loginOperatorHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Invalid username or password")
 	}
 
-}
-
-type OperatorRegister struct {
-	FirstName   string `json:"firstName"`
-	LastName    string `json:"lastName"`
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phoneNumber"`
 }
 
 func registerOperatorHandler(w http.ResponseWriter, r *http.Request) {

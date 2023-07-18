@@ -11,11 +11,9 @@
             "id": "1faddd07e7f11b54",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
-                "mode": "source",
-                "source": false
+                "file": "PibbyAflacIdleAnim.webp"
               }
             }
           }
@@ -77,7 +75,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 270.5
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
+                "file": "PibbyAflacIdleAnim.webp",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
+                "file": "PibbyAflacIdleAnim.webp",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +131,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md"
+                "file": "PibbyAflacIdleAnim.webp"
               }
             }
           }
@@ -154,44 +152,45 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1faddd07e7f11b54",
+  "active": "d0ab3dab911aa722",
   "lastOpenFiles": [
-    "Research/MalDev Academy/9.7 Block DLL Policy.md",
-    "Research/MalDev Academy/9.8 Diving Into NtCreateUserProcess.md",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/Structs.h",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/NtCreateUserProcess.vcxproj.user",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/NtCreateUserProcess.vcxproj.filters",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/NtCreateUserProcess.vcxproj",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess/main.c",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess",
-    "Research/MalDev Academy/NtCreateUserProcess/NtCreateUserProcess.sln",
-    "Research/MalDev Academy/NtCreateUserProcess",
-    "Research/MalDev Academy/9.6 Indirect Syscalls - HellsHall.md",
-    "Research/MalDev Academy/BlockDllPolicy/BlockDllPolicy/main.c",
-    "Research/MalDev Academy/BlockDllPolicy/BlockDllPolicy/BlockDllPolicy.vcxproj.user",
-    "Research/MalDev Academy/9.5 Updating Hell's Gate.md",
-    "Research/MalDev Academy/9.4 NTDLL Unhooking - From a Web Server.md",
-    "Research/MalDev Academy/9.3 NTDLL Unhooking - From a Suspended Process.md",
-    "Research/MalDev Academy/9.2 NTDLL Unhooking - From KnownDlls Directory.md",
-    "Research/MalDev Academy/9.1 NTDLL Unhooking - From Disk.md",
-    "Research/MalDev Academy/9.0 NTDLL Unhooking - Introduction.md",
-    "Research/MalDev Academy/8.9 Introduction to EDRs.md",
-    "Research/MalDev Academy/8.8 Bypassing-AVs.md",
-    "Research/MalDev Academy/8.7 IAT Camouflage.md",
-    "Research/MalDev Academy/8.6 CRT Library Removal & Malware Compiling.md",
-    "Research/MalDev Academy/8.5 MalDev Academy Tool - KeyGuard.md",
-    "Research/MalDev Academy/8.4 Brute Force Decryption.md",
-    "Research/MalDev Academy/8.3 Binary Entropy Reduction.md",
-    "Research/MalDev Academy/8.2 Anti-Virtual Environments - API Hammering.md",
-    "Research/MalDev Academy/8.1 Anti-Virtual Environments - Multiple Delay Execution Techniques.md",
-    "Research/MalDev Academy/8.0 Anti-Virtual Environments - Multiple Techniques.md",
-    "Research/MalDev Academy/7.9 Anti-Debugging - Self-Deletion.md",
-    "Research/MalDev Academy/7.8 Anti-Debugging - Multiple Techniques.md",
-    "Research/MalDev Academy/7.7 Anti-Analysis - Introduction.md",
-    "Research/MalDev Academy/7.6 Syscalls - Reimplementing APC Injection.md",
-    "Research/MalDev Academy/7.5 Syscalls - Reimplementing Mapping Injection.md",
-    "Research/MalDev Academy/7.4 Syscalls - Reimplementing Classic Injection.md",
-    "Research/MalDev Academy/7.3 Syscalls - SysWhispers.md",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link.read.19.tlog",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-cvtres.write.1.tlog",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-cvtres.read.1.tlog",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-rc.write.1.tlog",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-rc.read.1.tlog",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/unsuccessfulbuild",
+    "Implementation/CSC2A2ACFA6CA8F4B9BB64046CE7AFDB6A.TMP",
+    "Implementation/donut/CSC4873286FF34468B95111D3EDD11463.TMP",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link.read.12.tlog",
+    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.obj",
+    "Implementation/CSC3FA1ABFEC14348D292811ABBC7495156.TMP",
+    "Research/MalDev Academy/Notes/6.1 IAT Hiding & Obfuscation - Custom GetProcAddress.md",
+    "Research/MalDev Academy/Notes/10.7 Utilizing Hardware Breakpoints For Hooking (1).md",
+    "Research/MalDev Academy/MalDev Book.md",
+    "Research/MalDev Academy/Notes/Alternate Modules - COFF injection and in-memory execution.md",
+    "Research/MalDev Academy/Notes/10.6 Bring Your Own File Extension.md",
+    "Research/MalDev Academy/Notes/10.5 Bring Your Own Protocol Handler.md",
+    "Research/MalDev Academy/Notes/10.4 - Evasion With File Bloating.md",
+    "Research/MalDev Academy/Notes/10.3 Introduction To MASM Assembly.md",
+    "Research/MalDev Academy/Notes/10.2 Exploiting EDRs For Evasion.md",
+    "Research/MalDev Academy/Notes/10.1 Custom WinAPI Functions.md",
+    "Research/MalDev Academy/Notes/10.0 Thread Enumeration - NtQuerySystemInformation.md",
+    "Research/MalDev Academy/Notes/9.9 Binary Metadata Modification.md",
+    "Research/MalDev Academy/Notes/9.8 Diving Into NtCreateUserProcess.md",
+    "Research/MalDev Academy/Notes/9.7 Block DLL Policy.md",
+    "Research/MalDev Academy/Notes/9.6 Indirect Syscalls - HellsHall.md",
+    "Research/MalDev Academy/Notes/9.5 Updating Hell's Gate.md",
+    "Research/MalDev Academy/Notes/9.4 NTDLL Unhooking - From a Web Server.md",
+    "Research/MalDev Academy/Notes/9.3 NTDLL Unhooking - From a Suspended Process.md",
+    "Research/MalDev Academy/Notes/9.1 NTDLL Unhooking - From Disk.md",
+    "Research/MalDev Academy/Notes/9.0 NTDLL Unhooking - Introduction.md",
+    "Research/MalDev Academy/Notes/8.9 Introduction to EDRs.md",
+    "Research/MalDev Academy/Notes/8.8 Bypassing-AVs.md",
+    "Research/MalDev Academy/Notes/8.7 IAT Camouflage.md",
+    "Research/MalDev Academy/Notes/8.6 CRT Library Removal & Malware Compiling.md",
+    "Research/MalDev Academy/Notes/8.5 MalDev Academy Tool - KeyGuard.md",
+    "Research/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas",
     "Pasted image 20230614215601.png",
     "Pasted image 20230614215101.png"

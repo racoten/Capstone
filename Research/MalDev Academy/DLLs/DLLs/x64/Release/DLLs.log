@@ -1,3 +1,0 @@
-﻿  dllmain.cpp
-F:\capstone-adversary-emulation-tool\Research\MalDev Academy\DLLs\DLLs\dllmain.cpp(2,10): fatal  error C1083: Cannot open precompiled header file: 'x64\Release\DLLs.pch': No such file or directory
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(734,5): error MSB6006: "CL.exe" exited with code 2.
