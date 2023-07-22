@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
+                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
+                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
+                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md"
+                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md"
               }
             }
           }
@@ -156,32 +156,32 @@
   },
   "active": "2a3eab323cf53b4c",
   "lastOpenFiles": [
-    "Research/Red Team Ops/9.6 Pivoting - Browsers.md",
+    "Research/Red Team Ops/11.3 Active Directory Certificate Services - NTLM Relaying to ADCS HTTP Endpoints.md",
+    "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
+    "Research/Red Team Ops/11.2 Active Directory Certificate Services - Misconfigured Certificate Templates.md",
+    "Research/Red Team Ops/11.1 Active Directory Certificate Services - Finding Certificate Authorities.md",
+    "Research/Red Team Ops/11.0 Active Directory Certificate Services.md",
+    "Research/Red Team Ops/10.9 Kerberos - Shadow Credentials.md",
+    "Research/Red Team Ops/10.8 Kerberos - Resource-Based Constrained Delegation.md",
+    "Research/Red Team Ops/10.7 Kerberos - S4U2Self Abuse.md",
+    "Research/Red Team Ops/10.6 Kerberos - Alternative Service Name.md",
+    "Research/Red Team Ops/10.5 Kerberos - Constrained Delegation.md",
+    "Research/Red Team Ops/10.5 Kerberos - Unconstrained Delegation.md",
+    "Research/Red Team Ops/10.4 Kerberos - ASREP Roasting.md",
+    "Research/Red Team Ops/10.3 Kerberos - Kerberoasting.md",
+    "Research/Red Team Ops/10.2 Kerberos.md",
+    "Research/Red Team Ops/10.1 Data Protection API - Scheduled Task Credentials.md",
+    "Research/Red Team Ops/10.0 Data Protection API - Credential Manager.md",
+    "Research/Red Team Ops/9.9 Data Protection API.md",
+    "Research/Red Team Ops/9.8 Pivoting - NTLM Relaying.md",
     "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
+    "Research/Red Team Ops/9.6 Pivoting - Browsers.md",
     "Research/Red Team Ops/9.5 Pivoting - Windows Tools.md",
     "Research/Red Team Ops/9.4 Pivoting - Linux Tools.md",
     "Research/Red Team Ops/9.3 Pivoting - SOCKS Proxies.md",
     "Research/Red Team Ops/9.2 Session Passing - Spawn & Inject.md",
     "Research/Red Team Ops/1.1 Getting Started - What is Red Teaming.md",
     "Research/Red Team Ops/9.1 Session Passing - Foreign Listener.md",
-    "Research/Red Team Ops/9.0 Session Passing - Beacon Passing.md",
-    "Research/Red Team Ops/8.9 Session Passing.md",
-    "Research/Red Team Ops/8.8 Lateral Movement - DCOM.md",
-    "Research/Red Team Ops 2/7 - EDR Evasion/Chapter 7 - Endpoint Detection and Response Evasion.md",
-    "Research/Red Team Ops 2/3 - Process Injection/Chapter 3 - Process Injection.md",
-    "Research/Red Team Ops/8.7 Lateral Movement - The Curious Case of CoInitializeSecurity.md",
-    "Research/Red Team Ops/8.6 Lateral Movement - Windows Management Instrumentation (WMI).md",
-    "Research/Red Team Ops/8.5 Lateral Movement - PsExec.md",
-    "Research/Red Team Ops/8.4 Lateral Movement - Windows Remote Management.md",
-    "Research/Red Team Ops/8.3 Lateral Movement.md",
-    "Research/Red Team Ops/1.7 Command and Control - Cobalt Strike.md",
-    "Research/Red Team Ops/2.4 External Reconnaissance.md",
-    "Research/Red Team Ops/2.8 Internal Compromise - Password Spraying.md",
-    "Research/Red Team Ops/3.4 Host Reconnaissance.md",
-    "Research/Red Team Ops/4.1 Host Persistence.md",
-    "Research/Red Team Ops/4.6 Host Privilege Escalation.md",
-    "Research/Red Team Ops/5.2 Host Persistence Elevated.md",
-    "Research/Red Team Ops/5.5 Credential Theft.md",
     "Implementation/C_Loader/loader.exe",
     "Implementation/Loader/y0pafv4f.di1~",
     "Images",
