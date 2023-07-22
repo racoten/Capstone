@@ -9,5 +9,7 @@
     "margin": "0",
     "downscalePercent": 88
   },
-  "attachmentFolderPath": "Images"
+  "attachmentFolderPath": "Images",
+  "autoPairBrackets": false,
+  "autoPairMarkdown": false
 }

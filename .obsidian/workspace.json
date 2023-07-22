@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Red Team Ops/1.9 Command and Control - Listener Management.md",
+                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,7 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 312
+    "width": 200
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Red Team Ops/1.9 Command and Control - Listener Management.md",
+                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Red Team Ops/1.9 Command and Control - Listener Management.md",
+                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Red Team Ops/1.9 Command and Control - Listener Management.md"
+                "file": "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md"
               }
             }
           }
@@ -156,43 +156,43 @@
   },
   "active": "2a3eab323cf53b4c",
   "lastOpenFiles": [
-    "Research/Red Team Ops/1.8 Command and Control - Starting the Team Server.md",
-    "Research/Red Team Ops/1.9 Command and Control - Listener Management.md",
-    "Research/Red Team Ops/1.7 Command and Control - Cobalt Strike.md",
-    "Research/Red Team Ops/1.6 Getting Started - Post-Engagements & Reporting.md",
-    "Research/Red Team Ops/1.5 Getting Started - Engagement Planning.md",
-    "Research/Red Team Ops/1.4 Getting Started - Attack Lifecycle.md",
-    "Research/Red Team Ops/1.2 Getting Started - What is OPSEC.md",
+    "Research/Red Team Ops/9.6 Pivoting - Browsers.md",
+    "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
+    "Research/Red Team Ops/9.5 Pivoting - Windows Tools.md",
+    "Research/Red Team Ops/9.4 Pivoting - Linux Tools.md",
+    "Research/Red Team Ops/9.3 Pivoting - SOCKS Proxies.md",
+    "Research/Red Team Ops/9.2 Session Passing - Spawn & Inject.md",
     "Research/Red Team Ops/1.1 Getting Started - What is Red Teaming.md",
-    "Research/Red Team Ops/1.3 Getting Started - Primum non nocere.md",
-    "Research/CRTP Notes/Enumeration Defense.md",
+    "Research/Red Team Ops/9.1 Session Passing - Foreign Listener.md",
+    "Research/Red Team Ops/9.0 Session Passing - Beacon Passing.md",
+    "Research/Red Team Ops/8.9 Session Passing.md",
+    "Research/Red Team Ops/8.8 Lateral Movement - DCOM.md",
+    "Research/Red Team Ops 2/7 - EDR Evasion/Chapter 7 - Endpoint Detection and Response Evasion.md",
+    "Research/Red Team Ops 2/3 - Process Injection/Chapter 3 - Process Injection.md",
+    "Research/Red Team Ops/8.7 Lateral Movement - The Curious Case of CoInitializeSecurity.md",
+    "Research/Red Team Ops/8.6 Lateral Movement - Windows Management Instrumentation (WMI).md",
+    "Research/Red Team Ops/8.5 Lateral Movement - PsExec.md",
+    "Research/Red Team Ops/8.4 Lateral Movement - Windows Remote Management.md",
+    "Research/Red Team Ops/8.3 Lateral Movement.md",
+    "Research/Red Team Ops/1.7 Command and Control - Cobalt Strike.md",
+    "Research/Red Team Ops/2.4 External Reconnaissance.md",
+    "Research/Red Team Ops/2.8 Internal Compromise - Password Spraying.md",
+    "Research/Red Team Ops/3.4 Host Reconnaissance.md",
+    "Research/Red Team Ops/4.1 Host Persistence.md",
+    "Research/Red Team Ops/4.6 Host Privilege Escalation.md",
+    "Research/Red Team Ops/5.2 Host Persistence Elevated.md",
+    "Research/Red Team Ops/5.5 Credential Theft.md",
+    "Implementation/C_Loader/loader.exe",
+    "Implementation/Loader/y0pafv4f.di1~",
     "Images",
     "Research/Red Team Ops",
     "Research/CRTP Notes/Certified Red Team Professional Book.pdf",
-    "Research/CRTP Notes/Certified Red Team Professional Book.md",
     "Research/CRTP Notes/CRTP Exam Report.pdf",
-    "Research/CRTP Notes/CRTP Exam Notes.md",
-    "Research/ePTX/Advanced Social Engineering/1.1 Introduction.md",
-    "Implementation/Code/Test Assembly Command.md",
     "db.sql",
-    "Implementation/Thread Call Stack Spoofing.md",
-    "Implementation/Remote Reflective Loader.md",
-    "Design/README.md",
-    "Untitled.md",
     "PibbyAflacIdleAnim.webp",
     "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link.read.19.tlog",
     "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-cvtres.write.1.tlog",
     "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-cvtres.read.1.tlog",
-    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-rc.write.1.tlog",
-    "Implementation/CLoader/Sheller/Sheller/x64/Release/Sheller.tlog/link-rc.read.1.tlog",
-    "Research/MalDev Academy/Notes/6.1 IAT Hiding & Obfuscation - Custom GetProcAddress.md",
-    "Research/MalDev Academy/Notes/10.7 Utilizing Hardware Breakpoints For Hooking (1).md",
-    "Research/MalDev Academy/MalDev Book.md",
-    "Research/MalDev Academy/Notes/Alternate Modules - COFF injection and in-memory execution.md",
-    "Research/MalDev Academy/Notes/10.6 Bring Your Own File Extension.md",
-    "Research/MalDev Academy/Notes/10.5 Bring Your Own Protocol Handler.md",
-    "Research/MalDev Academy/Notes/10.4 - Evasion With File Bloating.md",
-    "Research/MalDev Academy/Notes/10.3 Introduction To MASM Assembly.md",
     "Research/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas",
     "Pasted image 20230614215601.png",

