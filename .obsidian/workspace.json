@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "0b5501dad81e2066",
+        "id": "85a1bda9c16cb3d9",
         "type": "tabs",
         "children": [
           {
-            "id": "2a3eab323cf53b4c",
+            "id": "3aa952d53c966f50",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Red Team Practice Environments.md",
+                "file": "Research/Red Team Ops/13.4 Local Administrator Password Solution.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Red Team Practice Environments.md",
+                "file": "Research/Red Team Ops/13.4 Local Administrator Password Solution.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Red Team Practice Environments.md",
+                "file": "Research/Red Team Ops/13.4 Local Administrator Password Solution.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Red Team Practice Environments.md"
+                "file": "Research/Red Team Ops/13.4 Local Administrator Password Solution.md"
               }
             }
           }
@@ -155,8 +154,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2a3eab323cf53b4c",
+  "active": "3aa952d53c966f50",
   "lastOpenFiles": [
+    "Research/Red Team Ops/13.3 Local Administrator Password Solution.md",
+    "Research/Red Team Ops/13.4 Local Administrator Password Solution.md",
+    "Research/Red Team Ops/13.2 Local Administrator Password Solution - Reading ms-Mcs-AdmPwd.md",
     "Research/Red Team Ops/13.1 Local Administrator Password Solution.md",
     "Research/Red Team Practice Environments.md",
     "Research/Red Team Ops/13.0 Forest & Domain Trusts - One-Way Outbound.md",
@@ -180,9 +182,6 @@
     "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
     "Research/Red Team Ops/11.3 Active Directory Certificate Services - NTLM Relaying to ADCS HTTP Endpoints.md",
     "Research/Red Team Ops/11.2 Active Directory Certificate Services - Misconfigured Certificate Templates.md",
-    "Research/Red Team Ops/11.1 Active Directory Certificate Services - Finding Certificate Authorities.md",
-    "Research/Red Team Ops/11.0 Active Directory Certificate Services.md",
-    "Research/Red Team Ops/10.9 Kerberos - Shadow Credentials.md",
     "Implementation/C_Loader/loader.exe",
     "Implementation/Loader/y0pafv4f.di1~",
     "Images",
