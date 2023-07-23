@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
+                "file": "Research/Red Team Practice Environments.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 667.5
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -93,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
+                "file": "Research/Red Team Practice Environments.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
+                "file": "Research/Red Team Practice Environments.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md"
+                "file": "Research/Red Team Practice Environments.md"
               }
             }
           }
@@ -156,32 +157,32 @@
   },
   "active": "2a3eab323cf53b4c",
   "lastOpenFiles": [
-    "Research/Red Team Ops/11.3 Active Directory Certificate Services - NTLM Relaying to ADCS HTTP Endpoints.md",
+    "Research/Red Team Ops/13.1 Local Administrator Password Solution.md",
+    "Research/Red Team Practice Environments.md",
+    "Research/Red Team Ops/13.0 Forest & Domain Trusts - One-Way Outbound.md",
+    "Research/Red Team Ops/13.0 Forest & Domain Trusts - One-Way Inbound.md",
+    "Research/Red Team Ops/12.9 Forest & Domain Trusts - Parent-Child.md",
+    "Research/Red Team Ops/12.8 Forest & Domain Trusts.md",
+    "Research/Red Team Ops/12.7 Domain Dominance - Forged Certificates.md",
+    "Research/Red Team Ops/12.6 Domain Dominance - Diamond Tickets.md",
+    "Research/Red Team Ops/12.5 Domain Dominance - Golden Tickets.md",
+    "Research/Red Team Ops/12.4 Domain Dominance - Silver Tickets.md",
+    "Research/Red Team Ops/12.3 Domain Dominance.md",
+    "Research/Red Team Ops/12.2 MS SQL Servers - MS SQL Privilege Escalation.md",
+    "Research/Red Team Ops/12.1 MS SQL Servers - MS SQL Lateral Movement.md",
+    "Research/Red Team Ops/12.0 MS SQL Servers - MS SQL Command Execution.md",
+    "Research/Red Team Ops/11.9 MS SQL Servers - MS SQL Impersonation.md",
+    "Research/Red Team Ops/11.8 MS SQL Servers.md",
+    "Research/Red Team Ops/5.6 Credential Theft - Beacon + Mimikatz.md",
+    "Research/Red Team Ops/11.7 Group Policy - Create & Link a GPO.md",
+    "Research/Red Team Ops/11.6 Group Policy - Modify Existing GPO.md",
+    "Research/Red Team Ops/11.5 Group Policy - Abusing Group Policy.md",
     "Research/Red Team Ops/11.4 Active Directory Certificate Services - User & Computer Persistence.md",
+    "Research/Red Team Ops/11.3 Active Directory Certificate Services - NTLM Relaying to ADCS HTTP Endpoints.md",
     "Research/Red Team Ops/11.2 Active Directory Certificate Services - Misconfigured Certificate Templates.md",
     "Research/Red Team Ops/11.1 Active Directory Certificate Services - Finding Certificate Authorities.md",
     "Research/Red Team Ops/11.0 Active Directory Certificate Services.md",
     "Research/Red Team Ops/10.9 Kerberos - Shadow Credentials.md",
-    "Research/Red Team Ops/10.8 Kerberos - Resource-Based Constrained Delegation.md",
-    "Research/Red Team Ops/10.7 Kerberos - S4U2Self Abuse.md",
-    "Research/Red Team Ops/10.6 Kerberos - Alternative Service Name.md",
-    "Research/Red Team Ops/10.5 Kerberos - Constrained Delegation.md",
-    "Research/Red Team Ops/10.5 Kerberos - Unconstrained Delegation.md",
-    "Research/Red Team Ops/10.4 Kerberos - ASREP Roasting.md",
-    "Research/Red Team Ops/10.3 Kerberos - Kerberoasting.md",
-    "Research/Red Team Ops/10.2 Kerberos.md",
-    "Research/Red Team Ops/10.1 Data Protection API - Scheduled Task Credentials.md",
-    "Research/Red Team Ops/10.0 Data Protection API - Credential Manager.md",
-    "Research/Red Team Ops/9.9 Data Protection API.md",
-    "Research/Red Team Ops/9.8 Pivoting - NTLM Relaying.md",
-    "Research/Red Team Ops/9.7 Pivoting - Reverse Port Forwards.md",
-    "Research/Red Team Ops/9.6 Pivoting - Browsers.md",
-    "Research/Red Team Ops/9.5 Pivoting - Windows Tools.md",
-    "Research/Red Team Ops/9.4 Pivoting - Linux Tools.md",
-    "Research/Red Team Ops/9.3 Pivoting - SOCKS Proxies.md",
-    "Research/Red Team Ops/9.2 Session Passing - Spawn & Inject.md",
-    "Research/Red Team Ops/1.1 Getting Started - What is Red Teaming.md",
-    "Research/Red Team Ops/9.1 Session Passing - Foreign Listener.md",
     "Implementation/C_Loader/loader.exe",
     "Implementation/Loader/y0pafv4f.di1~",
     "Images",
