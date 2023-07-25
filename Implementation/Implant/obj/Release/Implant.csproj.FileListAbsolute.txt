@@ -6,3 +6,11 @@ F:\capstone-adversary-emulation-tool\Implementation\Implant\obj\Release\Implant.
 F:\capstone-adversary-emulation-tool\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
 F:\capstone-adversary-emulation-tool\Implementation\Implant\obj\Release\NewImplant.exe
 F:\capstone-adversary-emulation-tool\Implementation\Implant\obj\Release\NewImplant.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\bin\Release\NewImplant.exe.config
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\bin\Release\NewImplant.exe
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\bin\Release\NewImplant.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.AssemblyReference.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.SuggestedBindingRedirects.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\obj\Release\NewImplant.exe
+C:\Users\Carlos\Documents\Capstone\Implementation\Implant\obj\Release\NewImplant.pdb

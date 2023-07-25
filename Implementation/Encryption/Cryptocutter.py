@@ -4,6 +4,7 @@ import argparse
 from Cryptodome.Cipher import AES
 from Cryptodome.Util.Padding import pad, unpad
 from Cryptodome.Random import get_random_bytes
+import binascii
 
 # Key and Initialization Vector for AES
 key = get_random_bytes(32)  # AES-256 key
@@ -22,25 +23,26 @@ def aes_encrypt(data, key, iv):
 def encrypt_file(input_file, output_file):
     with open(input_file, 'rb') as file:
         data = file.read()
-
-    # encrypted_data = aes_encrypt(data, key, iv)
-    encrypted_data = xor_encrypt(data, xor_key)
+    
+    encrypted_data = aes_encrypt(data, key, iv)
+    encrypted_data = xor_encrypt(encrypted_data, xor_key)
     encrypted_data = base64.b64encode(encrypted_data)
     
     with open(output_file, 'wb') as enc_file:
         enc_file.write(encrypted_data)
 
-    # print("AES Key: ", base64.b64encode(key).decode())
-    # print("AES IV: ", base64.b64encode(iv).decode())
-    print("XOR Key: ", base64.b64encode(xor_key).decode())
+    # Convert the keys and IV to the desired formats
+    aes_key_str = 'unsigned char aesKey[] = {' + ', '.join(f"0x{b:02x}" for b in key) + '};'
+    iv_str = 'unsigned char aesIV[] = {' + ', '.join(f"0x{b:02x}" for b in iv) + '};'
+    xor_key_str = 'unsigned char xorKey[] = {' + ', '.join(f"0x{b:02x}" for b in xor_key) + '};'
 
     # Replacing values in C# code
-    with open('..\\CLoader\\Sheller\\Sheller\\Encrypters.h', 'r') as file:
+    with open('..\\CLoader\\Sheller\\Sheller\\Sheller.c', 'r') as file:
         csharp_code = file.read()
-    # csharp_code = csharp_code.replace('#2', base64.b64encode(key).decode(), 1)
-    # csharp_code = csharp_code.replace('#3', base64.b64encode(iv).decode(), 1)
-    csharp_code = csharp_code.replace('#1', base64.b64encode(xor_key).decode(), 1)
-    with open('..\\CLoader\\Sheller\\Sheller\\Encrypters.h', 'w') as file:
+    csharp_code = csharp_code.replace('unsigned char xorKey[] = "#1";', xor_key_str, 1)
+    csharp_code = csharp_code.replace('unsigned char aesKey[] = "#2";', aes_key_str, 1)
+    csharp_code = csharp_code.replace('unsigned char aesIV[] = "#3";', iv_str, 1)
+    with open('..\\CLoader\\Sheller\\Sheller\\Sheller.c', 'w') as file:
         file.write(csharp_code)
 
 # Argument parsing

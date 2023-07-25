@@ -29,9 +29,6 @@
     <ClInclude Include="..\..\..\..\Research\MalDev Academy\Code\GetModuleHandle\GetModuleHandle\Structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Encrypters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="aes.h">
       <Filter>Header Files</Filter>
     </ClInclude>

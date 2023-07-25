@@ -12,3 +12,17 @@ F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\x64\Release\Loade
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\x64\Release\Loader.exe
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\x64\Release\Loader.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe.config
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\Loader.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.dll
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.xml
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.xml
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.AssemblyReference.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.SuggestedBindingRedirects.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CoreCompileInputs.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
+C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb

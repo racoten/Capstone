@@ -23,7 +23,7 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 
 	var cmd *exec.Cmd
 	fmt.Println("Hit, generating shellcode...")
-	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs && " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
+	// fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs && " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:"+basedirwin+"donut\\Implant.exe "+basedirwin+"Implant\\Implant.cs "+basedirwin+"Implant\\Modules\\ExecuteAssembly.cs "+basedirwin+"Implant\\Modules\\Commands.cs "+basedirwin+"Implant\\Modules\\CompileAndRunNET.cs && "+basedirwin+"donut\\donut.exe -a 2 --input:"+basedirwin+"donut\\Implant.exe --output:"+basedirwin+"Encryption\\implant.bin")
 	} else {
@@ -37,7 +37,7 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
-	fmt.Println("python " + basedirwin + "Encryption\\Cryptocutter.py -f " + basedirwin + "Encryption\\implant.bin -o " + basedirwin + "OutputShellcode\\implant.bin")
+	// fmt.Println("python " + basedirwin + "Encryption\\Cryptocutter.py -f " + basedirwin + "Encryption\\implant.bin -o " + basedirwin + "OutputShellcode\\implant.bin")
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("cmd", "/c", "python "+basedirwin+"Encryption\\Cryptocutter.py -f "+basedirwin+"Encryption\\implant.bin -o "+basedirwin+"OutputShellcode\\implant.bin")
 	} else {
@@ -103,7 +103,7 @@ func windowsImplant(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Cleaning loader...")
 	var cmd *exec.Cmd
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "python F:\\capstone-adversary-emulation-tool\\Implementation\\Encryption\\Cleaner.py")
+		cmd = exec.Command("cmd", "/c", "python ..\\Encryption\\Cleaner.py")
 	}
 
 	err := cmd.Run()

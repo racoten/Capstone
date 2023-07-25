@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {}
+    "C:\\Users\\Carlos\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {}
   },
   "projects": {
-    "F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {
+    "C:\\Users\\Carlos\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+        "projectUniqueName": "C:\\Users\\Carlos\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
         "projectName": "CapstoneInterface",
-        "projectPath": "F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+        "projectPath": "C:\\Users\\Carlos\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
         "packagesPath": "C:\\Users\\Carlos\\.nuget\\packages\\",
-        "outputPath": "F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\obj\\",
+        "outputPath": "C:\\Users\\Carlos\\Documents\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [

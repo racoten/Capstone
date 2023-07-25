@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tsQxNHu6VA9/vS8P/oS2X2lRTlXlxy3BeRBDOEM3TfpC5vG+JHVvoXxz4K45CsSDDOm/rf9Ujipt6b4GjXFR/g==",
+  "dgSpecHash": "kk0FHMZV1Jg82U2VBmVoJM26zpltQb3wisGlEta/h1R3udirNYURwsLveMJwYD8xA4c3khzpCtdJzBRO//EpSA==",
   "success": true,
-  "projectFilePath": "F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+  "projectFilePath": "C:\\Users\\Carlos\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Carlos\\.nuget\\packages\\google.protobuf\\3.23.3\\google.protobuf.3.23.3.nupkg.sha512",
     "C:\\Users\\Carlos\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",

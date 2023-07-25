@@ -6,3 +6,11 @@ F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\Tes
 F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
 F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.exe
 F:\capstone-adversary-emulation-tool\Implementation\TestAssembly\obj\Release\TestAssembly.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe.config
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.pdb
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.AssemblyReference.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.SuggestedBindingRedirects.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
+C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb

