@@ -24,12 +24,18 @@
     <ClCompile Include="aes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="decode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Research\MalDev Academy\Code\GetModuleHandle\GetModuleHandle\Structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="aes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="b64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

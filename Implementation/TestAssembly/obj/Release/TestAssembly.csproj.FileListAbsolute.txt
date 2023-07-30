@@ -14,3 +14,11 @@ C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestA
 C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
 C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
 C:\Users\Carlos\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe.config
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.AssemblyReference.cache
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.SuggestedBindingRedirects.cache
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb

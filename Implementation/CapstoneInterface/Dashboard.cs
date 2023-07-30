@@ -29,8 +29,8 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public string userToControl { get; set; }
 
-        public string templatePayload = File.ReadAllText("F:\\capstone-adversary-emulation-tool\\Implementation\\Implant\\Implant.cs");
-        public string menu = File.ReadAllText("F:\\capstone-adversary-emulation-tool\\Implementation\\CapstoneInterface\\menu.txt");
+        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Implant\\Implant.cs");
+        public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command
         {
@@ -114,7 +114,7 @@ namespace CapstoneInterface
             {
                 if (input.Contains("os"))
                 {
-                    string[] result = input.Split('#');
+                    string[] result = input.Split(' ');
 
                     // Assign the first part to a variable command
                     string instruction = result[0];
@@ -141,7 +141,7 @@ namespace CapstoneInterface
                 }
 
                 else if (input.Contains("execute-assembly")) {
-                    string[] result = input.Split('#');
+                    string[] result = input.Split(' ');
 
                     string instruction = result[0];
                     string name = result[1];
@@ -168,7 +168,7 @@ namespace CapstoneInterface
 
                 else if (input.Contains("loadcs"))
                 {
-                    string[] result = input.Split('#');
+                    string[] result = input.Split(' ');
 
                     string instruction = result[0];
                     string className = result[1];
@@ -199,7 +199,7 @@ namespace CapstoneInterface
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
-                    commandForImplant.File = encodedSourceCode + " # " + className + " # " + methodName; // Combine encoded source code, class and method into one string
+                    commandForImplant.File = encodedSourceCode + "   " + className + "   " + methodName; // Combine encoded source code, class and method into one string
                     
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
@@ -207,7 +207,7 @@ namespace CapstoneInterface
                 }
                 else if (input.Contains("internal")) 
                 {
-                    string[] result = input.Split('#');
+                    string[] result = input.Split(' ');
                     string instruction = result[1];
                     string command = result[2];
 

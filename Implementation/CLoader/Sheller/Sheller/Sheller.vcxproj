@@ -128,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aes.c" />
+    <ClCompile Include="decode.c" />
     <ClCompile Include="GetterFunctions.h" />
     <ClCompile Include="Sheller.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Research\MalDev Academy\Code\GetModuleHandle\GetModuleHandle\Structs.h" />
     <ClInclude Include="aes.h" />
+    <ClInclude Include="b64.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

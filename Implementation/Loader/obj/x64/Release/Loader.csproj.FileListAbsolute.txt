@@ -26,3 +26,17 @@ C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.
 C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
 C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
 C:\Users\Carlos\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe.config
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\Loader.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.dll
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.xml
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.xml
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.AssemblyReference.cache
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.SuggestedBindingRedirects.cache
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CoreCompileInputs.cache
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb

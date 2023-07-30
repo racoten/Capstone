@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Sektor7 RTO 2/6 - Thread Context.md",
+                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
                 "mode": "source",
                 "source": false
               }
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Sektor7 RTO 2/6 - Thread Context.md",
+                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Sektor7 RTO 2/6 - Thread Context.md",
+                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Sektor7 RTO 2/6 - Thread Context.md"
+                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md"
               }
             }
           }
@@ -157,8 +157,11 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
+    "Research/Sektor7 RTO 2/6 - Reflective Injection.md",
+    "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
+    "Pasted image 20230730010601.png",
+    "Pasted image 20230730010559.png",
     "Research/Sektor7 RTO 2/5 - Classic Injection Variations.md",
-    "Research/Sektor7 RTO 2/6 - Thread Context.md",
     "Research/Sektor7 RTO 2/4 - PE with no Imports.md",
     "Research/Sektor7 RTO 2/3 - GetProcAddress - GetModuleHandle Implementations.md",
     "Research/Sektor7 RTO 2/2 - Dancing with IAT.md",
@@ -185,7 +188,6 @@
     "Research/Red Team Ops/3. Extra/2. Command and Control/1.8 Command and Control - Starting the Team Server.md",
     "Research/Red Team Ops/3. Extra/2. Command and Control/1.7 Command and Control - Cobalt Strike.md",
     "Research/Red Team Ops/3. Extra/2. Command and Control",
-    "Research/Red Team Ops/3. Extra/27. Extending Cobalt Strike/15.4 Extending Cobalt Strike - Beacon Object Files.md",
     "Research/Red Team Ops/3. Extra/27. Extending Cobalt Strike",
     "Research/Red Team Ops/3. Extra/26. Data Hunting & Exfiltration",
     "Research/Red Team Ops/3. Extra/25. Application Whitelisting",
