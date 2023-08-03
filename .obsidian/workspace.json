@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
+                "file": "Research/Red Team Expert/Notes.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
+                "file": "Research/Red Team Expert/Notes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
+                "file": "Research/Red Team Expert/Notes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md"
+                "file": "Research/Red Team Expert/Notes.md"
               }
             }
           }
@@ -155,17 +154,28 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3aa952d53c966f50",
+  "active": "d0ab3dab911aa722",
   "lastOpenFiles": [
-    "Research/Sektor7 RTO 2/6 - Reflective Injection.md",
+    "Research/Sektor7 RTO 2/1 - Walking Through Export Address Table.md",
+    "Management/Phase 1.md",
+    "Management/Phase 1.pdf",
+    "Management/Initial Scrum Plan.md",
+    "Management/Initial Scrum Plan.pdf",
+    "Management/Initial Backlog.md",
+    "Management/Initial Backlog.pdf",
+    "Management/Phase 3.md",
+    "Management/Phase 2.md",
+    "Research/Hacking Challenge by Carlos Cajigas.pdf",
+    "Management",
+    "Research/Sektor7 RTO 2/Pasted image 20221029152847.png",
     "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
+    "Research/Sektor7 RTO 2/6 - Reflective Injection.md",
     "Pasted image 20230730010601.png",
     "Pasted image 20230730010559.png",
     "Research/Sektor7 RTO 2/5 - Classic Injection Variations.md",
     "Research/Sektor7 RTO 2/4 - PE with no Imports.md",
     "Research/Sektor7 RTO 2/3 - GetProcAddress - GetModuleHandle Implementations.md",
     "Research/Sektor7 RTO 2/2 - Dancing with IAT.md",
-    "Research/Sektor7 RTO 2/1 - Walking Through Export Address Table.md",
     "Research/Red Team Ops/0. Getting Started/1.6 Getting Started - Post-Engagements & Reporting.md",
     "Research/Red Team Ops/0. Getting Started/1.5 Getting Started - Engagement Planning.md",
     "Research/Red Team Ops/0. Getting Started/1.4 Getting Started - Attack Lifecycle.md",
@@ -181,20 +191,9 @@
     "Research/Red Team Ops/Getting Started/1.3 Getting Started - Primum non nocere.md",
     "Research/Red Team Ops/Getting Started",
     "Research/Red Team Ops/3. Extra/2. Command and Control/2.3 Command and Control -   Running as a Service.md",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/2.2 Command and Control - Pivot Listeners.md",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/2.0 Command and Control - Generating Payloads.md",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/2.1 Command and Control - Interacting with Beacon.md",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/1.9 Command and Control - Listener Management.md",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/1.8 Command and Control - Starting the Team Server.md",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/1.7 Command and Control - Cobalt Strike.md",
     "Research/Red Team Ops/3. Extra/2. Command and Control",
     "Research/Red Team Ops/3. Extra/27. Extending Cobalt Strike",
     "Research/Red Team Ops/3. Extra/26. Data Hunting & Exfiltration",
-    "Research/Red Team Ops/3. Extra/25. Application Whitelisting",
-    "Research/Red Team Ops/3. Extra/24. Microsoft Defender Antivirus",
-    "Research/Red Team Ops/3. Extra",
-    "Research/Red Team Ops/New folder",
-    "Research/Red Team Ops/2. Exploitation/23. Local Administrator Password Solution",
     "PibbyAflacIdleAnim.webp",
     "Research/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas",
