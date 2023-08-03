@@ -154,8 +154,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d0ab3dab911aa722",
+  "active": "3aa952d53c966f50",
   "lastOpenFiles": [
+    "Research/Red Team Ops/Commands.md",
+    "Research/Red Team Expert/Notes.md",
     "Research/Sektor7 RTO 2/1 - Walking Through Export Address Table.md",
     "Management/Phase 1.md",
     "Management/Phase 1.pdf",
@@ -190,7 +192,6 @@
     "Research/Red Team Ops/Getting Started/1.1 Getting Started - What is Red Teaming.md",
     "Research/Red Team Ops/Getting Started/1.3 Getting Started - Primum non nocere.md",
     "Research/Red Team Ops/Getting Started",
-    "Research/Red Team Ops/3. Extra/2. Command and Control/2.3 Command and Control -   Running as a Service.md",
     "Research/Red Team Ops/3. Extra/2. Command and Control",
     "Research/Red Team Ops/3. Extra/27. Extending Cobalt Strike",
     "Research/Red Team Ops/3. Extra/26. Data Hunting & Exfiltration",
