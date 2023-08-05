@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/Red Team Expert/Notes.md",
+                "file": "Research/Red Team Ops/Commands.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/Red Team Expert/Notes.md",
+                "file": "Research/Red Team Ops/Commands.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/Red Team Expert/Notes.md",
+                "file": "Research/Red Team Ops/Commands.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/Red Team Expert/Notes.md"
+                "file": "Research/Red Team Ops/Commands.md"
               }
             }
           }
@@ -156,8 +156,8 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
-    "Research/Red Team Ops/Commands.md",
     "Research/Red Team Expert/Notes.md",
+    "Research/Red Team Ops/Commands.md",
     "Research/Sektor7 RTO 2/1 - Walking Through Export Address Table.md",
     "Management/Phase 1.md",
     "Management/Phase 1.pdf",
