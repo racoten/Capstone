@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {}
+    "D:\\Deving\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {
+    "D:\\Deving\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+        "projectUniqueName": "D:\\Deving\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
         "projectName": "CapstoneInterface",
-        "projectPath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
-        "packagesPath": "C:\\Users\\vquer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
+        "projectPath": "D:\\Deving\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+        "packagesPath": "C:\\Users\\macra\\.nuget\\packages\\",
+        "outputPath": "D:\\Deving\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\vquer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\macra\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,8 +26,7 @@
           "net472"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
         },
         "frameworks": {
           "net472": {
@@ -71,9 +70,6 @@
       },
       "runtimes": {
         "win": {
-          "#import": []
-        },
-        "win-arm64": {
           "#import": []
         },
         "win-x64": {

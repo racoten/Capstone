@@ -22,3 +22,11 @@ C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAs
 C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
 C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
 C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb
+D:\Deving\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe.config
+D:\Deving\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe
+D:\Deving\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.pdb
+D:\Deving\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.AssemblyReference.cache
+D:\Deving\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.SuggestedBindingRedirects.cache
+D:\Deving\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
+D:\Deving\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
+D:\Deving\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb

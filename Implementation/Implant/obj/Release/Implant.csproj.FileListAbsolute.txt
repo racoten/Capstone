@@ -22,3 +22,11 @@ C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csp
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\NewImplant.exe
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\NewImplant.pdb
+D:\Deving\Capstone\Implementation\Implant\bin\Release\NewImplant.exe.config
+D:\Deving\Capstone\Implementation\Implant\bin\Release\NewImplant.exe
+D:\Deving\Capstone\Implementation\Implant\bin\Release\NewImplant.pdb
+D:\Deving\Capstone\Implementation\Implant\obj\Release\Implant.csproj.AssemblyReference.cache
+D:\Deving\Capstone\Implementation\Implant\obj\Release\Implant.csproj.SuggestedBindingRedirects.cache
+D:\Deving\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
+D:\Deving\Capstone\Implementation\Implant\obj\Release\NewImplant.exe
+D:\Deving\Capstone\Implementation\Implant\obj\Release\NewImplant.pdb

@@ -357,3 +357,13 @@ C:\Users\vquer\Documents\Capstone\Implementation\CapstoneInterface\obj\Release\C
 C:\Users\vquer\Documents\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CopyComplete
 C:\Users\vquer\Documents\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.exe
 C:\Users\vquer\Documents\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.pdb
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.AssemblyReference.cache
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.SuggestedBindingRedirects.cache
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Cradle.resources
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Dashboard.resources
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.formLogin.resources
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Properties.Resources.resources
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.Server.resources
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.GenerateResource.cache
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.csproj.CoreCompileInputs.cache
+D:\Deving\Capstone\Implementation\CapstoneInterface\obj\Release\CapstoneInterface.pdb
