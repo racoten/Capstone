@@ -2,7 +2,7 @@
 #include <winhttp.h>
 #include <stdio.h>
 
-#include "Structs.h"
+#include "Typedefs.h"
 
 #define WIN32_LEAN_AND_MEAN
 

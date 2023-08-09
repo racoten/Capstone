@@ -18,3 +18,4 @@ getComputerName.o: Modules/COFFLoader/getComputerName.c
 
 clean:
 	del $(OBJ)
+	del $(TARGET)

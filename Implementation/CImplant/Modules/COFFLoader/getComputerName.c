@@ -1,7 +1,10 @@
 #include <windows.h>
 #include <stdio.h>
+#include "..\..\GetterFunctions.h"
+#include "..\..\Structs.h"
 
 typedef int (__cdecl *printf_t)(const char * _Format,...);
+
 
 int getComputerName() {
     char buffer[256] = "";
@@ -10,6 +13,7 @@ int getComputerName() {
     if (GetComputerName(buffer, &size))
     {
         my_printf("ComputerName: %s\n", buffer);
+
     }
 
     return 0;

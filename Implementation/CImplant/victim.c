@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include "Structs.h"
+#include "Typedefs.h"
 
 char get_rand_char() {
     char characters[] = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -20,7 +20,5 @@ void information_gatherer(Victim *victim){
         random_string[i] = get_rand_char();
     }   
 
-    random_string[11] = '\0';
     memcpy(victim->ID, random_string, 11);
-    // victim->implantId = random_string;
 }
