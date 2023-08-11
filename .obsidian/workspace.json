@@ -11,12 +11,8 @@
             "id": "3aa952d53c966f50",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -93,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +105,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,9 +126,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -156,8 +148,42 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+    "Research/Evasion Techniques and Breaching Defenses/Extra Miles.md",
+    "Research/Evasion Techniques and Breaching Defenses/Exercises.md",
+    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/SAM Database.md",
+    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/LAPS.md",
+    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Elevation with Impersonation.md",
+    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Access Tokens Theory.md",
+    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials",
+    "Research/Evasion Techniques and Breaching Defenses/Windows",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Web Proxies.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Intro.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/IDS and IPS Sensors.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/HTTPS Inspection.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Full Packet Capture Devices.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Domain Fronting.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/DNS Tunneling with dnscat2.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/DNS Filters.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting/Trusted Folders.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting/Bypassing with DLLs.md",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting",
+    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion",
+    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Lateral Movement with SSH.md",
+    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Kerberos on Linux.md",
+    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Artifactory.md",
+    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Ansible.md",
+    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Post-Exploitation.md",
+    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement",
+    "Research/Evasion Techniques and Breaching Defenses/Linux",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration/Reflective DLL Injection in PowerShell.md",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration/Process Hollowing.md",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration/DLL Injection.md",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution with Windows Script Host/PowerShell Reflective Loader.md",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution with Windows Script Host",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution Office/In-Memory Powershell.md",
+    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution Office",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810132540.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810132310.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810123510.png",
@@ -168,40 +194,6 @@
     "Learning/Ansible for DevOps/Images/Pasted image 20230810122000.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810121933.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810121611.png",
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/1. YAML.md",
-    "Learning/Ansible for DevOps/2 - Ansible Architecture and Design/3. Ansible Modules.md",
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction",
-    "Learning/Ansible for DevOps/2 - Ansible Architecture and Design/2. Ansible Inventories.md",
-    "Learning/Ansible for DevOps/2 - Ansible Architecture and Design/1. Ansible Configuration.md",
-    "Learning/Ansible for DevOps/2 - Ansible Architecture and Design/Untitled",
-    "Learning/Ansible for DevOps/Images",
-    "Learning/Ansible for DevOps/1 - Configuration and Lab Setup/3. SSH Configuration.md",
-    "Learning/Ansible for DevOps/2 - Ansible Architecture and Design",
-    "Learning/Ansible for DevOps/1 - Configuration and Lab Setup/2. Installing the Ansible Lab.md",
-    "Learning/Ansible for DevOps/1 - Configuration and Lab Setup/1. Installing Docker.md",
-    "Research/Red Team Ops 2/3 - Process Injection/Chapter 3 - Process Injection.md",
-    "Learning/Ansible for DevOps/1 - Configuration and Lab Setup",
-    "Learning/Ansible for DevOps",
-    "Learning/Ansible for DevOps.md",
-    "Implementation/CImplant/getComputerName.o",
-    "Implementation/CImplant/Implant.o",
-    "Implementation/CImplant/Mokosh.o",
-    "Implementation/CImplant/victim.o",
-    "Research/Red Team Ops/Commands.md",
-    "Research/Red Team Expert/Notes.md",
-    "Research/Sektor7 RTO 2/1 - Walking Through Export Address Table.md",
-    "Management/Phase 1.md",
-    "Management/Initial Scrum Plan.md",
-    "Management/Initial Backlog.md",
-    "Management/Phase 3.md",
-    "Management/Phase 2.md",
-    "Research/Sektor7 RTO 2/7 - Implementing RDI in C.md",
-    "Research/Sektor7 RTO 2/6 - Reflective Injection.md",
-    "Research/Sektor7 RTO 2/5 - Classic Injection Variations.md",
-    "Research/Sektor7 RTO 2/4 - PE with no Imports.md",
-    "Research/Sektor7 RTO 2/3 - GetProcAddress - GetModuleHandle Implementations.md",
-    "Research/Sektor7 RTO 2/2 - Dancing with IAT.md",
-    "Research/Red Team Ops/0. Getting Started/1.6 Getting Started - Post-Engagements & Reporting.md",
     "Research/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas"
   ]
