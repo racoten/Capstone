@@ -4,7 +4,7 @@ typedef struct {
     unsigned char* Operator[256];
     char TimeToExec[256];
     char Delay[256];
-    unsigned char* File[256];
+    char File[256];
     unsigned char* Command[256];
 } Command;
 

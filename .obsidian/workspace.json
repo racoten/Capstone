@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "mode": "source",
                 "source": false
               }
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 313.5,
-    "collapsed": true
+    "width": 411.5
   },
   "right": {
     "id": "ce526b94f63ee9de",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md"
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md"
               }
             }
           }
@@ -157,19 +156,19 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810005952.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810005926.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810005925.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810004527.png",
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/1. YAML.md",
     "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810003122.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230809211726.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230809210057.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230809205903.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230809204932.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230809204843.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230809204640.png",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810132540.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810132310.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810123510.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810123024.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810122841.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810122742.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810122130.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810122000.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810121933.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230810121611.png",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/1. YAML.md",
     "Learning/Ansible for DevOps/2 - Ansible Architecture and Design/3. Ansible Modules.md",
     "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction",
     "Learning/Ansible for DevOps/2 - Ansible Architecture and Design/2. Ansible Inventories.md",
