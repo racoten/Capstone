@@ -11,8 +11,12 @@
             "id": "3aa952d53c966f50",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -89,6 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,6 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +132,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md"
+              }
             }
           }
         ]
@@ -148,42 +156,42 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
-    "Research/Evasion Techniques and Breaching Defenses/Extra Miles.md",
-    "Research/Evasion Techniques and Breaching Defenses/Exercises.md",
-    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/SAM Database.md",
-    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/LAPS.md",
-    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Elevation with Impersonation.md",
-    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Access Tokens Theory.md",
-    "Research/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials",
-    "Research/Evasion Techniques and Breaching Defenses/Windows",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Web Proxies.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Intro.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/IDS and IPS Sensors.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/HTTPS Inspection.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Full Packet Capture Devices.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Domain Fronting.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/DNS Tunneling with dnscat2.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/DNS Filters.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting/Trusted Folders.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting/Bypassing with DLLs.md",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting",
-    "Research/Evasion Techniques and Breaching Defenses/Real-Time Evasion",
-    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Lateral Movement with SSH.md",
-    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Kerberos on Linux.md",
-    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Artifactory.md",
-    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Ansible.md",
-    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Post-Exploitation.md",
-    "Research/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement",
-    "Research/Evasion Techniques and Breaching Defenses/Linux",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration/Reflective DLL Injection in PowerShell.md",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration/Process Hollowing.md",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration/DLL Injection.md",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution with Windows Script Host/PowerShell Reflective Loader.md",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution with Windows Script Host",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution Office/In-Memory Powershell.md",
-    "Research/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution Office",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Bypassing AMSI in JScript.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Wrecking AMSI.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Word Stomping.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Obfuscating VBA.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/FOD Helper.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Intro.md",
+    "Pasted image 20230617165928.png.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/IDS and IPS Sensors.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/HTTPS Inspection.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Full Packet Capture Devices.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Domain Fronting.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/DNS Tunneling with dnscat2.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/DNS Filters.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting/Bypassing with DLLs.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting/Trusted Folders.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Exercises.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Post-Exploitation.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Extra Miles.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/SAM Database.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/LAPS.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Elevation with Impersonation.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Access Tokens Theory.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials",
+    "Learning/Evasion Techniques and Breaching Defenses/Windows",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Web Proxies.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting",
+    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Lateral Movement with SSH.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Kerberos on Linux.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Artifactory.md",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution with Windows Script Host",
+    "Learning/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution Office",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810132540.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810132310.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810123510.png",
@@ -194,7 +202,7 @@
     "Learning/Ansible for DevOps/Images/Pasted image 20230810122000.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810121933.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230810121611.png",
-    "Research/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
+    "Learning/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas"
   ]
 }

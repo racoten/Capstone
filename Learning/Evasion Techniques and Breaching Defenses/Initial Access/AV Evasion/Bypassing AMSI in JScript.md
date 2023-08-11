@@ -15,8 +15,6 @@ Run frida and investigate
 JScript tries to query AmsiEnable registry key
 
 If the key is equal to 0, AMSI won't start for the JScript process
-
-
 #### Function in WScript
 ```csharp
 JAmsi::JAmsiIsEnabledByRegistry
