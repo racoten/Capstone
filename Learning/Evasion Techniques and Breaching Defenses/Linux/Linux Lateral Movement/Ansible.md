@@ -1,5 +1,6 @@
 # DevOps
-DevOps is an overall strategy used to promote consistency and automation. In particular, Devops applies to management of software builds, system changes, and infrastructure modifications. While a thorough exploration of DevOps is outside the scope of this module, it is helpful to recognize this trend toward increasing and improving process automation in modern companies.
+
+DevOps is an overall strategy used to promote consistency and automation. In particular, DevOps applies to management of software builds, system changes, and infrastructure modifications. While a thorough exploration of DevOps is outside the scope of this module, it is helpful to recognize this trend toward increasing and improving process automation in modern companies.
 
 DevOps technologies make traditional infrastructure and configuration tasks much more streamlined and efficient. They can quickly make configuration changes or system deployments that would have taken much more time. In some cases, these deployments are nearly instantaneous.
 

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md"
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md"
               }
             }
           }
@@ -156,6 +156,23 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/4. Ansible Playbooks, Facts.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/1. YAML.md",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814121221.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814120806.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814120446.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814114804.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814114533.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814114319.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814114054.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814010933.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230814010716.png",
+    "Learning/Ansible for DevOps/Images/Pasted image 20230813213119.png",
+    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Ansible.md",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Bypassing AMSI in JScript.md",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Wrecking AMSI.md",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Word Stomping.md",
@@ -175,33 +192,16 @@
     "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Post-Exploitation.md",
     "Learning/Evasion Techniques and Breaching Defenses/Extra Miles.md",
     "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/SAM Database.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/LAPS.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Elevation with Impersonation.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials/Access Tokens Theory.md",
     "Learning/Evasion Techniques and Breaching Defenses/Windows/Windows Credentials",
     "Learning/Evasion Techniques and Breaching Defenses/Windows",
-    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Web Proxies.md",
     "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters",
     "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Application Whitelisting",
     "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion",
-    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Lateral Movement with SSH.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Kerberos on Linux.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement/Artifactory.md",
     "Learning/Evasion Techniques and Breaching Defenses/Linux/Linux Lateral Movement",
     "Learning/Evasion Techniques and Breaching Defenses/Linux",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/Process Injection and Migration",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution with Windows Script Host",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/Client Side Code Execution Office",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810132540.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810132310.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810123510.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810123024.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810122841.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810122742.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810122130.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810122000.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810121933.png",
-    "Learning/Ansible for DevOps/Images/Pasted image 20230810121611.png",
     "Learning/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas"
   ]
