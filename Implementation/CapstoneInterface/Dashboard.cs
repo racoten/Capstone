@@ -512,8 +512,22 @@ Invoke-Run
                 }
                 catch (Exception ex)
                 {
-                    // Handle any errors that occurred making the request
-                    txtMessagesBox.Text += "Error: " + ex.Message;
+                    // Save the original selection start and length
+                    int originalStart = rTxtMessagesBox.SelectionStart;
+                    int originalLength = rTxtMessagesBox.SelectionLength;
+
+                    // Append username and set its color to white
+                    rTxtMessagesBox.AppendText($"Error: ");
+                    rTxtMessagesBox.Select(originalStart, message.Username.Length + 4);  // 4 for " -> "
+                    rTxtMessagesBox.SelectionColor = Color.White;
+
+                    // Append the message and reset its color to the default one
+                    rTxtMessagesBox.AppendText($"{ex}");
+                    rTxtMessagesBox.Select(rTxtMessagesBox.TextLength, 0);
+                    rTxtMessagesBox.SelectionColor = Color.Red;
+
+                    // Restore the original selection start and length
+                    rTxtMessagesBox.Select(originalStart, originalLength);
                 }
             }
         }
@@ -535,7 +549,27 @@ Invoke-Run
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
-                            txtMessagesBox.Text += $"{message.Username} -> {message.Message}{Environment.NewLine}";
+                            // Variables holding colored text
+                            string usernamePart = $"{message.Username} -> ";
+                            string messagePart = $"{message.Message}{Environment.NewLine}";
+
+                            // Append the username and set its color to White
+                            int startUsername = rTxtMessagesBox.TextLength;
+                            rTxtMessagesBox.AppendText(usernamePart);
+                            int endUsername = rTxtMessagesBox.TextLength;
+                            rTxtMessagesBox.Select(startUsername, endUsername - startUsername);
+                            rTxtMessagesBox.SelectionColor = Color.White;
+
+                            // Append the message and set its color to Lime
+                            int startMessage = rTxtMessagesBox.TextLength;
+                            rTxtMessagesBox.AppendText(messagePart);
+                            int endMessage = rTxtMessagesBox.TextLength;
+                            rTxtMessagesBox.Select(startMessage, endMessage - startMessage);
+                            rTxtMessagesBox.SelectionColor = Color.Lime;
+
+                            // Reset the selection color to default
+                            rTxtMessagesBox.SelectionStart = rTxtMessagesBox.TextLength;
+                            rTxtMessagesBox.SelectionColor = rTxtMessagesBox.ForeColor;
                         });
 
                         // Update the last fetched message
@@ -584,6 +618,11 @@ Invoke-Run
         }
 
         private void txtConsoleOutput_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox2_TextChanged(object sender, EventArgs e)
         {
 
         }

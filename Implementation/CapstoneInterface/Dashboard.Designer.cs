@@ -55,7 +55,6 @@
             this.btnSendMessage = new System.Windows.Forms.Button();
             this.txtMessageInput = new System.Windows.Forms.TextBox();
             this.lblMessage = new System.Windows.Forms.Label();
-            this.txtMessagesBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblOperator = new System.Windows.Forms.Label();
@@ -63,6 +62,7 @@
             this.btnSignOut = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
+            this.rTxtMessagesBox = new System.Windows.Forms.RichTextBox();
             this.fileTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -287,12 +287,12 @@
             // 
             // tabChat
             // 
+            this.tabChat.Controls.Add(this.rTxtMessagesBox);
             this.tabChat.Controls.Add(this.textBox3);
             this.tabChat.Controls.Add(this.label4);
             this.tabChat.Controls.Add(this.btnSendMessage);
             this.tabChat.Controls.Add(this.txtMessageInput);
             this.tabChat.Controls.Add(this.lblMessage);
-            this.tabChat.Controls.Add(this.txtMessagesBox);
             this.tabChat.Controls.Add(this.label3);
             this.tabChat.Location = new System.Drawing.Point(4, 22);
             this.tabChat.Name = "tabChat";
@@ -310,7 +310,7 @@
             this.textBox3.Location = new System.Drawing.Point(741, 136);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(272, 668);
+            this.textBox3.Size = new System.Drawing.Size(272, 662);
             this.textBox3.TabIndex = 6;
             // 
             // label4
@@ -349,17 +349,6 @@
             this.lblMessage.Size = new System.Drawing.Size(81, 19);
             this.lblMessage.TabIndex = 2;
             this.lblMessage.Text = "Message:";
-            // 
-            // txtMessagesBox
-            // 
-            this.txtMessagesBox.BackColor = System.Drawing.SystemColors.InfoText;
-            this.txtMessagesBox.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMessagesBox.ForeColor = System.Drawing.Color.Lime;
-            this.txtMessagesBox.Location = new System.Drawing.Point(3, 136);
-            this.txtMessagesBox.Multiline = true;
-            this.txtMessagesBox.Name = "txtMessagesBox";
-            this.txtMessagesBox.Size = new System.Drawing.Size(570, 668);
-            this.txtMessagesBox.TabIndex = 1;
             // 
             // label3
             // 
@@ -427,6 +416,18 @@
             this.lblServer.Size = new System.Drawing.Size(0, 13);
             this.lblServer.TabIndex = 5;
             // 
+            // rTxtMessagesBox
+            // 
+            this.rTxtMessagesBox.BackColor = System.Drawing.SystemColors.InfoText;
+            this.rTxtMessagesBox.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rTxtMessagesBox.ForeColor = System.Drawing.Color.Lime;
+            this.rTxtMessagesBox.Location = new System.Drawing.Point(11, 133);
+            this.rTxtMessagesBox.Name = "rTxtMessagesBox";
+            this.rTxtMessagesBox.Size = new System.Drawing.Size(577, 665);
+            this.rTxtMessagesBox.TabIndex = 7;
+            this.rTxtMessagesBox.Text = "";
+            this.rTxtMessagesBox.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -477,7 +478,6 @@
         private System.Windows.Forms.Button btnSignOut;
         private System.Windows.Forms.TabPage tabChat;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtMessagesBox;
         private System.Windows.Forms.TextBox txtMessageInput;
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnSendMessage;
@@ -495,5 +495,6 @@
         private System.Windows.Forms.TextBox txtCommand;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.RichTextBox txtConsoleOutput;
+        private System.Windows.Forms.RichTextBox rTxtMessagesBox;
     }
 }
