@@ -62,6 +62,6 @@ func main() {
 	fmt.Println("Admin Server: " + socket)
 	err = http.ListenAndServe(socket, mux)
 	if err != nil {
-		log.Fatal("ListenAndServe for socket2: ", err)
+		log.Fatal("[-X-] ListenAndServe for main Admin socket: ", err)
 	}
 }

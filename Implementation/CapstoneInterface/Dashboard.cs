@@ -23,6 +23,8 @@ namespace CapstoneInterface
 {
     public partial class Dashboard : Form
     {
+        private System.Threading.Timer _messageFetchTimer;
+
         public string host { get; set; }
         public string port { get; set; }
 
@@ -69,6 +71,7 @@ namespace CapstoneInterface
         public Dashboard()
         {
             InitializeComponent();
+            _messageFetchTimer = new System.Threading.Timer(async _ => await FetchMessagesAsync(), null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
         }
 
         private void txtConsoleOutput_TextChanged(object sender, EventArgs e)
@@ -94,8 +97,8 @@ namespace CapstoneInterface
         }
 
 
-        private async void btnRunCommand_Click(object sender, EventArgs e)
-        {         
+        private void btnRunCommand_Click(object sender, EventArgs e)
+        {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 bool isChecked = Convert.ToBoolean(row.Cells["Check"].Value);
@@ -140,7 +143,8 @@ namespace CapstoneInterface
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
 
-                else if (input.Contains("execute-assembly")) {
+                else if (input.Contains("execute-assembly"))
+                {
                     string[] result = input.Split(' ');
 
                     string instruction = result[0];
@@ -200,12 +204,12 @@ namespace CapstoneInterface
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
                     commandForImplant.File = encodedSourceCode + "   " + className + "   " + methodName; // Combine encoded source code, class and method into one string
-                    
+
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
-                else if (input.Contains("internal")) 
+                else if (input.Contains("internal"))
                 {
                     string[] result = input.Split(' ');
                     string instruction = result[1];
@@ -435,17 +439,17 @@ Invoke-Run
         }
 
 
-        public class Message
+        public class Messages
         {
             public string Username { get; set; }
-            public string MessageContent { get; set; } // Avoid property name 'Message' as it might collide with 'System.Exception.Message'
+            public string Message { get; set; } // Avoid property name 'Message' as it might collide with 'System.Exception.Message'
         }
 
-        public class MessageArray
-        {
-            public List<Message> Messages { get; set; }
-        }
-        private void Dashboard_Load(object sender, EventArgs e)
+        private Messages _lastFetchedMessage;
+
+        private HttpClient _httpClient = new HttpClient();  // Consider making this static if it will be shared across multiple instances
+
+        private async void Dashboard_Load(object sender, EventArgs e)
         {
             txtConsoleOutput.Text = menu;
             lblServer.Text = host + ":" + port;
@@ -467,36 +471,7 @@ Invoke-Run
 
             lblOperator.Text = operatorName;
 
-            Task.Factory.StartNew(async () =>
-            {
-                using (var client = new HttpClient())
-                {
-                    try
-                    {
-                        var response = await client.GetAsync($"http://{host}:10100/messageGet");
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var jsonString = await response.Content.ReadAsStringAsync();
-                            var messageArray = JsonConvert.DeserializeObject<MessageArray>(jsonString);
-
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                // Must update UI controls on the UI thread
-                                txtMessagesBox.Clear();
-                                foreach (var msg in messageArray.Messages)
-                                {
-                                    txtMessagesBox.Text += $"{msg.Username}: {msg.MessageContent}\n";
-                                }
-                            });
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle any errors here.
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-            });
+            await FetchMessagesAsync();
         }
 
 
@@ -518,9 +493,61 @@ Invoke-Run
             form.Show();
         }
 
-        private void btnSendMessage_Click(object sender, EventArgs e)
+        private async void btnSendMessage_Click(object sender, EventArgs e)
         {
-            txtMessagesBox.Text = operatorName + " -> " + txtMessageInput.Text;
+            Messages message = new Messages
+            {
+                Username = operatorName, // Replace with the actual username
+                Message = txtMessageInput.Text    // Replace with the actual message
+            };
+
+            string jsonString = JsonConvert.SerializeObject(message);
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                try
+                {
+                    HttpResponseMessage response = await httpClient.PostAsync("http://localhost:8082/messagePost", content);
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that occurred making the request
+                    txtMessagesBox.Text += "Error: " + ex.Message;
+                }
+            }
+        }
+
+        private async Task FetchMessagesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("http://localhost:8082/messageGet");
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var message = JsonConvert.DeserializeObject<Messages>(jsonString);
+
+                    // Check if this message is the same as the last fetched message
+                    if (_lastFetchedMessage == null ||
+                        message.Username != _lastFetchedMessage.Username ||
+                        message.Message != _lastFetchedMessage.Message)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            txtMessagesBox.Text += $"{message.Username} -> {message.Message}{Environment.NewLine}";
+                        });
+
+                        // Update the last fetched message
+                        _lastFetchedMessage = message;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occurred making the request
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private async void btnGenerateImplantShellcode_Click(object sender, EventArgs e)
