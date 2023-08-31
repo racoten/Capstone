@@ -1,4 +1,4 @@
-#include "Windows.h"
+#include "windows.h"
 
 FARPROC GetProcAddressReplacement(IN HMODULE hModule, IN LPCSTR lpApiName);
 BOOL IsStringEqual(IN LPCWSTR Str1, IN LPCWSTR Str2);

@@ -50,12 +50,13 @@ type LoginRequest struct {
 
 type Command struct {
 	Input       string `json:"Input"`
+	Command     string `json:"Command"`
 	ImplantUser string `json:"ImplantUser"`
 	Operator    string `json:"Operator"`
-	TimeToExec  string `json:"timeToExec"`
 	Delay       string `json:"delay"`
+	TimeToExec  string `json:"timeToExec"`
 	File        string `json:"File"`
-	Command     string `json:"Command"`
+	NullTerm    string `json:"nullterm"`
 }
 
 type Output struct {

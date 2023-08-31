@@ -36,13 +36,13 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error: ", err)
 	}
 
-	// fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
-	// fmt.Println("python " + basedirwin + "Encryption\\Cryptocutter.py -f " + basedirwin + "Encryption\\implant.bin -o " + basedirwin + "OutputShellcode\\implant.bin")
-	// if runtime.GOOS == "windows" {
-	// 	cmd = exec.Command("cmd", "/c", "python "+basedirwin+"Encryption\\Cryptocutter.py -f "+basedirwin+"Encryption\\implant.bin -o "+basedirwin+"OutputShellcode\\implant.bin")
-	// } else {
-	// 	cmd = exec.Command("")
-	// }
+	fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
+	fmt.Println("python " + basedirwin + "Encryption\\Cryptocutter.py -f " + basedirwin + "Encryption\\implant.bin -o " + basedirwin + "OutputShellcode\\implant.bin")
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "python "+basedirwin+"Encryption\\Cryptocutter.py -f "+basedirwin+"Encryption\\implant.bin -o "+basedirwin+"OutputShellcode\\implant.bin")
+	} else {
+		cmd = exec.Command("")
+	}
 
 	output, err2 := cmd.Output() // Capture the output of the command
 	if err2 != nil {

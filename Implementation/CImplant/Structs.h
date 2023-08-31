@@ -1,5 +1,4 @@
-#pragma once
-#include <Windows.h>
+#include <windows.h>
 
 /*
     header file that contains our own definition of LDR_DATA_TABLE_ENTRY & PEB  ( and the needed structs to define them )

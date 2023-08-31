@@ -1,11 +1,14 @@
+#define MAX_BUFFER_SIZE 4096
+
 typedef struct {
-    char Input[256];
-    unsigned char* ImplantUser[256];
-    unsigned char* Operator[256];
-    char TimeToExec[256];
-    char Delay[256];
-    char File[256];
-    unsigned char* Command[256];
+    char Input[MAX_BUFFER_SIZE];
+    char ImplantUser[MAX_BUFFER_SIZE];
+    char Operator[MAX_BUFFER_SIZE];
+    char TimeToExec[MAX_BUFFER_SIZE];
+    char Delay[MAX_BUFFER_SIZE];
+    char File[MAX_BUFFER_SIZE];
+    char Cmd[MAX_BUFFER_SIZE];
+    char NullTerm[MAX_BUFFER_SIZE];
 } Command;
 
 typedef struct {

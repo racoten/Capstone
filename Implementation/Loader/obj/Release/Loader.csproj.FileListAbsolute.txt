@@ -12,3 +12,17 @@ F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\Microsoft
 F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\Microsoft.Toolkit.Uwp.Notifications.xml
 F:\capstone-adversary-emulation-tool\Implementation\Loader\bin\Release\System.ValueTuple.xml
 F:\capstone-adversary-emulation-tool\Implementation\Loader\obj\Release\Loader.csproj.CopyComplete
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\Loader.exe.config
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\Loader.exe
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\Loader.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\System.ValueTuple.dll
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\Microsoft.Toolkit.Uwp.Notifications.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\Microsoft.Toolkit.Uwp.Notifications.xml
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\bin\Release\System.ValueTuple.xml
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\Release\Loader.csproj.AssemblyReference.cache
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\Release\Loader.csproj.SuggestedBindingRedirects.cache
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\Release\Loader.csproj.CoreCompileInputs.cache
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\Release\Loader.csproj.CopyComplete
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\Release\Loader.exe
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\Release\Loader.pdb

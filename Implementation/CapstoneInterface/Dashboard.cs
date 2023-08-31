@@ -235,7 +235,7 @@ namespace CapstoneInterface
         {
             HttpClient client = new HttpClient();
             var content = new StringContent(jsonCommand, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://" + host + ":" + port + "/fetchCommand", content);
+            var response = await client.PostAsync("http://" + host + ":8081/fetchCommand", content);
 
             // Wait for 10 seconds
             await Task.Delay(10000);
@@ -556,5 +556,9 @@ Invoke-Run
             }
         }
 
+        private void txtConsoleOutput_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

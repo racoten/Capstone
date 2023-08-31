@@ -7,6 +7,7 @@
  credits: COFFLoader (by Kevin Haubris/@kev169)
 
 */
+#include <stdint.h>
 
 #define COFFNAME			"Mokosh"
 #define COFFVER				"0.1-alpha"

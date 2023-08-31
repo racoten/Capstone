@@ -11,14 +11,16 @@ char get_rand_char() {
     return characters[random_index];
 }
 
-void information_gatherer(Victim *victim){
+void information_gatherer(Victim* victim) {
     char random_string[11];
 
     srand(time(NULL));
 
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 10; i++) { // generate only 10 random characters
         random_string[i] = get_rand_char();
-    }   
+    }
+
+    random_string[10] = '\0'; // Set the null terminator
 
     memcpy(victim->ID, random_string, 11);
 }

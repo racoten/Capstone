@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md"
+                "file": "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md"
               }
             }
           }
@@ -156,12 +156,12 @@
   },
   "active": "3aa952d53c966f50",
   "lastOpenFiles": [
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md",
     "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/6. Ansible Playbooks, Creating and Executing.md",
-    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/4. Ansible Playbooks, Facts.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/5. Templating with Jinja2.md",
     "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/2. Ansible Playbooks, Breakdown of Sections.md",
     "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/3. Ansible Playbooks, Variables.md",
     "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/1. YAML.md",
+    "Learning/Ansible for DevOps/3 - Ansible Playbooks, Introduction/4. Ansible Playbooks, Facts.md",
     "Learning/Ansible for DevOps/Images/Pasted image 20230814121221.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230814120806.png",
     "Learning/Ansible for DevOps/Images/Pasted image 20230814120446.png",

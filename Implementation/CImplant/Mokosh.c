@@ -6,7 +6,7 @@
 #include <shlwapi.h>
 #include <strsafe.h>
 #include "Mokosh.h"
-#include <Wininet.h>
+#include <wininet.h>
 
 #define WIN32_LEAN_AND_MEAN
 
