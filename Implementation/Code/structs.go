@@ -65,3 +65,15 @@ type Output struct {
 	Output       string `json:"Output"`
 	DateFromLast string `json:"DateFromLast"`
 }
+
+type Listener struct {
+	Name   string `json:"Name"`
+	IP     string `json:"IP"`
+	Port   string `json:"Port"`
+	Header string `json:"Header"`
+}
+
+type Message struct {
+	Username string `json:"username"`
+	Message  string `json:"message"`
+}
