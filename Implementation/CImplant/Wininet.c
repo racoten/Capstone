@@ -1,60 +1,51 @@
 #include <windows.h>
 #include <wininet.h>
-#include <stdio.h>
-
-#pragma comment(lib, "wininet.lib")
+#include <stdlib.h>
 
 int fetchCode(const wchar_t* hostname, const wchar_t* file, int port, unsigned char** buffer, DWORD* size) {
-    HINTERNET hSession, hConnect, hRequest;
-    DWORD dwBytesRead, dwContentSize = 1024, dwDownloaded = 0;
+    DWORD bytesRead = 0;
+    DWORD totalBytesRead = 0;
+    DWORD bufferSize = 4096; // initial buffer size
 
-    hSession = InternetOpen("MyApp", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-    if (!hSession) return 1;
-
-    hConnect = InternetConnect(hSession, hostname, port, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
-    if (!hConnect) {
-        InternetCloseHandle(hSession);
-        return 1;
+    // Allocate buffer
+    *buffer = (unsigned char*)malloc(bufferSize);
+    if (*buffer == NULL) {
+        return -2; // Failed to allocate memory
     }
 
-    hRequest = HttpOpenRequest(hConnect, "GET", file, NULL, NULL, NULL, 0, 0);
-    if (!hRequest) {
-        InternetCloseHandle(hConnect);
-        InternetCloseHandle(hSession);
-        return 1;
+    HINTERNET hInternet = InternetOpen(L"User Agent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+    if (hInternet == NULL) {
+        free(*buffer);
+        return -1;
     }
 
-    if (!HttpSendRequest(hRequest, NULL, 0, NULL, 0)) {
-        InternetCloseHandle(hRequest);
-        InternetCloseHandle(hConnect);
-        InternetCloseHandle(hSession);
-        return 1;
+    HINTERNET hConnect = InternetOpenUrl(hInternet, "http://localhost:8000/calc64.bin", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+    if (hConnect == NULL) {
+        DWORD error = GetLastError();
+        printf("InternetOpenUrl failed, error code = %lu\n", error);
+        InternetCloseHandle(hInternet);
+        free(*buffer);
+        return -3;
     }
 
-    *buffer = (unsigned char*)malloc(dwContentSize);
-    if (!(*buffer)) return 1;
 
-    while (InternetReadFile(hRequest, (*buffer) + dwDownloaded, dwContentSize - dwDownloaded, &dwBytesRead)) {
-        if (dwBytesRead == 0) break;
-
-        dwDownloaded += dwBytesRead;
-
-        if (dwDownloaded >= dwContentSize) {
-            dwContentSize *= 2;
-            unsigned char* newBuffer = (unsigned char*)realloc(*buffer, dwContentSize);
-            if (!newBuffer) {
-                free(*buffer);
-                return 1;
+    while (InternetReadFile(hConnect, *buffer + totalBytesRead, bufferSize - totalBytesRead, &bytesRead) && bytesRead > 0) {
+        totalBytesRead += bytesRead;
+        if (totalBytesRead == bufferSize) {
+            // Resize buffer
+            bufferSize *= 2;
+            *buffer = realloc(*buffer, bufferSize);
+            if (*buffer == NULL) {
+                InternetCloseHandle(hConnect);
+                InternetCloseHandle(hInternet);
+                return -2; // Failed to allocate more memory
             }
-            *buffer = newBuffer;
         }
     }
 
-    *size = dwDownloaded;
-
-    InternetCloseHandle(hRequest);
     InternetCloseHandle(hConnect);
-    InternetCloseHandle(hSession);
+    InternetCloseHandle(hInternet);
 
-    return 0;
+    *size = totalBytesRead;
+    return 0; // Success
 }

