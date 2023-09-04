@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
+                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
                 "mode": "source",
                 "source": false
               }
@@ -106,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
+                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
+                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +146,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md"
+                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md"
               }
             }
           }
@@ -170,20 +170,21 @@
   "active": "b5fc88d74903a013",
   "lastOpenFiles": [
     "Implementation/CImplant/implant.exe",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/link.read.2.tlog",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/link-cvtres.write.1.tlog",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/link-cvtres.read.1.tlog",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/link-rc.write.1.tlog",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/link-rc.read.1.tlog",
-    "Implementation/CImplant/x64/Release/ExecuteAssembly.obj",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/unsuccessfulbuild",
-    "Implementation/ImplantModulesCS/bin/Release/ImplantModulesCS.dll.bak1",
-    "Implementation/ImplantModulesCS/bin/Release/ImplantModulesCS.pdb",
-    "Implementation/CapstoneInterface/packages/DllExport.1.7.4/gcache/metalib/ImplantModulesCS/DllExport.dll.ddNSi",
+    "Implementation/CImplant/x64/Release/CImplant.tlog/CL.write.1.tlog",
+    "Implementation/CImplant/x64/Release/CImplant.tlog/CL.read.1.tlog",
+    "Implementation/donut/TestAssembly.bin",
+    "Implementation/donut/TestAssembly.exe",
+    "Implementation/CImplant/TestAssembly.exe",
+    "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.pdb",
+    "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.exe",
+    "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.exe.config",
+    "Implementation/CapstoneInterface/obj/Release/CapstoneInterface.csproj.CopyComplete",
+    "Implementation/CapstoneInterface/bin/Release/K4os.Compression.LZ4.Streams.dll",
+    "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
+    "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/tools/coreclr/README.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/Readme.md",
     "Learning/MalDev Academy/Notes/ETW - Tools.md",
-    "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
     "Learning/MalDev Academy/Notes/ETW - Introduction.md",
     "Learning/MalDev Academy/Notes/10.7 Utilizing Hardware Breakpoints For Hooking (1).md",
     "Learning/MalDev Academy/Notes/Alternate Modules - COFF injection and in-memory execution.md",
@@ -214,7 +215,6 @@
     "Pasted image 20230617165928.png.md",
     "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/IDS and IPS Sensors.md",
     "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/HTTPS Inspection.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Full Packet Capture Devices.md",
     "Learning/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas"
   ]
