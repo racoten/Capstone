@@ -54,6 +54,8 @@ func main() {
 
 	// Create unique listeners for multiple implants
 	mux.HandleFunc("/generate/listener", createListener)
+	mux.HandleFunc("/getListeners", getListeners)
+	mux.HandleFunc("/clearListeners", clearListeners)
 
 	// Chat system
 	mux.HandleFunc("/messagePost", messagePost)

@@ -42,6 +42,15 @@
     <ClCompile Include="Wininet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="self-load.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecuteAssembly.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="syscalls.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GetterFunctions.h">

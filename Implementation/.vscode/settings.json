@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "structs.h": "c",
-        "getterfunctions.h": "c"
+        "getterfunctions.h": "c",
+        "windows.h": "c",
+        "iterator": "c",
+        "memory": "c",
+        "xutility": "c",
+        "stdio.h": "c"
     }
 }

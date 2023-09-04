@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "su4fr1XfRoiVtDj9JhyVeMXoXIGxtOiw79PxVoQa8paaKKjHpF0BKZ87mJE7l5MRArVF1rQqdQZrfK5w9XPeow==",
+  "dgSpecHash": "Mtxu9+A2r+QnGwAzeL30ezsx8GNI7yF8VrLKvolh2J4ryLIwpEXD40S3Oum8t/ZD4G/wKiAfpcjFdH6ieRVT1Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\vquer\\.nuget\\packages\\dllexport\\1.7.4\\dllexport.1.7.4.nupkg.sha512",
     "C:\\Users\\vquer\\.nuget\\packages\\google.protobuf\\3.23.3\\google.protobuf.3.23.3.nupkg.sha512",
     "C:\\Users\\vquer\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",
     "C:\\Users\\vquer\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.5\\k4os.compression.lz4.streams.1.3.5.nupkg.sha512",

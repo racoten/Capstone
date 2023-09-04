@@ -1,5 +1,5 @@
 #include "Structs.h"
-#include "Windows.h"
+#include "windows.h"
 
 BOOL IsStringEqual(IN LPCWSTR Str1, IN LPCWSTR Str2) {
 

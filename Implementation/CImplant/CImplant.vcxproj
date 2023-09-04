@@ -119,8 +119,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExecuteAssembly.c" />
     <ClCompile Include="Helpers.c" />
+    <ClCompile Include="self-load.c" />
     <ClCompile Include="stomper.c" />
+    <ClCompile Include="syscalls.h" />
     <ClCompile Include="VX-API.c" />
     <ClCompile Include="WinHTTP.c" />
     <ClCompile Include="main.c" />

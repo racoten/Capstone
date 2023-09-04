@@ -77,3 +77,7 @@ type Message struct {
 	Username string `json:"username"`
 	Message  string `json:"message"`
 }
+
+type ListenerWrapper struct {
+	Listeners []Listener `json:"Listeners"`
+}

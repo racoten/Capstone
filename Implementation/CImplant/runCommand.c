@@ -15,7 +15,6 @@ int runCmd(char cmd[LINE_MAX_BUFFER_SIZE], char lines[][256]) {
 	int count = 0;
 	while (fgets(path, sizeof(path), fp) != NULL) {
 		strncpy(lines[count++], path, LINE_MAX_BUFFER_SIZE);
-		
 	}
 	_pclose(fp);
 

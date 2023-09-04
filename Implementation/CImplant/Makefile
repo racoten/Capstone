@@ -1,8 +1,8 @@
 CC=x86_64-w64-mingw32-gcc
-CFLAGS=-lwininet -lwinhttp
+CFLAGS=-lwininet -lwinhttp -lws2_32
 SOURCES=$(wildcard *.c)
 HEADERS=$(wildcard *.h)
-OBJECTS=getComputerName.o
+OBJECTS=
 TARGET=implant.exe
 
 all: $(TARGET)

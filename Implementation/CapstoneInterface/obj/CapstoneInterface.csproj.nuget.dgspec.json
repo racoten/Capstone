@@ -38,6 +38,10 @@
       "frameworks": {
         "net472": {
           "dependencies": {
+            "DllExport": {
+              "target": "Package",
+              "version": "[1.7.4, )"
+            },
             "Google.Protobuf": {
               "target": "Package",
               "version": "[3.23.3, )"

