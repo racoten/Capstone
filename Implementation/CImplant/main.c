@@ -13,6 +13,7 @@
 void TestingStomp();
 void TestingInfoGatherer();
 void TestingExecuteAssembly();
+void TestingSleepMask();
 
 BOOL IsDebuggerActive() {
 
@@ -129,4 +130,13 @@ void TestingExecuteAssembly() {
     execute(payload, payloadLength);
 
     exit(0);
+}
+
+void TestingSleepMask() {
+    DWORD result = EncryptDecryptThread(NULL);
+    if (result == 0) {
+        printf("EncryptDecryptThread executed successfully.\n");
+    } else {
+        printf("EncryptDecryptThread failed with error code: %lu\n", result);
+    }
 }
