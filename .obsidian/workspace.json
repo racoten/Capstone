@@ -169,6 +169,8 @@
   },
   "active": "b5fc88d74903a013",
   "lastOpenFiles": [
+    "Implementation/CImplant/CaFeBiBa.h",
+    "Implementation/CImplant/CaFeBiBa.c",
     "Implementation/CImplant/SleepMask.c",
     "Implementation/CImplant/implant.exe",
     "Implementation/CImplant/x64/Release/CImplant.tlog/CL.write.1.tlog",
@@ -178,8 +180,6 @@
     "Implementation/CImplant/TestAssembly.exe",
     "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.pdb",
     "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.exe",
-    "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.exe.config",
-    "Implementation/CapstoneInterface/obj/Release/CapstoneInterface.csproj.CopyComplete",
     "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
     "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/tools/coreclr/README.md",
