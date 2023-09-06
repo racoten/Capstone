@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
+                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md",
                 "mode": "source",
                 "source": false
               }
@@ -106,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
+                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
+                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +146,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Learning/MalDev Academy/Notes/ETW - Improved Patching.md"
+                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md"
               }
             }
           }
@@ -169,6 +169,12 @@
   },
   "active": "b5fc88d74903a013",
   "lastOpenFiles": [
+    "Research/LLVM/First Language Front End/1. Kaleidoscope - Kaleidoscope Introduction and the Lexer.md",
+    "Research/LLVM/First Language Front End/1.2 The Lexer.md",
+    "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
+    "Research/LLVM/First Language Front End",
+    "Research/LLVM",
+    "Learning/Untitled.md",
     "Implementation/CImplant/CaFeBiBa.h",
     "Implementation/CImplant/CaFeBiBa.c",
     "Implementation/CImplant/SleepMask.c",
@@ -177,11 +183,7 @@
     "Implementation/CImplant/x64/Release/CImplant.tlog/CL.read.1.tlog",
     "Implementation/donut/TestAssembly.bin",
     "Implementation/donut/TestAssembly.exe",
-    "Implementation/CImplant/TestAssembly.exe",
-    "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.pdb",
-    "Implementation/CapstoneInterface/bin/Release/CapstoneInterface.exe",
     "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
-    "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/tools/coreclr/README.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/Readme.md",
     "Learning/MalDev Academy/Notes/ETW - Tools.md",
@@ -213,8 +215,6 @@
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/FOD Helper.md",
     "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Intro.md",
     "Pasted image 20230617165928.png.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/IDS and IPS Sensors.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/HTTPS Inspection.md",
     "Learning/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas"
   ]
