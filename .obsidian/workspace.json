@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md",
+                "file": "Research/LLVM/First Language Front End/1.3 Abstract Syntax Tree (AST).md",
                 "mode": "source",
                 "source": false
               }
@@ -106,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md",
+                "file": "Research/LLVM/First Language Front End/1.3 Abstract Syntax Tree (AST).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md",
+                "file": "Research/LLVM/First Language Front End/1.3 Abstract Syntax Tree (AST).md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +146,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Research/LLVM/First Language Front End/1.2 The Lexer.md"
+                "file": "Research/LLVM/First Language Front End/1.3 Abstract Syntax Tree (AST).md"
               }
             }
           }
@@ -169,20 +169,22 @@
   },
   "active": "b5fc88d74903a013",
   "lastOpenFiles": [
-    "Research/LLVM/First Language Front End/1. Kaleidoscope - Kaleidoscope Introduction and the Lexer.md",
+    "Design/pptA210.tmp",
+    "Design/ppt828.tmp",
+    "Design/pptF197.tmp",
+    "Design/pptEC85.tmp",
+    "Design/Capstone 2 Presentation.pptx",
+    "Design/~$Capstone 2 Presentation.pptx",
+    "Design/ppt872A.tmp",
+    "Design/ppt4269.tmp",
+    "Design/pptF717.tmp",
+    "Design/ppt7BAB.tmp",
+    "Design/pptAE71.tmp",
     "Research/LLVM/First Language Front End/1.2 The Lexer.md",
+    "Research/LLVM/First Language Front End/1.3 Abstract Syntax Tree (AST).md",
+    "Research/LLVM/First Language Front End/1. Kaleidoscope - Kaleidoscope Introduction and the Lexer.md",
     "Learning/MalDev Academy/Notes/ETW - Improved Patching.md",
-    "Research/LLVM/First Language Front End",
-    "Research/LLVM",
     "Learning/Untitled.md",
-    "Implementation/CImplant/CaFeBiBa.h",
-    "Implementation/CImplant/CaFeBiBa.c",
-    "Implementation/CImplant/SleepMask.c",
-    "Implementation/CImplant/implant.exe",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/CL.write.1.tlog",
-    "Implementation/CImplant/x64/Release/CImplant.tlog/CL.read.1.tlog",
-    "Implementation/donut/TestAssembly.bin",
-    "Implementation/donut/TestAssembly.exe",
     "Learning/MalDev Academy/Notes/ETW - Byte Patching Bypass.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/tools/coreclr/README.md",
     "Implementation/CapstoneInterface/packages/DllExport.1.7.4/Readme.md",
@@ -213,8 +215,6 @@
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Word Stomping.md",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/Obfuscating VBA.md",
     "Learning/Evasion Techniques and Breaching Defenses/Initial Access/AV Evasion/FOD Helper.md",
-    "Learning/Evasion Techniques and Breaching Defenses/Real-Time Evasion/Bypassing Network Filters/Intro.md",
-    "Pasted image 20230617165928.png.md",
     "Learning/MalDev Academy/Code/WinApiHooking/Untitled.canvas",
     "Research/MalDev Academy/WinApiHooking/Untitled.canvas"
   ]
