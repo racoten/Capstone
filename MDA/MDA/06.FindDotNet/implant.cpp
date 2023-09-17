@@ -7,16 +7,7 @@
  credits: Wen Jia Liu
  
 */
-#include <windows.h>
-#include <stdio.h>
-#include <Psapi.h>
-#include <shlwapi.h>
-#include <strsafe.h>
-#include <tchar.h>
-#include <winternl.h>
-
-#pragma comment(lib, "ntdll.lib")
-#pragma comment(lib, "Shlwapi.lib")
+#include "Defines.h"
 
 typedef NTSTATUS (NTAPI * NtGetNextProcess_t)(
 	HANDLE ProcessHandle,
@@ -31,92 +22,6 @@ typedef NTSTATUS (NTAPI * NtOpenSection_t)(
 	ACCESS_MASK        DesiredAccess,
 	POBJECT_ATTRIBUTES ObjectAttributes
 );
-
-BOOL LoadRemoteDLL(HANDLE hProcess, const char *dllPath)
-{
-    // Allocate memory in the remote process for the DLL path
-    LPVOID remoteString = VirtualAllocEx(hProcess, NULL, strlen(dllPath) + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-    if (remoteString == NULL) {
-        return FALSE;
-    }
-
-    // Write the DLL path to the allocated memory
-    if (!WriteProcessMemory(hProcess, remoteString, dllPath, strlen(dllPath) + 1, NULL)) {
-        VirtualFreeEx(hProcess, remoteString, 0, MEM_RELEASE);
-        return FALSE;
-    }
-
-    // Get the address of LoadLibraryA in kernel32.dll
-    HMODULE hKernel32 = GetModuleHandle(_T("kernel32.dll"));
-    FARPROC hLoadLibrary = GetProcAddress(hKernel32, "LoadLibraryA");
-    if (hLoadLibrary == NULL) {
-        VirtualFreeEx(hProcess, remoteString, 0, MEM_RELEASE);
-        return FALSE;
-    }
-
-    // Create a remote thread to load the DLL
-    HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)hLoadLibrary, remoteString, 0, NULL);
-    if (hThread == NULL) {
-        VirtualFreeEx(hProcess, remoteString, 0, MEM_RELEASE);
-        return FALSE;
-    }
-
-    // Wait for the remote thread to finish
-    WaitForSingleObject(hThread, INFINITE);
-
-    // Free the allocated memory in the remote process
-    VirtualFreeEx(hProcess, remoteString, 0, MEM_RELEASE);
-
-    // Close the thread handle
-    CloseHandle(hThread);
-
-    return TRUE;
-}
-
-BOOL IsModuleLoadedByHandle(HANDLE hProcess, const char* moduleName) {
-    PROCESS_BASIC_INFORMATION pbi;
-    ULONG retLen;
-
-    // Explicitly cast to PROCESSINFOCLASS.
-    if (NtQueryInformationProcess(hProcess, (PROCESSINFOCLASS)0, &pbi, sizeof(PROCESS_BASIC_INFORMATION), &retLen) != 0) {
-        return FALSE;
-    }
-
-    PEB peb;
-    if (!ReadProcessMemory(hProcess, pbi.PebBaseAddress, &peb, sizeof(PEB), NULL)) {
-        return FALSE;
-    }
-
-    PEB_LDR_DATA ldr;
-    if (!ReadProcessMemory(hProcess, peb.Ldr, &ldr, sizeof(PEB_LDR_DATA), NULL)) {
-        return FALSE;
-    }
-
-    LIST_ENTRY* pCurrentEntry = ldr.InMemoryOrderModuleList.Flink;
-    while (pCurrentEntry != ldr.InMemoryOrderModuleList.Blink) {
-        LDR_DATA_TABLE_ENTRY current;
-        if (!ReadProcessMemory(hProcess, CONTAINING_RECORD(pCurrentEntry, LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks), &current, sizeof(LDR_DATA_TABLE_ENTRY), NULL)) {
-            return FALSE;
-        }
-
-        WCHAR buffer[MAX_PATH];
-        if (!ReadProcessMemory(hProcess, current.FullDllName.Buffer, buffer, current.FullDllName.Length, NULL)) {
-            return FALSE;
-        }
-        buffer[current.FullDllName.Length / sizeof(WCHAR)] = 0;
-
-        char currentModuleName[MAX_PATH];
-        WideCharToMultiByte(CP_ACP, 0, buffer, -1, currentModuleName, sizeof(currentModuleName), NULL, NULL);
-
-        if (_stricmp(currentModuleName, moduleName) == 0) {
-            return TRUE;
-        }
-
-        pCurrentEntry = current.InMemoryOrderLinks.Flink;
-    }
-
-    return FALSE;
-}
 
 void FindDotNet(HANDLE **phandles, int *pcount) {
     int pid = 0;
@@ -183,45 +88,68 @@ int FindRWX(HANDLE hndl) {
 }
 
 int main(void) {
-    HANDLE *handles = NULL;
-    int count = 0;
-    char procNameTemp[MAX_PATH];
+    // HANDLE *handles = NULL;
+    // int count = 0;
+    // char procNameTemp[MAX_PATH];
 
-    FindDotNet(&handles, &count);
+    // FindDotNet(&handles, &count);
 
-    for (int i = 0; i < count; ++i) {
-        HANDLE h = handles[i];
-        if (h) GetProcessImageFileNameA(h, procNameTemp, MAX_PATH);
+    // for (int i = 0; i < count; ++i) {
+    //     HANDLE h = handles[i];
+    //     if (h) GetProcessImageFileNameA(h, procNameTemp, MAX_PATH);
 
-        printf("[+] DotNet process %s%d) [%s]\n",
-                        h != 0 ? "found at PID: (" : "NOT FOUND (",
-                        GetProcessId(h),
-                        h != 0 ? PathFindFileNameA(procNameTemp) : "<unknown>");
+    //     printf("[+] DotNet process %s%d) [%s]\n",
+    //                     h != 0 ? "found at PID: (" : "NOT FOUND (",
+    //                     GetProcessId(h),
+    //                     h != 0 ? PathFindFileNameA(procNameTemp) : "<unknown>");
 
-        if (!IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
-            printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
-            if (LoadRemoteDLL(h, "System.Runtime.dll")) {
-                printf("[+] Successfully loaded System.Runtime.dll into the process.\n");
-            } else {
-                printf("[-] Failed to load System.Runtime.dll into the process.\n");
-            }
-        }
+    //     if (!IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
+    //         printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
+    //         if (LoadRemoteDLL(h, "System.Runtime.dll")) {
+    //             printf("[+] Successfully loaded System.Runtime.dll into the process.\n");
+    //         } else {
+    //             printf("[-] Failed to load System.Runtime.dll into the process.\n");
+    //         }
+    //     }
 
-        // Check again if System.Runtime.dll is loaded.
-        if (IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
-            printf("[+] System.Runtime.dll is loaded in the process.\n");
-        } else {
-            printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
-        }
+    //     // Check again if System.Runtime.dll is loaded.
+    //     if (IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
+    //         printf("[+] System.Runtime.dll is loaded in the process.\n");
+    //     } else {
+    //         printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
+    //     }
 
-        printf("Press Enter to continue...\n");
-        getchar();  // Wait for a character input
+    //     printf("Press Enter to continue...\n");
+    //     getchar();  // Wait for a character input
 
-        FindRWX(h);
-        CloseHandle(h);
+    //     FindRWX(h);
+    //     CloseHandle(h);
+    // }
+
+    DWORD aProcesses[1024]; 
+    DWORD cbNeeded; 
+    DWORD cProcesses;
+    unsigned int i;
+
+    // Get the list of process identifiers.
+
+    if ( !EnumProcesses( aProcesses, sizeof(aProcesses), &cbNeeded ) )
+        return 1;
+
+    // Calculate how many process identifiers were returned.
+
+    cProcesses = cbNeeded / sizeof(DWORD);
+
+    // Print the names of the modules for each process.
+
+    for ( i = 0; i < cProcesses; i++ )
+    {
+        PrintModules( aProcesses[i] );
     }
 
-    free(handles);  // Free the allocated memory
+    return 0;
+
+    //free(handles);  // Free the allocated memory
 
     return 0;
 }
