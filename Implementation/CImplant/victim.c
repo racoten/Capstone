@@ -1,4 +1,3 @@
-#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,6 +6,7 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>
+#include <windows.h>
 #pragma comment(lib, "ws2_32.lib")
 
 #pragma comment(lib, "user32.lib")

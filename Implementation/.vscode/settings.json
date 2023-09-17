@@ -7,5 +7,6 @@
         "memory": "c",
         "xutility": "c",
         "stdio.h": "c"
-    }
+    },
+    "dotnet.defaultSolution": "disable"
 }

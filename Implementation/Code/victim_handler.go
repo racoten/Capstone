@@ -61,20 +61,6 @@ func getClients(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Success!")
 }
 
-// Much like List Devices struct, we define one more complete to register victims
-type Device struct {
-	ID              string `json:"ID"`
-	DeviceName      string `json:"DeviceName"`
-	Username        string `json:"Username"`
-	OperatorID      int    `json:"OperatorID"`
-	CPUArchitecture string `json:"CPUArchitecture"`
-	GPUInfo         string `json:"GPUInfo"`
-	RAMInfo         int    `json:"RAMInfo"`
-	OSName          string `json:"OSName"`
-	NetworkInfo     string `json:"NetworkInfo"`
-	CurrentDate     string `json:"CurrentDate"`
-}
-
 // On hit, take the request and perform actions to then register it to the databas
 func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 

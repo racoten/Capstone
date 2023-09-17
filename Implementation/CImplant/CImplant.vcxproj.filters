@@ -51,6 +51,9 @@
     <ClCompile Include="syscalls.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClrHosting.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GetterFunctions.h">

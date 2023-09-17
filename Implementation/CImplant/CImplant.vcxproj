@@ -116,9 +116,11 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>mscoree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClrHosting.h" />
     <ClCompile Include="ExecuteAssembly.c" />
     <ClCompile Include="Helpers.c" />
     <ClCompile Include="self-load.c" />

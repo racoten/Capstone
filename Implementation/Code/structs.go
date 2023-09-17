@@ -51,6 +51,7 @@ type LoginRequest struct {
 type Command struct {
 	Input       string `json:"Input"`
 	Command     string `json:"Command"`
+	Args        string `json:"Args"`
 	ImplantUser string `json:"ImplantUser"`
 	Operator    string `json:"Operator"`
 	Delay       string `json:"delay"`
@@ -80,4 +81,17 @@ type Message struct {
 
 type ListenerWrapper struct {
 	Listeners []Listener `json:"Listeners"`
+}
+
+type Device struct {
+	ID              string `json:"ID"`
+	DeviceName      string `json:"DeviceName"`
+	Username        string `json:"Username"`
+	OperatorID      int    `json:"OperatorID"`
+	CPUArchitecture string `json:"CPUArchitecture"`
+	GPUInfo         string `json:"GPUInfo"`
+	RAMInfo         int    `json:"RAMInfo"`
+	OSName          string `json:"OSName"`
+	NetworkInfo     string `json:"NetworkInfo"`
+	CurrentDate     string `json:"CurrentDate"`
 }

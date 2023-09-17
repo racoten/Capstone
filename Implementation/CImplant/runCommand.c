@@ -3,7 +3,7 @@
 
 #define LINE_MAX_BUFFER_SIZE 256
 
-int runCmd(char cmd[LINE_MAX_BUFFER_SIZE], char lines[][256]) {
+void runCmd(char cmd[LINE_MAX_BUFFER_SIZE], char lines[][256]) {
 	FILE *fp;
 	char path[LINE_MAX_BUFFER_SIZE];
 
@@ -17,6 +17,4 @@ int runCmd(char cmd[LINE_MAX_BUFFER_SIZE], char lines[][256]) {
 		strncpy(lines[count++], path, LINE_MAX_BUFFER_SIZE);
 	}
 	_pclose(fp);
-
-	return count;
 }
