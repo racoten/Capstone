@@ -32,8 +32,8 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public string userToControl { get; set; }
 
-        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Implant\\Implant.cs");
-        public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
+        public string templatePayload = File.ReadAllText("C:\\Users\\geny1\\Capstone\\Implementation\\Implant\\Implant.cs");
+        public string menu = File.ReadAllText("C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command
         {
@@ -74,11 +74,11 @@ namespace CapstoneInterface
         public class Listener
         {
             public string Name { get; set; }
-            public string Payload { get; set; }
-            public string Host { get; set; }
-            public string HostRotation { get; set; }
-            public int Port { get; set; }
-            public string UserAgent { get; set; }
+            /*public string Payload { get; set; }*/
+            public string IP { get; set; }
+            /*public string HostRotation { get; set; }*/
+            public string Port { get; set; }
+            /*public string UserAgent { get; set; }*/
             public string Headers { get; set; }
         }
         /*GENESIS POR AQUI CAGANDOLA*/
@@ -653,8 +653,8 @@ Invoke-Run
             Listener newListener = new Listener();
 
             newListener.Name = txtBoxName.Text;
-            newListener.Host = txtBoxHost.Text;
-            newListener.Port = int.Parse(txtBoxPort.Text);
+            newListener.IP = txtBoxHost.Text;
+            newListener.Port = txtBoxPort.Text;
             newListener.Headers = txtBoxHeader.Text;
             
             string jsonListener = JsonConvert.SerializeObject(newListener);
@@ -678,7 +678,7 @@ Invoke-Run
                         listBox1.Items.Clear();
                         foreach (var listener in listeners)
                         {
-                            listBox1.Items.Add($"Name: {listener.Name}, Host: {listener.Host}, Port: {listener.Port}, Headers: {listener.Headers}");
+                            listBox1.Items.Add($"Name: {listener.Name}, IP: {listener.IP}, Port: {listener.Port}, Headers: {listener.Headers}");
                         }
                         //Successfull response
                         MessageBox.Show("HTTP Response Success!");

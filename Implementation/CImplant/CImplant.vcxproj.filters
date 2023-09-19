@@ -45,9 +45,6 @@
     <ClCompile Include="self-load.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecuteAssembly.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="syscalls.h">
       <Filter>Header Files</Filter>
     </ClCompile>

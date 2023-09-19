@@ -30,3 +30,10 @@ D:\Deving\Capstone\Implementation\Implant\obj\Release\Implant.csproj.SuggestedBi
 D:\Deving\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
 D:\Deving\Capstone\Implementation\Implant\obj\Release\NewImplant.exe
 D:\Deving\Capstone\Implementation\Implant\obj\Release\NewImplant.pdb
+C:\Users\geny1\Capstone\Implementation\Implant\bin\Release\NewImplant.exe.config
+C:\Users\geny1\Capstone\Implementation\Implant\bin\Release\NewImplant.exe
+C:\Users\geny1\Capstone\Implementation\Implant\bin\Release\NewImplant.pdb
+C:\Users\geny1\Capstone\Implementation\Implant\obj\Release\Implant.csproj.AssemblyReference.cache
+C:\Users\geny1\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
+C:\Users\geny1\Capstone\Implementation\Implant\obj\Release\NewImplant.exe
+C:\Users\geny1\Capstone\Implementation\Implant\obj\Release\NewImplant.pdb

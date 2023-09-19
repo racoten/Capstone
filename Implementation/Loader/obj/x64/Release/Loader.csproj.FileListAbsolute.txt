@@ -54,3 +54,16 @@ D:\Deving\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CoreCompi
 D:\Deving\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
 D:\Deving\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
 D:\Deving\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe.config
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\Loader.pdb
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.dll
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.pdb
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.xml
+C:\Users\geny1\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.xml
+C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.AssemblyReference.cache
+C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CoreCompileInputs.cache
+C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
+C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
+C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb

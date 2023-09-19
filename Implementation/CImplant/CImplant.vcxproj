@@ -121,7 +121,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClrHosting.h" />
-    <ClCompile Include="ExecuteAssembly.c" />
     <ClCompile Include="Helpers.c" />
     <ClCompile Include="self-load.c" />
     <ClCompile Include="stomper.c" />
