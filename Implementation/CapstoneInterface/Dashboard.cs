@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Net;
+using System.Xml.Linq;
 
 namespace CapstoneInterface
 {
@@ -67,6 +68,22 @@ namespace CapstoneInterface
             [JsonProperty("Storage.amount")]
             public string Storage { get; set; }
         }
+
+
+        /*GENESIS POR AQUI CAGANDOLA*/
+        public class Listener
+        {
+            public string Name { get; set; }
+            public string Payload { get; set; }
+            public string Host { get; set; }
+            public string HostRotation { get; set; }
+            public int Port { get; set; }
+            public string UserAgent { get; set; }
+            public string Headers { get; set; }
+        }
+        /*GENESIS POR AQUI CAGANDOLA*/
+
+
 
         public Dashboard()
         {
@@ -626,5 +643,77 @@ Invoke-Run
         {
 
         }
+
+
+        /*GENESIS POR AQUI CAGANDOLA */
+        private List<Listener> listeners = new List<Listener>();
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            //List<Listener> newListener = new List<Listener>();
+            Listener newListener = new Listener();
+
+            newListener.Name = txtBoxName.Text;
+            newListener.Host = txtBoxHost.Text;
+            newListener.Port = int.Parse(txtBoxPort.Text);
+            newListener.Headers = txtBoxHeader.Text;
+            
+            string jsonListener = JsonConvert.SerializeObject(newListener);
+
+            //Solicitud HTTP para enviar el JSON al endpoint 
+            using (HttpClient client = new HttpClient())
+            {
+                var content = new StringContent(jsonListener, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsync("http://localhost:8082/generate/listener", content);
+                    //($"http://{host}:{port}/generate/listener");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        //Make a list of the new listener
+                        listeners.Add(newListener);
+
+                        // Update de listeners list
+                        listBox1.Items.Clear();
+                        foreach (var listener in listeners)
+                        {
+                            listBox1.Items.Add($"Name: {listener.Name}, Host: {listener.Host}, Port: {listener.Port}, Headers: {listener.Headers}");
+                        }
+                        //Successfull response
+                        MessageBox.Show("HTTP Response Success!");
+                        //string listenerInfo = $"Name: {newListener.Name}, Host: {newListener.Host}, Port: {newListener.Port}, Headers: {newListener.Headers}";
+                    }
+                    else
+                    {
+                        //Error in HTTP response 
+                        MessageBox.Show("HTTP Response Error!");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    //Exception error
+                    MessageBox.Show($"Error: {exception.Message}");
+                }
+            }
+            
+    }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            txtBoxName.Text = "";
+            txtBoxHost.Text = "";
+            txtBoxPort.Text = "";
+            txtBoxHeader.Text = "";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        /*GENESIS POR AQUI CAGANDOLA */
+
     }
 }
