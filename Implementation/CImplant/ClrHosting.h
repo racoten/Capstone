@@ -564,6 +564,5 @@ typedef struct _DOTNET_ARGS
     PCONTEXT RopExit;
 } DOTNET_ARGS, * PDOTNET_ARGS;
 
-#define DEMOn_CLR_ERROR_REFUSE_VERSION 0x1
 
 BOOL  FindVersion(PVOID Assembly, DWORD length);

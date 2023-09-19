@@ -88,66 +88,66 @@ int FindRWX(HANDLE hndl) {
 }
 
 int main(void) {
-    // HANDLE *handles = NULL;
-    // int count = 0;
-    // char procNameTemp[MAX_PATH];
+    HANDLE *handles = NULL;
+    int count = 0;
+    char procNameTemp[MAX_PATH];
 
-    // FindDotNet(&handles, &count);
+    FindDotNet(&handles, &count);
 
-    // for (int i = 0; i < count; ++i) {
-    //     HANDLE h = handles[i];
-    //     if (h) GetProcessImageFileNameA(h, procNameTemp, MAX_PATH);
+    for (int i = 0; i < count; ++i) {
+        HANDLE h = handles[i];
+        if (h) GetProcessImageFileNameA(h, procNameTemp, MAX_PATH);
 
-    //     printf("[+] DotNet process %s%d) [%s]\n",
-    //                     h != 0 ? "found at PID: (" : "NOT FOUND (",
-    //                     GetProcessId(h),
-    //                     h != 0 ? PathFindFileNameA(procNameTemp) : "<unknown>");
+        printf("[+] DotNet process %s%d) [%s]\n",
+                        h != 0 ? "found at PID: (" : "NOT FOUND (",
+                        GetProcessId(h),
+                        h != 0 ? PathFindFileNameA(procNameTemp) : "<unknown>");
 
-    //     if (!IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
-    //         printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
-    //         if (LoadRemoteDLL(h, "System.Runtime.dll")) {
-    //             printf("[+] Successfully loaded System.Runtime.dll into the process.\n");
-    //         } else {
-    //             printf("[-] Failed to load System.Runtime.dll into the process.\n");
-    //         }
-    //     }
+        if (!IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
+            printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
+            if (LoadRemoteDLL(h, "System.Runtime.dll")) {
+                printf("[+] Successfully loaded System.Runtime.dll into the process.\n");
+            } else {
+                printf("[-] Failed to load System.Runtime.dll into the process.\n");
+            }
+        }
 
-    //     // Check again if System.Runtime.dll is loaded.
-    //     if (IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
-    //         printf("[+] System.Runtime.dll is loaded in the process.\n");
-    //     } else {
-    //         printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
-    //     }
+        // Check again if System.Runtime.dll is loaded.
+        if (IsModuleLoadedByHandle(h, "System.Runtime.dll")) {
+            printf("[+] System.Runtime.dll is loaded in the process.\n");
+        } else {
+            printf("[-] System.Runtime.dll is NOT loaded in the process.\n");
+        }
 
-    //     printf("Press Enter to continue...\n");
-    //     getchar();  // Wait for a character input
+        printf("Press Enter to continue...\n");
+        getchar();  // Wait for a character input
 
-    //     FindRWX(h);
-    //     CloseHandle(h);
-    // }
-
-    DWORD aProcesses[1024]; 
-    DWORD cbNeeded; 
-    DWORD cProcesses;
-    unsigned int i;
-
-    // Get the list of process identifiers.
-
-    if ( !EnumProcesses( aProcesses, sizeof(aProcesses), &cbNeeded ) )
-        return 1;
-
-    // Calculate how many process identifiers were returned.
-
-    cProcesses = cbNeeded / sizeof(DWORD);
-
-    // Print the names of the modules for each process.
-
-    for ( i = 0; i < cProcesses; i++ )
-    {
-        PrintModules( aProcesses[i] );
+        FindRWX(h);
+        CloseHandle(h);
     }
 
-    return 0;
+    // DWORD aProcesses[1024]; 
+    // DWORD cbNeeded; 
+    // DWORD cProcesses;
+    // unsigned int i;
+
+    // // Get the list of process identifiers.
+
+    // if ( !EnumProcesses( aProcesses, sizeof(aProcesses), &cbNeeded ) )
+    //     return 1;
+
+    // // Calculate how many process identifiers were returned.
+
+    // cProcesses = cbNeeded / sizeof(DWORD);
+
+    // // Print the names of the modules for each process.
+
+    // for ( i = 0; i < cProcesses; i++ )
+    // {
+    //     PrintModules( aProcesses[i] );
+    // }
+
+    // return 0;
 
     //free(handles);  // Free the allocated memory
 

@@ -18,7 +18,6 @@ C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\NewImplant.
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\NewImplant.exe
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\NewImplant.pdb
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.AssemblyReference.cache
-C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.SuggestedBindingRedirects.cache
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CoreCompileInputs.cache
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\NewImplant.exe
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\NewImplant.pdb

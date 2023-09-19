@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "JMEyvea5oVvDC4C6VhdZac77p4y0Y8ihivxJiIluvERzdlw3PjVpNmP6US8uH2KGJpzNwu0mg2qHJPwSBuFdYA==",
+=======
+  "dgSpecHash": "I7mySJkw/m76mRYDvQwLHmkHTPWy95mWklgYHJsm8Po/IS18Lux6wGGX9RXtBKJVnvdmYwQFGbfzG036o0sgJw==",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
   "expectedPackageFiles": [

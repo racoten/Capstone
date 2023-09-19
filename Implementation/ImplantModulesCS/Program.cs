@@ -11,38 +11,6 @@ namespace ImplantModulesCS
 {
     public static class ExecuteAssembly
     {
-        [DllExport]
-        public static void CompileNRun(string code, string Class, string method)
-        {
-
-            // Prepare parameters
-            CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateInMemory = true;
-            parameters.GenerateExecutable = false;
-
-            // Compile code
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, code);
-
-            // Check for compilation errors
-            if (results.Errors.HasErrors)
-            {
-                foreach (CompilerError error in results.Errors)
-                {
-                    Console.WriteLine(error.ErrorText);
-                }
-            }
-            else
-            {
-                // Invoke the Main method of HelloWorld
-                Assembly assembly = results.CompiledAssembly;
-                Type program = assembly.GetType(Class);
-                MethodInfo main = program.GetMethod(method);
-
-                main.Invoke(null, null);  // Assuming the Main method doesn't need any arguments
-            }
-        }
-        [DllExport]
         public static IntPtr Execute(byte[] asm, IntPtr[] args, int argsLength)
         {
             MemoryStream memoryStream = null;

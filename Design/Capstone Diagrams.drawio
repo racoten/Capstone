@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-09-09T18:23:14.096Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="Maz2reWzuYUjFXSRYDY-" version="21.6.8" type="device">
+<mxfile host="Electron" modified="2023-09-19T15:46:57.179Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="SlsJpCgaXtV903-PWzAq" version="21.7.5" type="device">
   <diagram name="Page-1" id="5EU_N4OGq7JzALd0hScl">
-    <mxGraphModel dx="4395" dy="738" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="5078" dy="836" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1676,41 +1676,191 @@
         <mxCell id="bM6C6szkZUPty6wiEJab-4" value="Operator wants to create an Implant" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="492" y="2874" width="135" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="bM6C6szkZUPty6wiEJab-6" target="NQVYMF_OfmwAHioxY4ma-1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="1" source="bM6C6szkZUPty6wiEJab-6" target="NQVYMF_OfmwAHioxY4ma-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bM6C6szkZUPty6wiEJab-6" value="Server compiles the Implant" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="445" y="3015" width="229" height="53" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-4" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="NQVYMF_OfmwAHioxY4ma-1" target="NQVYMF_OfmwAHioxY4ma-3">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-4" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="1" source="NQVYMF_OfmwAHioxY4ma-1" target="NQVYMF_OfmwAHioxY4ma-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-1" value="Implant is turned into Shellcode using Donut and saved into &quot;&lt;b&gt;&lt;u&gt;implant.bin&lt;/u&gt;&lt;/b&gt;&quot;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-1" value="Implant is turned into Shellcode using Donut and saved into &quot;&lt;b&gt;&lt;u&gt;implant.bin&lt;/u&gt;&lt;/b&gt;&quot;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="411" y="3159" width="297" height="63" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-6" value="" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="NQVYMF_OfmwAHioxY4ma-3" target="NQVYMF_OfmwAHioxY4ma-5">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-6" value="" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" parent="1" source="NQVYMF_OfmwAHioxY4ma-3" target="NQVYMF_OfmwAHioxY4ma-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-3" value="Server compiles the C# &lt;b&gt;&lt;u&gt;Shellcode Loader&lt;/u&gt;&lt;/b&gt; to the operator" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-3" value="Server compiles the C# &lt;b&gt;&lt;u&gt;Shellcode Loader&lt;/u&gt;&lt;/b&gt; to the operator" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="118.5" y="3142.25" width="227.5" height="96.5" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-8" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="NQVYMF_OfmwAHioxY4ma-5" target="NQVYMF_OfmwAHioxY4ma-7">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-8" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="1" source="NQVYMF_OfmwAHioxY4ma-5" target="NQVYMF_OfmwAHioxY4ma-7" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-5" value="Upon execution, the Shellcode Loader downloads &quot;implant.bin&quot;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-5" value="Upon execution, the Shellcode Loader downloads &quot;implant.bin&quot;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="101" y="3322" width="265" height="87.5" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-10" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="NQVYMF_OfmwAHioxY4ma-7" target="NQVYMF_OfmwAHioxY4ma-9">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-10" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="1" source="NQVYMF_OfmwAHioxY4ma-7" target="NQVYMF_OfmwAHioxY4ma-9" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-7" value="Loads it into memory, and executes it." style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-7" value="Loads it into memory, and executes it." style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="454.5" y="3323.75" width="212.5" height="84" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-9" value="End" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-9" value="End" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
           <mxGeometry x="786" y="3325.75" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="NQVYMF_OfmwAHioxY4ma-12" value="&lt;b&gt;implant.bin &lt;/b&gt;- holds the position-independent shellcode buffer in raw format.&lt;br&gt;&lt;b&gt;Shellcode Loader&lt;/b&gt;&amp;nbsp;- a &quot;burnable&quot; code who&#39;s sole purpose is to load shellcode into memory and execute it." style="text;html=1;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;glass=0;shadow=0;strokeWidth=2;labelPosition=center;verticalLabelPosition=middle;spacingLeft=10;spacing=2;spacingRight=5;" vertex="1" parent="1">
+        <mxCell id="NQVYMF_OfmwAHioxY4ma-12" value="&lt;b&gt;implant.bin &lt;/b&gt;- holds the position-independent shellcode buffer in raw format.&lt;br&gt;&lt;b&gt;Shellcode Loader&lt;/b&gt;&amp;nbsp;- a &quot;burnable&quot; code who&#39;s sole purpose is to load shellcode into memory and execute it." style="text;html=1;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;glass=0;shadow=0;strokeWidth=2;labelPosition=center;verticalLabelPosition=middle;spacingLeft=10;spacing=2;spacingRight=5;" parent="1" vertex="1">
           <mxGeometry x="701" y="2792" width="425" height="111" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-1" target="u0xskosxsiUYg653T-E5-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-1" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="-1394" y="3860" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-2" target="u0xskosxsiUYg653T-E5-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-2" value="Implant is executed using a variety of methods" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-1394" y="4006" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-3" target="u0xskosxsiUYg653T-E5-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-3" value="The implant gathers information about the victim" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-1394" y="4132" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-4" target="u0xskosxsiUYg653T-E5-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-4" value="Information is constructed into a JSON string and sent to the server" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-1394" y="4258" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-5" target="u0xskosxsiUYg653T-E5-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-5" value="Server receives victim information and registers it into the database" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-1394" y="4387" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-6" target="u0xskosxsiUYg653T-E5-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-6" value="Implant enters an infinite loop" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-1188" y="4387" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-7" target="u0xskosxsiUYg653T-E5-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-7" value="Every 3 seconds, implant fetches instructions from the server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-982" y="4387" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-8" target="u0xskosxsiUYg653T-E5-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-8" target="u0xskosxsiUYg653T-E5-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-8" value="Receive a new command from the server" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="-985" y="4124" width="126" height="132" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-10" value="No command available" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-1128" y="4162" width="142" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-12" target="u0xskosxsiUYg653T-E5-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-12" target="u0xskosxsiUYg653T-E5-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-12" value="Is the command the same as the last one?" style="rhombus;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="-1044.5" y="3892" width="245" height="187" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-15" value="Yes" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-1125" y="3955" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-23" value="A command is available" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-907" y="4094" width="131" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-25" target="u0xskosxsiUYg653T-E5-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-25" value="Implant fetches the new command and parses it" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-400" y="3956" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-27" value="No" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-799.5" y="3956" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-29" target="u0xskosxsiUYg653T-E5-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-29" target="u0xskosxsiUYg653T-E5-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-29" target="u0xskosxsiUYg653T-E5-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-29" value="Check the input of the command" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="-416" y="4111" width="152" height="139" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-31" target="u0xskosxsiUYg653T-E5-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-31" value="Execute an operating system command and store the result" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-634" y="4246" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-33" value="OS Command" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-510" y="4149" width="94" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-35" target="u0xskosxsiUYg653T-E5-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-35" value="Execute the shellcode of a .NET Assembly and store the results" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-400" y="4355" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-37" target="u0xskosxsiUYg653T-E5-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-37" value="Send the output to the server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-634" y="4552" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-42" value="Execute a .NET Assmbly" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-340" y="4290" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="u0xskosxsiUYg653T-E5-44" target="u0xskosxsiUYg653T-E5-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-44" value="Implant breaks the infinite loop and shutsdown." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-83" y="4150.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-46" value="KIll Implant" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-264" y="4154" width="77" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-47" value="End" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-83" y="4345" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-49" value="Implant fetches the new command and parses it" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-400" y="3956" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-50" value="Execute an operating system command and store the result" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-634" y="4246" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-51" value="Execute the shellcode of a .NET Assembly and store the results" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-400" y="4355" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-52" value="Implant breaks the infinite loop and shutsdown." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-83" y="4150.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-53" value="Send the output to the server" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-634" y="4552" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-54" value="Wait 3 seconds and fetch a command from the server" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-982" y="4387" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-55" value="Implant enters an infinite loop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-1188" y="4387" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u0xskosxsiUYg653T-E5-56" value="Server receives victim information and registers it into the database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-1394" y="4387" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

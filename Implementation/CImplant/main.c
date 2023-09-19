@@ -9,6 +9,7 @@
 #include "Typedefs.h"
 #include "Structs.h"
 
+#include "GetterFunctions.h"
 
 // void TestingStomp();
 // void TestingInfoGatherer();
@@ -144,10 +145,10 @@ int main() {
 // }
 
 void TestingNetAssembyLoader() {
-    const wchar_t* hostname = "localhost";
-    const wchar_t* assembly = "TestAssembly";
+    LPCWSTR hostname = "localhost";
+    LPCWSTR assembly = "TestAssembly";
 
-    load_assembly_shellcode(hostname, assembly);
+    moduleStomper()
 
     exit(0);
 }
