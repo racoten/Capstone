@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {}
+    "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {}
   },
   "projects": {
-    "C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {
+    "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+        "projectUniqueName": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
         "projectName": "CapstoneInterface",
-        "projectPath": "C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
-        "packagesPath": "C:\\Users\\geny1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
+        "projectPath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+        "packagesPath": "C:\\Users\\vquer\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-<<<<<<< Updated upstream
-          "C:\\Users\\geny1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-=======
           "C:\\Users\\vquer\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> Stashed changes
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

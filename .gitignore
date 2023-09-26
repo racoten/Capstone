@@ -886,7 +886,13 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,visualstudio,c++,c,python,go,csharp,windows,linux
 *.db
+<<<<<<< Updated upstream
 *.ipch
 *.ipch
 *.ipch
 *.ipch
+=======
+*.db
+*.pdb
+*.pdb
+>>>>>>> Stashed changes

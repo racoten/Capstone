@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System.Net.Http;
-using Microsoft.Toolkit.Uwp.Notifications;
-using System.Net;
-using System.Xml.Linq;
+
 
 namespace CapstoneInterface
 {
@@ -32,8 +24,8 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public string userToControl { get; set; }
 
-        public string templatePayload = File.ReadAllText("C:\\Users\\geny1\\Capstone\\Implementation\\Implant\\Implant.cs");
-        public string menu = File.ReadAllText("C:\\Users\\geny1\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
+        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CImplant\\main.c");
+        public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command
         {
