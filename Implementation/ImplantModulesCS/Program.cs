@@ -11,7 +11,7 @@ namespace ImplantModulesCS
 {
     public static class ExecuteAssembly
     {
-        public static IntPtr Execute(byte[] asm, IntPtr[] args, int argsLength)
+        public static void Execute(byte[] asm, IntPtr[] args, int argsLength)
         {
             MemoryStream memoryStream = null;
             StreamWriter streamWriter = null;

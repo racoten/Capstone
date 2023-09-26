@@ -145,10 +145,10 @@ int main() {
 // }
 
 void TestingNetAssembyLoader() {
-    LPCWSTR hostname = "localhost";
-    LPCWSTR assembly = "TestAssembly";
+    LPCWSTR hostname = L"localhost";
+    LPCWSTR assembly = L"TestAssembly.bin";
 
-    moduleStomper()
+    moduleStomper(hostname, assembly);
 
     exit(0);
 }
