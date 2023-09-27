@@ -1,19 +1,16 @@
 import re
-import argparse
 
 def revert_values(input_file):
     with open(input_file, 'r') as file:
-        c_code = file.readlines()
+        c_code = file.read()
 
-    for i in range(len(c_code)):
-        if re.search(r'unsigned char xorKey\[\] = {.+};', c_code[i]):
-            c_code[i] = re.sub(r'{.+}', '"#1"', c_code[i])
-        elif re.search(r'unsigned char aesKey\[\] = {.+};', c_code[i]):
-            c_code[i] = re.sub(r'{.+}', '"#2"', c_code[i])
-        elif re.search(r'unsigned char aesIV\[\] = {.+};', c_code[i]):
-            c_code[i] = re.sub(r'{.+}', '"#3"', c_code[i])
+    c_code = re.sub(r'var xorKey = Convert\.FromBase64String\(".+"\);', 'var xorKey = Convert.FromBase64String("#1");', c_code)
+    c_code = re.sub(r'var key = Convert\.FromBase64String\(".+"\);', 'var key = Convert.FromBase64String("#2");', c_code)
+    c_code = re.sub(r'var iv = Convert\.FromBase64String\(".+"\);', 'var iv = Convert.FromBase64String("#3");', c_code)
 
     with open(input_file, 'w') as file:
-        file.writelines(c_code)
+        file.write(c_code)
 
-revert_values("..\\CLoader\\Sheller\\Sheller\\Sheller.c")
+# Hardcoded file path
+input_file = "..\\Loader\\Loader.cs"
+revert_values(input_file)

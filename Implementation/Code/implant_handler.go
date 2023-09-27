@@ -62,20 +62,20 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error: ", err3)
 	}
 
-	fmt.Println("[*] Encrypting the Loader now...")
-	// fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe -o F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\")
-	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "..\\neo-ConfuserExbin\\Confuser.CLI.exe ..\\Loader.exe -o ..\\encrypted_loader\\")
-	}
+	// fmt.Println("[*] Encrypting the Loader now...")
+	// // fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe F:\\capstone-adversary-emulation-tool\\Implementation\\Loader.exe -o F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\")
+	// if runtime.GOOS == "windows" {
+	// 	cmd = exec.Command("cmd", "/c", "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\neo-ConfuserExbin\\Confuser.CLI.exe C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Loader.exe -o C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\OutputShellcode\\")
+	// }
 
-	_, err4 := cmd.Output() // Capture the output of the command
-	if err4 != nil {
-		log.Fatal("Error: ", err4)
-	}
+	// _, err4 := cmd.Output() // Capture the output of the command
+	// if err4 != nil {
+	// 	log.Fatal("Error: ", err4)
+	// }
 
 	fmt.Println("[+] Loader ready, serving for download...")
 	// fmt.Println("F:\\capstone-adversary-emulation-tool\\Implementation\\encrypted_loader\\Loader.exe")
-	file, err := os.Open("..\\encrypted_loader\\Loader.exe")
+	file, err := os.Open("..\\Loader.exe")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
