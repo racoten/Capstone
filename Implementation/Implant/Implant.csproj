@@ -67,10 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implant.cs" />
-    <Compile Include="Modules\CommandFetchPing.cs" />
+    <Compile Include="Modules\CodeFetch.cs" />
     <Compile Include="Modules\Commands.cs" />
     <Compile Include="Modules\CompileAndRunNET.cs" />
     <Compile Include="Modules\ExecuteAssembly.cs" />
+    <Compile Include="Modules\ModuleStomper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
