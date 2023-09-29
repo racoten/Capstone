@@ -16,20 +16,16 @@ namespace HTTPImplant.Modules
                 using (WebClient webClient = new WebClient())
                 {
                     byte[] buffer = await webClient.DownloadDataTaskAsync(url);
-
-                    // Print the buffer in hexadecimal format
-                    Console.WriteLine("Buffer in Hex: " + BitConverter.ToString(buffer).Replace("-", " "));
-
                     return (buffer.Length > 0) ? buffer : null;
                 }
             }
             catch (WebException webException)
             {
-                Console.WriteLine($"Web request failed: {webException.Message}");
+                //Console.WriteLine($"Web request failed: {webException.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An unknown error occurred: {ex.Message}");
+                //Console.WriteLine($"An unknown error occurred: {ex.Message}");
             }
             return null;
         }

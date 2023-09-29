@@ -66,3 +66,4 @@ C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.Core
 C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
 C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
 C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.SuggestedBindingRedirects.cache

