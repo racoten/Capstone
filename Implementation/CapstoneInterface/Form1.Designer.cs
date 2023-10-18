@@ -229,6 +229,7 @@
             this.txtPasswordRegister.Name = "txtPasswordRegister";
             this.txtPasswordRegister.Size = new System.Drawing.Size(198, 32);
             this.txtPasswordRegister.TabIndex = 16;
+            this.txtPasswordRegister.UseSystemPasswordChar = true;
             // 
             // txtEmail
             // 

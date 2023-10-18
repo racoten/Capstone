@@ -708,7 +708,9 @@ Invoke-Run
             listBox1.Items.Clear();
         }
         //Esta parte del codigo es para realizar el dark mode
-        private void button5_Click(object sender, EventArgs e)
+        
+
+        private void button5_Click_1(object sender, EventArgs e)
         {
             //Cambiar el fondo del formulario a dark mode
             this.BackColor = Color.FromArgb(26, 29, 55);
@@ -764,7 +766,8 @@ Invoke-Run
 
             // Otros controles personalizados que puedas tener
         }
-        private void button6_Click(object sender, EventArgs e)
+
+        private void button6_Click_1(object sender, EventArgs e)
         {
             // Restaurar el fondo del formulario a su color original
             this.BackColor = SystemColors.Control;
@@ -772,7 +775,7 @@ Invoke-Run
             // Restaurar el color de fuente de los controles a su color original
             foreach (Control control in this.Controls)
             {
-                if (control is Label || control is TextBox  || control is DataGridView)
+                if (control is Label || control is TextBox || control is DataGridView)
                 {
                     control.ForeColor = SystemColors.ControlText;
                 }
@@ -817,8 +820,21 @@ Invoke-Run
                 dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
             }
         }
-        
-            
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+            label14.Text = "Welcome to the Adversary Emulator Framework, where operators come to hone their skills in cybersecurity.\n" +
+                           "In this dynamic environment, you'll have the opportunity to see real-world threats. Embrace the challenge,\n" +
+                           "learn from every encounter, and fortify your acknowledgment.";
+        }
+
+        private void tabPage6_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+
 
         /*GENESIS POR AQUI CAGANDOLA */
     }
