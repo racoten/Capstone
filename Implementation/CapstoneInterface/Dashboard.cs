@@ -708,124 +708,20 @@ Invoke-Run
             listBox1.Items.Clear();
         }
         //Esta parte del codigo es para realizar el dark mode
-        
+
 
         private void button5_Click_1(object sender, EventArgs e)
         {
-            //Cambiar el fondo del formulario a dark mode
-            this.BackColor = Color.FromArgb(26, 29, 55);
 
-            // Cambiar el color de fuente de los controles
-            foreach (Control control in this.Controls)
-            {
-                if (control is Label || control is TextBox || control is DataGridView)
-                {
-                    control.ForeColor = Color.FromArgb(187, 188, 196);
-                }
-                else if (control is Button)
-                {
-                    // Cambiar el color de fondo de los botones
-                    control.ForeColor = Color.Black;
-                }
-            }
-
-            // Cambiar el color de fondo de los controles
-            foreach (Control control in this.Controls)
-            {
-                if (control is TextBox || control is DataGridView)
-                {
-                    control.BackColor = Color.FromArgb(116, 116, 132);
-                }
-                else if (control is Button)
-                {
-                    // Cambiar el color de fondo de los botones
-                    control.ForeColor = Color.Black;
-                }
-
-            }
-            foreach (TabPage tabPage in fileTab.TabPages)
-            {
-                tabPage.BackColor = System.Drawing.Color.DarkGray;
-                tabPage.ForeColor = System.Drawing.Color.White;
-            }
-            // Cambiar el color de fondo del RichTextBox (si tienes uno)
-            if (richTextBox1 != null)
-            {
-                richTextBox1.BackColor = Color.FromArgb(116, 116, 132);
-                richTextBox1.ForeColor = Color.FromArgb(187, 188, 196);
-            }
-
-            // Cambiar el color de fondo de los DataGridView (si tienes uno)
-            if (dataGridView1 != null)
-            {
-                dataGridView1.BackgroundColor = Color.FromArgb(116, 116, 132);
-                dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(67, 120, 162);
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(161, 191, 216);
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(26, 29, 55);
-            }
-
-            // Otros controles personalizados que puedas tener
         }
-
         private void button6_Click_1(object sender, EventArgs e)
         {
-            // Restaurar el fondo del formulario a su color original
-            this.BackColor = SystemColors.Control;
-
-            // Restaurar el color de fuente de los controles a su color original
-            foreach (Control control in this.Controls)
-            {
-                if (control is Label || control is TextBox || control is DataGridView)
-                {
-                    control.ForeColor = SystemColors.ControlText;
-                }
-                if (control is Button)
-                {
-                    // Cambiar el color de fondo de los botones
-                    control.BackColor = SystemColors.Control;
-                }
-            }
-
-            // Restaurar el color de fondo de los controles a su color original
-            foreach (Control control in this.Controls)
-            {
-                if (control is TextBox || control is DataGridView)
-                {
-                    control.BackColor = SystemColors.Window;
-                }
-                if (control is Button)
-                {
-                    // Cambiar el color de fondo de los botones
-                    control.BackColor = SystemColors.Control;
-                }
-            }
-            foreach (TabPage tabPage in fileTab.TabPages)
-            {
-                tabPage.BackColor = SystemColors.Control;
-                tabPage.ForeColor = SystemColors.ControlText;
-            }
-            // Restaurar el color de fondo del RichTextBox (si tienes uno)
-            if (richTextBox1 != null)
-            {
-                richTextBox1.BackColor = SystemColors.Window;
-                richTextBox1.ForeColor = SystemColors.ControlText;
-            }
-
-            // Restaurar el color de fondo de los DataGridView (si tienes uno)
-            if (dataGridView1 != null)
-            {
-                dataGridView1.BackgroundColor = SystemColors.Window;
-                dataGridView1.DefaultCellStyle.BackColor = SystemColors.Window;
-                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
-                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
-            }
+           
         }
 
         private void label14_Click(object sender, EventArgs e)
         {
-            label14.Text = "Welcome to the Adversary Emulator Framework, where operators come to hone their skills in cybersecurity.\n" +
-                           "In this dynamic environment, you'll have the opportunity to see real-world threats. Embrace the challenge,\n" +
-                           "learn from every encounter, and fortify your acknowledgment.";
+            
         }
 
         private void tabPage6_Click(object sender, EventArgs e)
