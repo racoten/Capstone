@@ -74,10 +74,10 @@
             this.label14 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtBoxName = new System.Windows.Forms.TextBox();
+            this.txtBoxIP = new System.Windows.Forms.TextBox();
+            this.txtBoxPort = new System.Windows.Forms.TextBox();
+            this.txtBoxHeader = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.lblServer = new System.Windows.Forms.Label();
@@ -543,7 +543,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(39, 171);
+            this.label11.Location = new System.Drawing.Point(43, 145);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(46, 20);
             this.label11.TabIndex = 7;
@@ -553,7 +553,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(48, 142);
+            this.label10.Location = new System.Drawing.Point(57, 107);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(32, 20);
             this.label10.TabIndex = 6;
@@ -563,11 +563,11 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(36, 104);
+            this.label9.Location = new System.Drawing.Point(30, 184);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(51, 20);
+            this.label9.Size = new System.Drawing.Size(70, 20);
             this.label9.TabIndex = 5;
-            this.label9.Text = "Host: ";
+            this.label9.Text = "Header: ";
             // 
             // listBox1
             // 
@@ -687,40 +687,40 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General Settings";
             // 
-            // textBox1
+            // txtBoxName
             // 
-            this.textBox1.Location = new System.Drawing.Point(149, 61);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(259, 29);
-            this.textBox1.TabIndex = 12;
+            this.txtBoxName.Location = new System.Drawing.Point(149, 61);
+            this.txtBoxName.Name = "txtBoxName";
+            this.txtBoxName.Size = new System.Drawing.Size(259, 29);
+            this.txtBoxName.TabIndex = 12;
             // 
-            // textBox2
+            // txtBoxIP
             // 
-            this.textBox2.Location = new System.Drawing.Point(149, 101);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(259, 29);
-            this.textBox2.TabIndex = 13;
+            this.txtBoxIP.Location = new System.Drawing.Point(149, 101);
+            this.txtBoxIP.Name = "txtBoxIP";
+            this.txtBoxIP.Size = new System.Drawing.Size(259, 29);
+            this.txtBoxIP.TabIndex = 13;
             // 
-            // textBox4
+            // txtBoxPort
             // 
-            this.textBox4.Location = new System.Drawing.Point(149, 139);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(259, 29);
-            this.textBox4.TabIndex = 14;
+            this.txtBoxPort.Location = new System.Drawing.Point(149, 139);
+            this.txtBoxPort.Name = "txtBoxPort";
+            this.txtBoxPort.Size = new System.Drawing.Size(259, 29);
+            this.txtBoxPort.TabIndex = 14;
             // 
-            // textBox5
+            // txtBoxHeader
             // 
-            this.textBox5.Location = new System.Drawing.Point(149, 175);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(259, 29);
-            this.textBox5.TabIndex = 15;
+            this.txtBoxHeader.Location = new System.Drawing.Point(149, 175);
+            this.txtBoxHeader.Name = "txtBoxHeader";
+            this.txtBoxHeader.Size = new System.Drawing.Size(259, 29);
+            this.txtBoxHeader.TabIndex = 15;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox5);
-            this.groupBox2.Controls.Add(this.textBox4);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.txtBoxHeader);
+            this.groupBox2.Controls.Add(this.txtBoxPort);
+            this.groupBox2.Controls.Add(this.txtBoxIP);
+            this.groupBox2.Controls.Add(this.txtBoxName);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label9);
@@ -850,10 +850,10 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtBoxHeader;
+        private System.Windows.Forms.TextBox txtBoxPort;
+        private System.Windows.Forms.TextBox txtBoxIP;
+        private System.Windows.Forms.TextBox txtBoxName;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label lblServer;

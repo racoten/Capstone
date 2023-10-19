@@ -645,7 +645,7 @@ Invoke-Run
             Listener newListener = new Listener();
 
             newListener.Name = txtBoxName.Text;
-            newListener.IP = txtBoxHost.Text;
+            newListener.IP = txtBoxIP.Text;
             newListener.Port = txtBoxPort.Text;
             newListener.Headers = txtBoxHeader.Text;
 
@@ -694,7 +694,7 @@ Invoke-Run
         private void button3_Click(object sender, EventArgs e)
         {
             txtBoxName.Text = "";
-            txtBoxHost.Text = "";
+            txtBoxIP.Text = "";
             txtBoxPort.Text = "";
             txtBoxHeader.Text = "";
         }
@@ -707,21 +707,64 @@ Invoke-Run
             // Clear the listBox1 control
             listBox1.Items.Clear();
         }
-        //Esta parte del codigo es para realizar el dark mode
 
-
-        private void button5_Click_1(object sender, EventArgs e)
-        {
-
-        }
         private void button6_Click_1(object sender, EventArgs e)
         {
-           
+            // Restaurar el fondo del formulario a su color original
+            this.BackColor = SystemColors.Control;
+
+            // Restaurar el color de fuente de los controles a su color original
+            foreach (Control control in this.Controls)
+            {
+                if (control is Label || control is TextBox || control is DataGridView)
+                {
+                    control.ForeColor = SystemColors.ControlText;
+                }
+                if (control is Button)
+                {
+                    // Cambiar el color de fondo de los botones
+                    control.BackColor = SystemColors.Control;
+                }
+            }
+
+            // Restaurar el color de fondo de los controles a su color original
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox || control is DataGridView)
+                {
+                    control.BackColor = SystemColors.Window;
+                }
+                if (control is Button)
+                {
+                    // Cambiar el color de fondo de los botones
+                    control.BackColor = SystemColors.Control;
+                }
+            }
+            foreach (TabPage tabPage in fileTab.TabPages)
+            {
+                tabPage.BackColor = SystemColors.Control;
+                tabPage.ForeColor = SystemColors.ControlText;
+            }
+            // Restaurar el color de fondo del RichTextBox (si tienes uno)
+            if (richTextBox1 != null)
+            {
+                richTextBox1.BackColor = SystemColors.Window;
+                richTextBox1.ForeColor = SystemColors.ControlText;
+            }
+
+            // Restaurar el color de fondo de los DataGridView (si tienes uno)
+            if (dataGridView1 != null)
+            {
+                dataGridView1.BackgroundColor = SystemColors.Window;
+                dataGridView1.DefaultCellStyle.BackColor = SystemColors.Window;
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
+            }
         }
 
         private void label14_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void tabPage6_Click(object sender, EventArgs e)
@@ -730,8 +773,7 @@ Invoke-Run
         }
     }
 
-
+}
 
         /*GENESIS POR AQUI CAGANDOLA */
-    }
-}
+
