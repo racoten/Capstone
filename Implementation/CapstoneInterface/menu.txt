@@ -10,6 +10,15 @@ The available commands are as follows:
     execute-assembly [name] Load and execute a .NET assembly from memory.
                             Usage: execute-assembly # Seatbelt
 
+    clip                    Fetch the current content of the clipboard.
+                            Usage: clip
+
+    screengrab              Capture the current screen.
+                            Usage: screengrab
+
+    loadcs                  Dynamically compile and execute C# code.
+                            Usage: loadcs # [encodedSourceCode]  [className]  [methodName]
+
     help                    Show this help menu.
 
     exit                    Exit the program.

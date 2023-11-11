@@ -760,6 +760,12 @@ Invoke-Run
                 dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
                 dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
             }
+
+            label6.ForeColor = Color.Black;
+            label10.ForeColor = Color.Black;
+            label11.ForeColor = Color.Black;
+            label9.ForeColor = Color.Black;
+            groupBox2.ForeColor = Color.Black;
         }
 
         private void label14_Click(object sender, EventArgs e)
@@ -771,8 +777,84 @@ Invoke-Run
         {
 
         }
-    }
 
+        private void btnDarkMode_Click(object sender, EventArgs e)
+        {
+            // Set the form's background to a dark color
+            this.BackColor = Color.FromArgb(45, 45, 48); // Dark gray color
+
+            // Set the background color of TextBox and DataGridView to a slightly lighter dark color
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox || control is DataGridView)
+                {
+                    control.BackColor = Color.FromArgb(30, 30, 30); // Dark gray
+                }
+            }
+            foreach (TabPage tabPage in fileTab.TabPages)
+            {
+                tabPage.BackColor = Color.FromArgb(45, 45, 48); // Dark gray
+                tabPage.ForeColor = Color.White; // Light text color
+            }
+            // Set the background and text color of the RichTextBox (if you have one)
+            if (richTextBox1 != null)
+            {
+                richTextBox1.BackColor = Color.FromArgb(30, 30, 30); // Dark gray
+                richTextBox1.ForeColor = Color.White; // Light text color
+            }
+
+            // Set the background and text color of the DataGridView (if you have one)
+            if (dataGridView1 != null)
+            {
+                dataGridView1.BackgroundColor = Color.FromArgb(30, 30, 30); // Dark gray
+                dataGridView1.DefaultCellStyle.BackColor = Color.FromArgb(30, 30, 30); // Dark gray
+                dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48); // Darker gray
+                dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // Light text color
+            }
+
+            // Set the background and text color for txtPayloadGen
+            txtPayloadGen.BackColor = Color.FromArgb(45, 45, 48); // Dark gray
+            txtPayloadGen.ForeColor = Color.White; // White text
+
+            // Set the text color for labels
+            label6.ForeColor = Color.White;
+            label10.ForeColor = Color.White;
+            label11.ForeColor = Color.White;
+            label9.ForeColor = Color.White;
+            groupBox2.ForeColor = Color.White;
+
+            // Set the background and text color for listBox1
+            listBox1.BackColor = Color.FromArgb(45, 45, 48); // Dark gray
+            listBox1.ForeColor = Color.White; // White text
+
+            var buttonNames = new HashSet<string> { "button6", "btnDarkMode", "btnSignOut", "btnEditImplant",
+            "btnRunCommand", "btnConsole", "btnProcesses", "button1", "btnGetData",
+            "btnPayloadGenerate", "btnBundlePayload", "btnGenerateImplantShellcode",
+            "btnSendMessage", "button2", "button3", "button4" };
+
+            // Recursively change button text colors in the form
+            ChangeButtonTextColors(this.Controls, buttonNames);
+            //ApplyDarkModeToSplitContainer();
+        }
+
+        private void ChangeButtonTextColors(Control.ControlCollection controls, HashSet<string> buttonNames)
+        {
+            foreach (Control control in controls)
+            {
+                // If the control is a button and its name is in the list, change text color
+                if (control is Button button && buttonNames.Contains(button.Name))
+                {
+                    button.ForeColor = Color.Black;
+                }
+
+                // If the control contains other controls, recursively change their text colors
+                if (control.HasChildren)
+                {
+                    ChangeButtonTextColors(control.Controls, buttonNames);
+                }
+            }
+        }
+    }
 }
 
         /*GENESIS POR AQUI CAGANDOLA */
