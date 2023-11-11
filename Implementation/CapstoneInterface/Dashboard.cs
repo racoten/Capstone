@@ -24,7 +24,7 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public string userToControl { get; set; }
 
-        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CImplant\\main.c");
+        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Implant\\Implant.cs");
         public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command

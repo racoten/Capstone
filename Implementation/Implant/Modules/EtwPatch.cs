@@ -86,8 +86,6 @@ namespace HTTPImplant.Modules
                 return false;
             }
 
-            Console.WriteLine("[+] DONE!");
-
             return true;
         }
 
@@ -153,8 +151,6 @@ namespace HTTPImplant.Modules
             {
                 return false;
             }
-
-            Console.WriteLine("[+] DONE!");
 
             return true;
         }

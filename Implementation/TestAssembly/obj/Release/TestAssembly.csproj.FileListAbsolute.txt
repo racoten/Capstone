@@ -36,3 +36,4 @@ C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csp
 C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
 C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
 C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb
+C:\Users\vquer\Documents\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.SuggestedBindingRedirects.cache

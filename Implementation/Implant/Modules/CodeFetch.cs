@@ -21,11 +21,11 @@ namespace HTTPImplant.Modules
             }
             catch (WebException webException)
             {
-                //Console.WriteLine($"Web request failed: {webException.Message}");
+                Console.WriteLine($"Web request failed: {webException.Message}");
             }
             catch (Exception ex)
-            {
-                //Console.WriteLine($"An unknown error occurred: {ex.Message}");
+            { 
+                Console.WriteLine($"An unknown error occurred: {ex.Message}");
             }
             return null;
         }
