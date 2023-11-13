@@ -203,4 +203,5 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 	// After all items are registered, we response with a success message
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("New implant registered successfully"))
+	alert("New implant registered successfully")
 }

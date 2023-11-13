@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sync"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
 	db *sql.DB
+
+	messages []Alerts
+	mutex    sync.Mutex
 )
 
 func main() {
+	go TCPCreate()
 	config, err1 := LoadConfiguration("aef-profile.json")
 	if err1 != nil {
 		fmt.Println(err1)
@@ -60,6 +65,9 @@ func main() {
 	// Chat system
 	mux.HandleFunc("/messagePost", messagePost)
 	mux.HandleFunc("/messageGet", messageGet)
+
+	// Alerts system
+	mux.HandleFunc("/getAlerts", messagesHandler)
 
 	fmt.Println("Admin Server: " + socket)
 	err = http.ListenAndServe(socket, mux)

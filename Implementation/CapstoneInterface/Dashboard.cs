@@ -10,13 +10,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Net.Http;
-
+using MySqlX.XDevAPI;
+using Windows.Media.Protection.PlayReady;
 
 namespace CapstoneInterface
 {
     public partial class Dashboard : Form
     {
         private System.Threading.Timer _messageFetchTimer;
+        private System.Threading.Timer _configFetchTimer;
+        private System.Threading.Timer _fetchAlerts;
+        private static HttpClient _httpClient = new HttpClient();
 
         public string host { get; set; }
         public string port { get; set; }
@@ -65,22 +69,107 @@ namespace CapstoneInterface
         /*GENESIS POR AQUI CAGANDOLA*/
         public class Listener
         {
+            [JsonProperty("Name")]
             public string Name { get; set; }
+            
+            // [JsonProperty("Payload")]
             /*public string Payload { get; set; }*/
+            
+            [JsonProperty("IP")]
             public string IP { get; set; }
+
+            //[JsonProperty("HostRotation")]
             /*public string HostRotation { get; set; }*/
+
+            [JsonProperty("Port")]
             public string Port { get; set; }
+
+            //[JsonProperty("UserAgent")]
             /*public string UserAgent { get; set; }*/
-            public string Headers { get; set; }
+            
+            [JsonProperty("Header")]
+            public string Header { get; set; }
         }
         /*GENESIS POR AQUI CAGANDOLA*/
 
-
+        public class Alert
+        {
+            public string AlertMessage { get; set; }
+        }
 
         public Dashboard()
         {
             InitializeComponent();
             _messageFetchTimer = new System.Threading.Timer(async _ => await FetchMessagesAsync(), null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
+            _configFetchTimer = new System.Threading.Timer(async _ => await displayImplantConfig(), null, TimeSpan.Zero, TimeSpan.FromSeconds(7));
+            _fetchAlerts = new System.Threading.Timer(async _ => await FetchAlertsAsync(), null, TimeSpan.Zero, TimeSpan.FromSeconds(3));
+        }
+
+        private async void Dashboard_Load(object sender, EventArgs e)
+        {
+            txtConsoleOutput.Text = menu;
+            lblServer.Text = host + ":" + port;
+            txtPayloadGen.ScrollBars = ScrollBars.Vertical;
+
+            // Parse the code into a SyntaxTree
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(templatePayload);
+
+            // Get the root of the tree
+            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+
+            // Normalize and format the whitespace in the code
+            SyntaxNode formattedNode = root.NormalizeWhitespace();
+
+            // The formatted code as a string
+            string formattedCode = formattedNode.ToFullString();
+
+            richTextBox1.Text = formattedCode;
+
+            lblOperator.Text = operatorName;
+
+            await displayImplantConfig();
+
+            await FetchMessagesAsync();
+
+
+        }
+        public async Task<string> FetchAlertsAsync()
+        {
+            try
+            {
+                string responseBody = await _httpClient.GetStringAsync($"http://{host}:{port}/getAlerts");
+                Console.WriteLine("Response: " + responseBody); // Debug statement
+
+                // Split the response into separate JSON objects
+                var alertStrings = responseBody.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var alertsText = new StringBuilder();
+
+                foreach (var alertString in alertStrings)
+                {
+                    // Safely try to deserialize each JSON object
+                    try
+                    {
+                        var alert = JsonConvert.DeserializeObject<Alert>(alertString);
+                        if (alert != null)
+                        {
+                            alertsText.AppendLine(alert.AlertMessage); // Assuming 'Alert' is the correct property name
+                        }
+                    }
+                    catch (JsonException ex)
+                    {
+                        Console.WriteLine("JSON Parse Error: " + ex.Message);
+                    }
+                }
+
+                string result = alertsText.ToString();
+                rTxtMessagesBox.Text = result; // Ensure this runs on UI thread
+                return result;
+            }
+            catch (Exception ex)
+            {
+                rTxtMessagesBox.Text = "Error: " + ex.Message; // Debug statement
+                return "Error: " + ex.Message;
+            }
         }
 
         private void txtConsoleOutput_TextChanged(object sender, EventArgs e)
@@ -314,6 +403,9 @@ namespace CapstoneInterface
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
+
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync("http://" + host + ":" + port + "/getClients");
 
@@ -456,34 +548,6 @@ Invoke-Run
 
         private Messages _lastFetchedMessage;
 
-        private HttpClient _httpClient = new HttpClient();  // Consider making this static if it will be shared across multiple instances
-
-        private async void Dashboard_Load(object sender, EventArgs e)
-        {
-            txtConsoleOutput.Text = menu;
-            lblServer.Text = host + ":" + port;
-            txtPayloadGen.ScrollBars = ScrollBars.Vertical;
-
-            // Parse the code into a SyntaxTree
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(templatePayload);
-
-            // Get the root of the tree
-            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-
-            // Normalize and format the whitespace in the code
-            SyntaxNode formattedNode = root.NormalizeWhitespace();
-
-            // The formatted code as a string
-            string formattedCode = formattedNode.ToFullString();
-
-            richTextBox1.Text = formattedCode;
-
-            lblOperator.Text = operatorName;
-
-            await FetchMessagesAsync();
-        }
-
-
         private void btnEditImplant_Click(object sender, EventArgs e)
         {
             if (richTextBox1.Text != templatePayload.ToString())
@@ -500,7 +564,7 @@ Invoke-Run
             this.Hide();
             form.Closed += (s, args) => this.Close();
             form.Show();
-        }
+        } 
 
         private async void btnSendMessage_Click(object sender, EventArgs e)
         {
@@ -593,11 +657,123 @@ Invoke-Run
             }
         }
 
+        public class ListenersRoot
+        {
+            public List<Listener> Listeners { get; set; }
+        }
+
+        private async Task displayImplantConfig()
+        {
+            if (InvokeRequired)
+            {
+                // Invoke the method on the UI thread
+                Invoke(new MethodInvoker(async () => await displayImplantConfig()));
+                return;
+            }
+
+            // Clear the DataGridView
+            dgvImplantConfig.DataSource = null;
+            dgvImplantConfig.Columns.Clear();
+
+            // Validate host and port
+            if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(port))
+            {
+                MessageBox.Show("Host or port is null or empty. Please check the configuration.");
+                return;
+            }
+
+            // Construct the URI
+            var getListenersUri = new Uri($"http://{host}:{port}/getListeners");
+
+            // Continue with the rest of the method if the URI is correct
+            try
+            {
+                var response = await _httpClient.GetAsync(getListenersUri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var root = JsonConvert.DeserializeObject<ListenersRoot>(json);
+
+                    // Check if the DataGridView already has a "Check" column to prevent adding it multiple times
+                    if (!dgvImplantConfig.Columns.Contains("Check"))
+                    {
+                        AddCheckBoxColumn();
+                    }
+
+                    dgvImplantConfig.DataSource = root.Listeners;
+                }
+                else
+                {
+                    MessageBox.Show($"Error: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+
+            // Adjust the DataGridView's properties
+            dgvImplantConfig.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void AddCheckBoxColumn()
+        {
+            var checkColumn = new DataGridViewCheckBoxColumn
+            {
+                HeaderText = "Check",
+                Width = 30,
+                Name = "Check",
+                FlatStyle = FlatStyle.Standard,
+                CellTemplate = new DataGridViewCheckBoxCell(false)
+            };
+
+            dgvImplantConfig.Columns.Insert(0, checkColumn);
+        }
+
         private async void btnGenerateImplantShellcode_Click(object sender, EventArgs e)
         {
+            string selectedName = null;
+            string selectedHost = null;
+            string selectedPort = null;
+            string selectedHeader = null;
+
+            // Iterate through the DataGridView rows to find the checked row
+            foreach (DataGridViewRow row in dgvImplantConfig.Rows)
+            {
+                bool isChecked = Convert.ToBoolean(row.Cells["Check"].Value);
+                if (isChecked)
+                {
+                    selectedName = row.Cells["Name"].Value.ToString();
+                    selectedHost = row.Cells["IP"].Value.ToString();
+                    selectedPort = row.Cells["Port"].Value.ToString();
+
+                    break; // Stop the loop once the selected row is found
+                }
+            }
+
+            // Check if any row was selected
+            if (string.IsNullOrEmpty(selectedHost) || string.IsNullOrEmpty(selectedPort))
+            {
+                MessageBox.Show("Please select a host and port from the list.");
+                return;
+            }
+
+            var listenerData = new
+            {
+                Name = selectedName,
+                IP = selectedHost,
+                Port = selectedPort,
+                Header = "",
+            };
+
+            var json = JsonConvert.SerializeObject(listenerData);
+
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync($"http://{host}:{port}/generate/windows/implant");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // rTxtMessagesBox.Text = $"Creating implant with config: {listenerData.Name}, {listenerData.IP}, {listenerData.Port}, {listenerData.Header}";
+                var response = await client.PostAsync($"http://{host}:{port}/generate/windows/implant", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -626,6 +802,7 @@ Invoke-Run
             }
         }
 
+
         private void txtConsoleOutput_TextChanged_1(object sender, EventArgs e)
         {
 
@@ -636,6 +813,18 @@ Invoke-Run
 
         }
 
+        private static Random random = new Random();
+
+        public static string GenerateRandomWord(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            StringBuilder result = new StringBuilder(length);
+            for (int i = 0; i < length; i++)
+            {
+                result.Append(chars[random.Next(chars.Length)]);
+            }
+            return result.ToString();
+        }
 
         /*GENESIS POR AQUI CAGANDOLA */
         private List<Listener> listeners = new List<Listener>();
@@ -644,10 +833,10 @@ Invoke-Run
             //List<Listener> newListener = new List<Listener>();
             Listener newListener = new Listener();
 
-            newListener.Name = txtBoxName.Text;
+            newListener.Name = GenerateRandomWord(15);
             newListener.IP = txtBoxIP.Text;
             newListener.Port = txtBoxPort.Text;
-            newListener.Headers = txtBoxHeader.Text;
+            newListener.Header = txtBoxHeader.Text;
 
             string jsonListener = JsonConvert.SerializeObject(newListener);
 
@@ -670,7 +859,7 @@ Invoke-Run
                         listBox1.Items.Clear();
                         foreach (var listener in listeners)
                         {
-                            listBox1.Items.Add($"Name: {listener.Name}, IP: {listener.IP}, Port: {listener.Port}, Headers: {listener.Headers}");
+                            listBox1.Items.Add($"Name: {listener.Name}, IP: {listener.IP}, Port: {listener.Port}, Headers: {listener.Header}");
                         }
                         //Successfull response
                         MessageBox.Show("HTTP Response Success!");
@@ -693,20 +882,48 @@ Invoke-Run
 
         private void button3_Click(object sender, EventArgs e)
         {
-            txtBoxName.Text = "";
             txtBoxIP.Text = "";
             txtBoxPort.Text = "";
             txtBoxHeader.Text = "";
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private async void button4_Click(object sender, EventArgs e)
         {
             // Clear the list of listeners
             listeners.Clear();
 
             // Clear the listBox1 control
             listBox1.Items.Clear();
+
+            // Create an HttpClient to make the request
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    // Assuming you want to make a GET request
+                    var response = await client.GetAsync("http://127.0.0.1:8082/clearListeners");
+
+                    // Optional: Check the response status code
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Optionally read the response content if needed
+                        string responseContent = await response.Content.ReadAsStringAsync();
+                        // Do something with the response content if needed
+                    }
+                    else
+                    {
+                        // Handle the error
+                        MessageBox.Show($"Request failed with status code: {response.StatusCode}");
+                    }
+                }
+                catch (HttpRequestException httpRequestException)
+                {
+                    // Handle any exceptions that occurred during the request
+                    MessageBox.Show($"Error making request: {httpRequestException.Message}");
+                }
+            }
         }
+
 
         private void button6_Click_1(object sender, EventArgs e)
         {
@@ -761,7 +978,6 @@ Invoke-Run
                 dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
             }
 
-            label6.ForeColor = Color.Black;
             label10.ForeColor = Color.Black;
             label11.ForeColor = Color.Black;
             label9.ForeColor = Color.Black;
@@ -816,8 +1032,6 @@ Invoke-Run
             txtPayloadGen.BackColor = Color.FromArgb(45, 45, 48); // Dark gray
             txtPayloadGen.ForeColor = Color.White; // White text
 
-            // Set the text color for labels
-            label6.ForeColor = Color.White;
             label10.ForeColor = Color.White;
             label11.ForeColor = Color.White;
             label9.ForeColor = Color.White;
@@ -856,6 +1070,3 @@ Invoke-Run
         }
     }
 }
-
-        /*GENESIS POR AQUI CAGANDOLA */
-

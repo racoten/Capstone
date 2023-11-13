@@ -113,12 +113,12 @@ func postOutput(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Received XOR encrypted output:", string(body))
-
 	// Lock the mutex and save the body in the outputBuffer
 	bufferMutex.Lock()
 	outputBuffer = body
 	bufferMutex.Unlock()
+
+	alert("Received output from Implant")
 }
 
 func getOutput(w http.ResponseWriter, r *http.Request) {

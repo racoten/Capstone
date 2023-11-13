@@ -86,6 +86,8 @@
     <Compile Include="Modules\RegisterImplant.cs" />
     <Compile Include="Modules\SCLoader.cs" />
     <Compile Include="Modules\ScreenGrab.cs" />
+    <Compile Include="Modules\SMBClient.cs" />
+    <Compile Include="Modules\SMBServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

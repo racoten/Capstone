@@ -57,7 +57,7 @@ type Command struct {
 	Delay       string `json:"delay"`
 	TimeToExec  string `json:"timeToExec"`
 	File        string `json:"File"`
-	NullTerm    string `json:"nullterm"`
+	UseSmb      string `json:"usesmb"`
 }
 
 type Output struct {
@@ -94,4 +94,15 @@ type Device struct {
 	OSName          string `json:"OSName"`
 	NetworkInfo     string `json:"NetworkInfo"`
 	CurrentDate     string `json:"CurrentDate"`
+}
+
+type ImplantConfig struct {
+	Name   string `json:"Name"`
+	IP     string `json:"IP"`
+	Port   string `json:"Port"`
+	Header string `json:"Header"`
+}
+
+type Alerts struct {
+	Alert string `json:"alert"`
 }

@@ -117,4 +117,5 @@ func registerOperatorHandler(w http.ResponseWriter, r *http.Request) {
 	// Send response
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Operator " + strconv.FormatInt(id, 10) + " registered successfully"))
+	alert("Operator " + strconv.FormatInt(id, 10) + " registered successfully")
 }

