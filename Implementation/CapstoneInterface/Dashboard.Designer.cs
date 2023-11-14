@@ -43,10 +43,13 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnEditImplant = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnUploadFile = new System.Windows.Forms.Button();
+            this.lblFileToUploadPath = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnProcesses = new System.Windows.Forms.Button();
+            this.btnFileDialog = new System.Windows.Forms.Button();
             this.btnConsole = new System.Windows.Forms.Button();
             this.btnRunCommand = new System.Windows.Forms.Button();
             this.txtCommand = new System.Windows.Forms.TextBox();
@@ -82,6 +85,7 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnSignOut = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.fileTab.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -272,10 +276,13 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Gainsboro;
+            this.tabPage2.Controls.Add(this.btnUploadFile);
+            this.tabPage2.Controls.Add(this.lblFileToUploadPath);
+            this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.txtConsoleOutput);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.dataGridView1);
-            this.tabPage2.Controls.Add(this.btnProcesses);
+            this.tabPage2.Controls.Add(this.btnFileDialog);
             this.tabPage2.Controls.Add(this.btnConsole);
             this.tabPage2.Controls.Add(this.btnRunCommand);
             this.tabPage2.Controls.Add(this.txtCommand);
@@ -285,6 +292,38 @@
             this.tabPage2.Size = new System.Drawing.Size(1761, 863);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Server";
+            // 
+            // btnUploadFile
+            // 
+            this.btnUploadFile.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnUploadFile.FlatAppearance.BorderSize = 0;
+            this.btnUploadFile.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnUploadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUploadFile.Location = new System.Drawing.Point(272, 61);
+            this.btnUploadFile.Name = "btnUploadFile";
+            this.btnUploadFile.Size = new System.Drawing.Size(120, 30);
+            this.btnUploadFile.TabIndex = 12;
+            this.btnUploadFile.Text = "Upload";
+            this.btnUploadFile.UseVisualStyleBackColor = false;
+            this.btnUploadFile.Click += new System.EventHandler(this.btnUploadFile_Click);
+            // 
+            // lblFileToUploadPath
+            // 
+            this.lblFileToUploadPath.AutoSize = true;
+            this.lblFileToUploadPath.Location = new System.Drawing.Point(552, 66);
+            this.lblFileToUploadPath.Name = "lblFileToUploadPath";
+            this.lblFileToUploadPath.Size = new System.Drawing.Size(14, 20);
+            this.lblFileToUploadPath.TabIndex = 11;
+            this.lblFileToUploadPath.Text = "-";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(398, 66);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(148, 20);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "File to Upload Path:";
             // 
             // txtConsoleOutput
             // 
@@ -325,19 +364,19 @@
             this.dataGridView1.TabIndex = 7;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // btnProcesses
+            // btnFileDialog
             // 
-            this.btnProcesses.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnProcesses.FlatAppearance.BorderSize = 0;
-            this.btnProcesses.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcesses.Location = new System.Drawing.Point(92, 61);
-            this.btnProcesses.Name = "btnProcesses";
-            this.btnProcesses.Size = new System.Drawing.Size(81, 30);
-            this.btnProcesses.TabIndex = 5;
-            this.btnProcesses.Text = "Process";
-            this.btnProcesses.UseVisualStyleBackColor = false;
-            this.btnProcesses.Click += new System.EventHandler(this.btnProcesses_Click);
+            this.btnFileDialog.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnFileDialog.FlatAppearance.BorderSize = 0;
+            this.btnFileDialog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnFileDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFileDialog.Location = new System.Drawing.Point(92, 61);
+            this.btnFileDialog.Name = "btnFileDialog";
+            this.btnFileDialog.Size = new System.Drawing.Size(120, 30);
+            this.btnFileDialog.TabIndex = 5;
+            this.btnFileDialog.Text = "File Path";
+            this.btnFileDialog.UseVisualStyleBackColor = false;
+            this.btnFileDialog.Click += new System.EventHandler(this.btnProcesses_Click);
             // 
             // btnConsole
             // 
@@ -780,6 +819,10 @@
             this.btnSignOut.UseVisualStyleBackColor = false;
             this.btnSignOut.Click += new System.EventHandler(this.btnSignOut_Click);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -847,7 +890,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnProcesses;
+        private System.Windows.Forms.Button btnFileDialog;
         private System.Windows.Forms.Button btnConsole;
         private System.Windows.Forms.Button btnRunCommand;
         private System.Windows.Forms.TextBox txtCommand;
@@ -875,5 +918,9 @@
         private System.Windows.Forms.Label lblOperator;
         private System.Windows.Forms.Button btnDarkMode;
         private System.Windows.Forms.DataGridView dgvImplantConfig;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblFileToUploadPath;
+        private System.Windows.Forms.Button btnUploadFile;
     }
 }

