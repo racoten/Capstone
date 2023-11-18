@@ -98,7 +98,7 @@ func createListener(w http.ResponseWriter, r *http.Request) {
 }
 
 func getListeners(w http.ResponseWriter, r *http.Request) {
-	filePath := "ListenerEntries\\listeners.json"
+	filePath := "ListenerEntries/listeners.json"
 
 	var listenersWrapper ListenerWrapper
 
@@ -128,7 +128,7 @@ func getListeners(w http.ResponseWriter, r *http.Request) {
 }
 
 func clearListeners(w http.ResponseWriter, r *http.Request) {
-	filePath := "ListenerEntries\\listeners.json"
+	filePath := "ListenerEntries/listeners.json"
 	empty_listeners := "{\"Listeners\":[]}"
 
 	// Close all active listeners

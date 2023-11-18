@@ -23,10 +23,10 @@ namespace HTTPImplant.Modules
             if (results.Errors.HasErrors)
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (CompilerError error in results.Errors)
+/*                foreach (CompilerError error in results.Errors)
                 {
                     sb.AppendLine($"Error ({error.ErrorNumber}): {error.ErrorText}");
-                }
+                }*/
 
                 Console.WriteLine("Compilation failed with errors:");
                 Console.WriteLine(sb.ToString());
@@ -44,7 +44,7 @@ namespace HTTPImplant.Modules
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error during execution: {ex.Message}");
+                    /*Console.WriteLine($"Error during execution: {ex.Message}");*/
                 }
             }
             else

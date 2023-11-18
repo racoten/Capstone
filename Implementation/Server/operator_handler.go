@@ -105,12 +105,12 @@ func registerOperatorHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Print out the operator information
-	fmt.Println("First Name:", operator.FirstName)
-	fmt.Println("Last Name:", operator.LastName)
-	fmt.Println("Username:", operator.Username)
-	fmt.Println("Password:", operator.Password)
-	fmt.Println("Email:", operator.Email)
-	fmt.Println("Phone Number:", operator.PhoneNumber)
+	// fmt.Println("First Name:", operator.FirstName)
+	// fmt.Println("Last Name:", operator.LastName)
+	// fmt.Println("Username:", operator.Username)
+	// fmt.Println("Password:", operator.Password)
+	// fmt.Println("Email:", operator.Email)
+	// fmt.Println("Phone Number:", operator.PhoneNumber)
 
 	fmt.Println("Operator " + strconv.FormatInt(id, 10) + " registered successfully")
 
