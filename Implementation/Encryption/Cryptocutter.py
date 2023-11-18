@@ -35,12 +35,12 @@ def encrypt_file(input_file, output_file):
     xor_key_str = 'var xorKey = Convert.FromBase64String("' + base64.b64encode(xor_key).decode('utf-8') + '");'
 
     # Replacing values in C# code
-    with open('..\\Loader\\Loader.cs', 'r') as file:
+    with open('C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Loader\\Loader.cs', 'r') as file:
         csharp_code = file.read()
     csharp_code = csharp_code.replace('var xorKey = Convert.FromBase64String("#1");', xor_key_str, 1)
     csharp_code = csharp_code.replace('var key = Convert.FromBase64String("#2");', aes_key_str, 1)
     csharp_code = csharp_code.replace('var iv = Convert.FromBase64String("#3");', iv_str, 1)
-    with open('..\\Loader\\Loader.cs', 'w') as file:
+    with open('C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Loader\\Loader.cs', 'w') as file:
         file.write(csharp_code)
 
 # Argument parsing

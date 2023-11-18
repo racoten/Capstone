@@ -53,3 +53,4 @@ C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\System.Text
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\System.Threading.Tasks.Extensions.xml
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\System.ValueTuple.xml
 C:\Users\vquer\Documents\Capstone\Implementation\Implant\obj\Release\Implant.csproj.CopyComplete
+C:\Users\vquer\Documents\Capstone\Implementation\Implant\bin\Release\System.Management.Automation.dll
