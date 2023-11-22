@@ -32,7 +32,7 @@ func createListener(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	filePath := "ListenerEntries\\listeners.json"
+	filePath := "ListenerEntries/listeners.json"
 
 	var wrapper ListenerWrapper
 	fileContent, err := ioutil.ReadFile(filePath)

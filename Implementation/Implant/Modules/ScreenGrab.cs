@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace HTTPImplant.Modules
 {
-    internal class ScreenGrab
+    public class ScreenGrab
     {
         public static string CaptureScreen()
         {

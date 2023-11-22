@@ -23,7 +23,20 @@ type ListDevices struct {
 // Define a Method for the Operator to see the list of implants connected
 func getClients(w http.ResponseWriter, r *http.Request) {
 	// Define query string to perform on the database
-	sqlQuery := "SELECT Victim.username, Network.ip_address, Operating_System.name, CPU.architecture, GPU.information, RAM.amount, Storage.amount " + "FROM Victim " + "JOIN Network ON Victim.id = Network.victim_id " + "JOIN Operating_System ON Victim.id = Operating_System.victim_id " + "JOIN CPU ON Victim.id = CPU.victim_id " + "JOIN GPU ON Victim.id = GPU.victim_id " + "JOIN RAM ON Victim.id = RAM.victim_id " + "JOIN Storage ON Victim.id = Storage.victim_id"
+	sqlQuery := "SELECT Victim.username, " +
+		"COALESCE(Network.ip_address, 'n/a') AS Network_ip_address, " +
+		"COALESCE(Operating_System.name, 'n/a') AS Operating_System_name, " +
+		"COALESCE(CPU.architecture, 'n/a') AS CPU_architecture, " +
+		"COALESCE(GPU.information, 'n/a') AS GPU_information, " +
+		"COALESCE(CAST(RAM.amount AS CHAR), 'n/a') AS RAM_amount, " + // Assuming RAM.amount is an integer
+		"COALESCE(CAST(Storage.amount AS CHAR), 'n/a') AS Storage_amount " + // Assuming Storage.amount is an integer
+		"FROM Victim " +
+		"LEFT JOIN Network ON Victim.id = Network.victim_id " +
+		"LEFT JOIN Operating_System ON Victim.id = Operating_System.victim_id " +
+		"LEFT JOIN CPU ON Victim.id = CPU.victim_id " +
+		"LEFT JOIN GPU ON Victim.id = GPU.victim_id " +
+		"LEFT JOIN RAM ON Victim.id = RAM.victim_id " +
+		"LEFT JOIN Storage ON Victim.id = Storage.victim_id"
 
 	// Perform query using the db open connection to MySQL
 	results, err := db.Query(sqlQuery)

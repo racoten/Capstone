@@ -18,7 +18,7 @@ namespace HTTPImplant.Modules
         Storage         string `json:"Storage.amount"`
     }
      */
-    internal class GetImplantInfo
+    public class GetImplantInfo
     {
         public static string Username()
         {

