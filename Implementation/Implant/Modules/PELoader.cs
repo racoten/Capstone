@@ -19,7 +19,6 @@ namespace HTTPImplant.Modules
     {
         public static void load(byte[] unpacked)
         {
-            string peAsString;
 
             PELoader pe = new PELoader(unpacked);
 

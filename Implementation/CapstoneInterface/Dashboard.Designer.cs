@@ -43,7 +43,6 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnEditImplant = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btnUploadFile = new System.Windows.Forms.Button();
             this.lblFileToUploadPath = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtConsoleOutput = new System.Windows.Forms.RichTextBox();
@@ -276,7 +275,6 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Gainsboro;
-            this.tabPage2.Controls.Add(this.btnUploadFile);
             this.tabPage2.Controls.Add(this.lblFileToUploadPath);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.txtConsoleOutput);
@@ -292,20 +290,6 @@
             this.tabPage2.Size = new System.Drawing.Size(1761, 863);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Server";
-            // 
-            // btnUploadFile
-            // 
-            this.btnUploadFile.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnUploadFile.FlatAppearance.BorderSize = 0;
-            this.btnUploadFile.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnUploadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUploadFile.Location = new System.Drawing.Point(272, 61);
-            this.btnUploadFile.Name = "btnUploadFile";
-            this.btnUploadFile.Size = new System.Drawing.Size(120, 30);
-            this.btnUploadFile.TabIndex = 12;
-            this.btnUploadFile.Text = "Upload";
-            this.btnUploadFile.UseVisualStyleBackColor = false;
-            this.btnUploadFile.Click += new System.EventHandler(this.btnUploadFile_Click);
             // 
             // lblFileToUploadPath
             // 
@@ -921,6 +905,5 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblFileToUploadPath;
-        private System.Windows.Forms.Button btnUploadFile;
     }
 }

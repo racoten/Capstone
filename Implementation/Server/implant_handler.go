@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -8,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"bytes"
 )
 
 func windowsImplant(w http.ResponseWriter, r *http.Request) {
@@ -22,8 +22,7 @@ func windowsImplant(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath)
 
 	fmt.Println("Cleaning loader...")
-	var cmd *exec.Cmd
-	cmd = exec.Command("/bin/bash", "-c", "python3 Cleaner.py")
+	var cmd = exec.Command("/bin/bash", "-c", "python3 Cleaner.py")
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

@@ -58,6 +58,7 @@ type Command struct {
 	TimeToExec  string `json:"timeToExec"`
 	File        string `json:"File"`
 	UseSmb      string `json:"usesmb"`
+	ActSmb      string `json:"actsmb"`
 }
 
 type Output struct {
@@ -105,4 +106,8 @@ type ImplantConfig struct {
 
 type Alerts struct {
 	Alert string `json:"alert"`
+}
+
+type Token struct {
+	ImplantToken string `json:"token"`
 }

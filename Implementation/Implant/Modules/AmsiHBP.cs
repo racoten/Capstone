@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -120,7 +116,7 @@ namespace HTTPImplant.Modules
             return dw;
         }
     }
-    class WinAPI
+    public class WinAPI
     {
         public const UInt32 DBG_CONTINUE = 0x00010002;
         public const UInt32 DBG_EXCEPTION_NOT_HANDLED = 0x80010001;

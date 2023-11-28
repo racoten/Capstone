@@ -1,0 +1,154 @@
+{
+  "main": {
+    "id": "e5dde0dec8a32372",
+    "type": "split",
+    "children": [
+      {
+        "id": "31931994976ae064",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ea52ed39682d3753",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5c3734482d82e450",
+    "type": "split",
+    "children": [
+      {
+        "id": "f2d45d44c234c6ec",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "23b332065548e8c6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d0b09c9ae9e2abd3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "3b7a5dbeae3f9fdb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3faf75d3dc19c721",
+    "type": "split",
+    "children": [
+      {
+        "id": "b840097457d06e1a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0d78c7f58c9ebb9b",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "126c72ea8f9e0d83",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "0d508a77834e7819",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "beb5c62c6afbdde5",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "ea52ed39682d3753",
+  "lastOpenFiles": [
+    "Red Team Ops/0. Getting Started/1.1 Getting Started - What is Red Teaming.md",
+    "Red Team Ops 2/1 - C2 Infrastructure/Chapter 1 - Setup, OpSec and Configuration.pdf"
+  ]
+}

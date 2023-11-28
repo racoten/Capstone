@@ -27,6 +27,7 @@ CREATE TABLE `Victim` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(50) NOT NULL,
     `operator_id` INT NOT NULL,
+    `token` VARCHAR(50),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`operator_id`) REFERENCES `operator`(`id`)
 );
@@ -93,8 +94,9 @@ INSERT INTO Operator_Login (username, password, date_registered, first_name, las
 
 -- insert operator login
 INSERT INTO Operator_Login (username, password, date_registered, first_name, last_name, email, phone_number, operator_id) VALUES ('operatorUser2', 'bf2c66c06659911881f383d447', '2022-01-03', 'Bob', 'Johnson', 'bobjohnson@example.com', '9876543210', 3);
+-- 6ed406b79c245fb4d54103a4097dfd32cfbbbfd23b974a17a7fa4d267f6ae8fe
+INSERT INTO Operator_Login (username, password, date_registered, first_name, last_name, email, phone_number, operator_id) VALUES ('carlos', '6ed406b79c245fb4d54103a4097dfd32cfbbbfd23b974a17a7fa4d267f6ae8fe', '2022-01-03', 'Carlos', 'Roque', 'carlos@example.com', '9876543210', 3);
 
-  
 -- insert victim
 INSERT INTO Victim (username, operator_id)
 VALUES ('steve.harrington', 1);
