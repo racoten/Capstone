@@ -31,7 +31,7 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public static string userToControl { get; set; }
 
-        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\Implant\\Implant.cs");
+        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\NewImplant\\Implant.cs");
         public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command
@@ -855,7 +855,7 @@ Invoke-Run
 
         private void CompileAndConvertToShellcode(string basedirWin, string ip, string port)
         {
-            string implantFilePath = Path.Combine(basedirWin, "Implant\\Implant.cs");
+            string implantFilePath = Path.Combine(basedirWin, "NewImplant\\Implant.cs");
 
             try
             {
@@ -910,7 +910,7 @@ Invoke-Run
                 string cscPath = @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
                 string donutPath = Path.Combine(basedirWin, "donut\\donut.exe");
                 string implantExePath = Path.Combine(basedirWin, "donut\\Implant.exe");
-                string modulesPath = Path.Combine(basedirWin, "Implant\\Modules\\*.cs");
+                string modulesPath = Path.Combine(basedirWin, "NewImplant\\Modules\\*.cs");
                 string outputShellcodePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
 
                 // Compile the C# code
