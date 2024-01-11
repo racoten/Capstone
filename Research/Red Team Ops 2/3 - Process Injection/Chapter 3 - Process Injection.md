@@ -113,7 +113,7 @@ namespace Badder
             uint dwMilliseconds);
 
         [Flags]
-        public enum AllocationType
+        public enum AllocationTypeLarge
         {
             Commit = 0x1000,
             Reserve = 0x2000,

