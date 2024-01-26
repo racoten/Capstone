@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
+                "file": "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.8 Command Line Detections.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
+                "file": "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.8 Command Line Detections.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
+                "file": "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.8 Command Line Detections.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md"
+                "file": "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.8 Command Line Detections.md"
               }
             }
           }
@@ -148,6 +148,19 @@
   },
   "active": "f7deb0ab9d8c4db0",
   "lastOpenFiles": [
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.7 Parent-Child Relationships.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.8 Command Line Detections.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.1 Behavioural Detections.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.6 AMSI vs Post-Exploitation.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.2 Manual AMSI Bypasses.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.5 Resource Kit.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/13.5 Microsoft Defender Antivirus.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.0 AMSI vs Post-Exploitation.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/13.6 Artifact Kit.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.3 Command Line Detections.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.4 Malleable C2.md",
+    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/13.7 Microsoft Defender Antivirus - Artifact Kit.md",
+    "Red Team Ops/2. Exploitation/22. Forest & Domain/12.8 Forest & Domain Trusts.md",
     "Red Team Ops/2. Exploitation/23. Local Administrator Password Solution/13.3 Local Administrator Password Solution.md",
     "Red Team Ops/2. Exploitation/23. Local Administrator Password Solution/13.2 Local Administrator Password Solution - Reading ms-Mcs-AdmPwd.md",
     "Red Team Ops/3. Extra/2. Command and Control/2.2 Command and Control - Pivot Listeners.md",
@@ -159,24 +172,11 @@
     "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager/24.2 Microsoft Configuration Manager - Enumeration.md",
     "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager/24.1 Configuration Manager.md",
     "Red Team Ops/2. Exploitation/9. Credential Theft/5.7 Credential Theft - NTLM Hashes.md",
-    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.4 Microsoft Defender Antivirus - Malleable C2.md",
-    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.3 Microsoft Defender Antivirus - Command Line Detections.md",
-    "Red Team Ops/3. Extra/24. Microsoft Defender Antivirus/14.2 Microsoft Defender Antivirus - Manual AMSI Bypasses.md",
     "Red Team Ops/2. Exploitation/21. Domain Dominance/12.3 Domain Dominance.md",
     "Red Team Ops/2. Exploitation/24. Microsoft Configuration Manager",
     "Red Team Ops/2. Exploitation/20. MS SQL Servers/12.2 MS SQL Servers - MS SQL Privilege Escalation.md",
-    "Red Team Ops/2. Exploitation/20. MS SQL Servers/12.1 MS SQL Servers - MS SQL Lateral Movement.md",
-    "Red Team Ops/2. Exploitation/20. MS SQL Servers/12.0 MS SQL Servers - MS SQL Command Execution.md",
-    "Red Team Ops/2. Exploitation/20. MS SQL Servers/11.9 MS SQL Servers - MS SQL Impersonation.md",
-    "Red Team Ops/2. Exploitation/20. MS SQL Servers/11.8 MS SQL Servers.md",
-    "Red Team Ops/0. Getting Started/1.4 Getting Started - Attack Lifecycle.md",
-    "Red Team Ops/0. Getting Started/1.5 Getting Started - Engagement Planning.md",
-    "Red Team Ops/0. Getting Started/1.3 Getting Started - Primum non nocere.md",
-    "Red Team Ops/2. Exploitation/19. Group Policy/11.6 Group Policy - Modify Existing GPO.md",
-    "MalDev Academy/13 - Payload Encryption - AES BCrypt.md",
     "Notion-Notes/C2_Development_Ideas.pdf",
     "Notion-Notes/Learning.pdf",
-    "Red Team Ops/Tools.md",
     "Red Team Ops/shirts_corp.pem",
     "Red Team Ops/shirts-co-kali.ovpn",
     "shirts-co-kali.ovpn",
