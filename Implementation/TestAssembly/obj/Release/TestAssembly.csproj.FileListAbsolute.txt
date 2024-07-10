@@ -36,3 +36,10 @@ C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csp
 C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
 C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
 C:\Users\geny1\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe.config
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.exe
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\bin\Release\TestAssembly.pdb
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.AssemblyReference.cache
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.csproj.CoreCompileInputs.cache
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.exe
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\TestAssembly\obj\Release\TestAssembly.pdb

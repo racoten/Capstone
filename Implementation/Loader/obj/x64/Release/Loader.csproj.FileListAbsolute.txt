@@ -66,3 +66,16 @@ C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.Core
 C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CopyComplete
 C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
 C:\Users\geny1\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe.config
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\Loader.exe
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\Loader.pdb
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.dll
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.pdb
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\Microsoft.Toolkit.Uwp.Notifications.xml
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\bin\x64\Release\System.ValueTuple.xml
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.AssemblyReference.cache
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.CoreCompileInputs.cache
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\obj\x64\Release\Loader.csproj.Up2Date
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\obj\x64\Release\Loader.exe
+C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\obj\x64\Release\Loader.pdb

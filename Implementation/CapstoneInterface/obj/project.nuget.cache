@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Mtxu9+A2r+QnGwAzeL30ezsx8GNI7yF8VrLKvolh2J4ryLIwpEXD40S3Oum8t/ZD4G/wKiAfpcjFdH6ieRVT1Q==",
+  "dgSpecHash": "ru6eAIUldWs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+  "projectFilePath": "C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vquer\\.nuget\\packages\\dllexport\\1.7.4\\dllexport.1.7.4.nupkg.sha512",
     "C:\\Users\\vquer\\.nuget\\packages\\google.protobuf\\3.23.3\\google.protobuf.3.23.3.nupkg.sha512",

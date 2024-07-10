@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using MySqlX.XDevAPI;
 using Windows.Media.Protection.PlayReady;
+
+
 using System.Linq;
 
 namespace CapstoneInterface
@@ -31,8 +33,8 @@ namespace CapstoneInterface
         public string operatorName { get; set; }
         public static string userToControl { get; set; }
 
-        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\NewImplant\\Implant.cs");
-        public string menu = File.ReadAllText("C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
+        public string templatePayload = File.ReadAllText("C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\NewImplant\\Implant.cs");
+        public string menu = File.ReadAllText("C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\CapstoneInterface\\menu.txt");
         public DataGridView Dgv { get; set; }
         public class Command
         {
@@ -936,7 +938,7 @@ Invoke-Run
             try
             {
                 string cscPath = @"dotnet";
-                string csProjImplant = @"C:\Users\vquer\Documents\Capstone\Implementation\NewImplant\NewImplant.csproj";
+                string csProjImplant = @"C:\Users\vquer\Desktop\Malware\Capstone\Implementation\NewImplant\NewImplant.csproj";
                 string donutPath = Path.Combine(basedirWin, "donut\\donut.exe");
                 string implantExePath = Path.Combine(basedirWin, "donut\\");
                 string outputShellcodePath = Path.Combine(basedirWin, "Encryption\\implant.bin");
@@ -1048,8 +1050,8 @@ Invoke-Run
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
                 string cscPath = @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
-                string loaderExePath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.exe";
-                string loaderCsPath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.cs";
+                string loaderExePath = @"C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\Loader.exe";
+                string loaderCsPath = @"C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\Loader.cs";
 
                 string arguments = $"/out:\"{loaderExePath}\" \"{loaderCsPath}\"";
                 /*txtPayloadGen.AppendText($"{arguments}" + Environment.NewLine);*/
@@ -1065,7 +1067,7 @@ Invoke-Run
         }
         private void SaveCompiledLoader()
         {
-            string loaderExePath = @"C:\Users\vquer\Documents\Capstone\Implementation\Loader\Loader.exe";  // Path of the compiled loader
+            string loaderExePath = @"C:\Users\vquer\Desktop\Malware\Capstone\Implementation\Loader\Loader.exe";  // Path of the compiled loader
 
             using (var saveFileDialog = new SaveFileDialog())
             {
@@ -1090,7 +1092,7 @@ Invoke-Run
 
         private void btnGenerateImplantShellcode_Click(object sender, EventArgs e)
         {
-            string basedirWin = "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\";
+            string basedirWin = "C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\";
             string selectedName = null;
             string selectedHost = null;
             string selectedPort = null;

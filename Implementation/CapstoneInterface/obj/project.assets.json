@@ -5045,25 +5045,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vquer\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\vquer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+      "projectUniqueName": "C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
       "projectName": "CapstoneInterface",
-      "projectPath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
+      "projectPath": "C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\CapstoneInterface\\CapstoneInterface.csproj",
       "packagesPath": "C:\\Users\\vquer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vquer\\Documents\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
+      "outputPath": "C:\\Users\\vquer\\Desktop\\Malware\\Capstone\\Implementation\\CapstoneInterface\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\vquer\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5077,6 +5072,11 @@
         "net472": {
           "projectReferences": {}
         }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
